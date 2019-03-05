@@ -1,0 +1,27 @@
+{% extends "master.html" %}
+
+{% block meta %}
+<meta name="theme-color" content="#3c6eb4" />
+<meta property="og:title" content="Get Fedora" />
+<meta property="og:url" content="http://getfedora.org" />
+<meta property="og:image" content="https://getfedora.org/static/images/fedora.png" />
+<meta property="og:description" content="Choose Freedom. Choose Fedora. Pick a flavor of Fedora streamlined for your needs, and get to work right away." />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content="@fedora"/>
+<meta name="twitter:title" content="Choose Freedom. Choose Fedora."/>
+<meta name="twitter:description" content="Pick a flavor of Fedora streamlined for your needs, and get to work right away."/>
+<meta name="twitter:image" content="https://getfedora.org/static/images/fedora.png"/>
+{% endblock %}
+
+{% block css %}
+{% assets "css_all" %}
+<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}" />
+{% endassets %}
+{% endblock %}
+
+
+{% block js %}
+{% assets "js_all" %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+{% endblock %}

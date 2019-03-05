@@ -1,0 +1,20 @@
+{% macro download_card(image="", title="", download_size='', download_type='', download_link="")%}
+<div class="media bg-white mb-2">
+    <img src="/static/images/{{image}}" />
+    <div class="media-body align-self-center px-3">
+        <div class="row align-items-center">
+                <div class="col">
+                        <h5>{{title}}</h5>
+                </div>
+                <div class="col-auto">
+                        <div>
+                            <small class="text-muted pr-3">{{download_size}} {{download_type}}</small>
+                            <span class="font-weight-bold">
+                                <a href="{{download_link}}" class="btn btn-sm btn-outline-primary">{%trans%}Download{%endtrans%}</a>
+                            </span>
+                        </div>
+                </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}

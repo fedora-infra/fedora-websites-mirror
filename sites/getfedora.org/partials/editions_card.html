@@ -1,0 +1,29 @@
+{% macro editions_card(color="", logo="", official=False, description='', download_link="", learnmorelink="")%}
+<div class="d-flex flex-column h-100 p-3 bg-white rounded border editions-cutout-{{color}}">
+    <div class="row">
+      <div class="col-9">
+          <img src="{{logo}}" class="mt--2"/>
+      </div>
+      <div class="col-3 line-height-1 text-muted text-right">
+        {% if official == True %}
+            OFFICIAL EDITION
+        {% endif %}
+      </div>
+    </div>
+    <div class="row py-3">
+        <div class="col-10 font-weight-light">
+            {{description}}
+        </div>
+    </div>
+    <div class="row align-items-end flex-grow-1">
+        <div class="col-6 lead font-weight-normal">
+            <a href="{{learnmorelink}}">
+             {% trans %}Learn more.{% endtrans %}
+            </a>
+        </div>
+        <div class="col-6 text-right">
+            <a href="{{download_link}}" class="text-white"><i class="fa fa-2x fa-download"></i></a>
+        </div>
+    </div>
+</div>
+{% endmacro %}

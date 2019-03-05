@@ -1,0 +1,135 @@
+{% extends "master_getfedora.html" %}
+
+{% from "editions_card.html" import editions_card with context %}
+
+{% block content %}
+  <div class="bg-gradient-tranparent-to-003">
+    <div class="container position-relative">
+      <div class="fedora-dotted-background">
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <h1 class="font-weight-light py-4">{% trans %}Welcome to Freedom.{% endtrans %}</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+            <h5 class="font-weight-light">{% trans %}Fedora creates and innovative free and open source platform for hardware, clouds, and containers that enables software developers and community members to build tailored solutions for their users{% endtrans %}</h5>
+        </div>
+        <div class="col-6">
+            <img src="/static/images/fedora-workstation-laptop.png" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-light pt-3">
+  </div>
+  <div class="bg-gradient-light border py-5">
+    <div class="container">
+      <div class="row">
+
+
+        <div class="col-12 mt-5">
+            {{editions_card(color="green",
+                            logo="/static/images/fedora-workstation-logo.png",
+                            official=True,
+                            description=_('Fedora Workstation is a polished, easy to use operating system for laptop and desktop computers, with a complete set of tools for developers and makers of all kinds.'),
+                            download_link="workstation/download/",
+                            learnmorelink="workstation/"
+            )}}
+        </div>
+
+        <div class="col-lg-6 mt-5">
+            {{editions_card(color="orange",
+                            logo="/static/images/fedora-server-logo.png",
+                            official=True,
+                            description=_('Fedora Server is a powerful, flexible operating system that includes the best and latest datacenter technologies. It puts you in control of all your infrastructure and services.'),
+                            download_link="server/download/",
+                            learnmorelink="server/"
+            )}}          
+        </div>
+
+          <div class="col-lg-6 mt-5">
+            {{editions_card(color="purple",
+                            logo="/static/images/fedora-atomic-logo.png",
+                            official=True,
+                            description=_('Fedora Atomic provides the best platform for your Linux-Docker-Kubernetes (LDK) application stack.'),
+                            download_link="atomic/download/",
+                            learnmorelink="atomic/"
+            )}}     
+            </div>
+      </div> <!--row-->
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
+
+
+
+
+  <div class="bg-gradient-dark py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-light text-center">
+            <h2 class="text-uppercase font-weight-light">Developing Fedora Editions</h2>
+            <p class="lead">Preview the future of Fedora.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 mt-5">
+            {{editions_card(color="magenta",
+                            logo="/static/images/fedora-coreos-logo.png",
+                            official=False,
+                            description=_('Fedora CoreOS provides the best platform for cores.'),
+                            download_link="coreos/download",
+                            learnmorelink="coreos/"
+            )}}     
+          </div>
+  
+          <div class="col-lg-4 mt-5">
+            {{editions_card(color="green",
+                            logo="/static/images/fedora-coreos-logo.png",
+                            official=False,
+                            description=_('Fedora Silverblue'),
+                            download_link="silverblue/download",
+                            learnmorelink="silverblue/"
+            )}}   
+            </div>
+  
+            <div class="col-lg-4 mt-5">
+                <div class="d-flex flex-column h-100 p-3 bg-white rounded editions-cutout-purple">
+                  <div class="row">
+                    <div class="col-9">
+                        <img src="/static/images/fedora-atomic-logo.png" class="mt--2"/>
+                    </div>
+                  </div>
+                  <div class="row py-3">
+                      <div class="col-10 font-weight-light">
+                          Fedora Atomic provides the best platform for your 
+                          Linux-Docker-Kubernetes (LDK) application stack.
+                      </div>
+                  </div>
+                  <div class="row align-items-end flex-grow-1">
+                      <div class="col-6 lead font-weight-normal">
+                          <a href="../${lang}/atomic/download">
+                            Learn more.
+                          </a>
+                      </div>
+                      <div class="col-6 text-right">
+                          <a href="../${lang}/atomic/download" class="text-white"><i class="fa fa-2x fa-download"></i></a>
+                      </div>
+                  </div>
+                </div>
+              </div>
+        </div> <!--row-->
+      </div> <!--contatiner-->
+    </div> <!-- gradient-->
+{% endblock %}
+
+
+
+
+
+    
+
+  
+
+  
