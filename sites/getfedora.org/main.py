@@ -28,8 +28,8 @@ js = Bundle(
 assets.register('js_all', js)
 
 css = Bundle(
-    '../static/css/app.css',
     '../static/css/bootstrap.min.css',
+    '../static/css/app.css',
     '../static/css/font-awesome.css',
     filters='cssutils',
     output='css/bundle.css')
