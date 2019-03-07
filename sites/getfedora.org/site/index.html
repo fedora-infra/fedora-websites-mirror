@@ -3,7 +3,7 @@
 {% from "editions_card.html" import editions_card with context %}
 
 {% block content %}
-  <div class="bg-gradient-tranparent-to-003">
+  <div class="bg-tranparent">
     <div class="container position-relative">
       <div class="fedora-dotted-background">
       </div>
@@ -22,9 +22,9 @@
       </div>
     </div>
   </div>
-  <div class="bg-light pt-3">
+  <div class="bg-white pt-5">
   </div>
-  <div class="bg-gradient-light border py-5">
+  <div class="bg-light border py-5">
     <div class="container">
       <div class="row">
 
@@ -65,11 +65,11 @@
 
 
 
-  <div class="bg-gradient-dark py-5">
+  <div class="bg-semilight py-5">
       <div class="container">
         <div class="row">
-          <div class="col-12 text-light text-center">
-            <h2 class="text-uppercase font-weight-light">Developing Fedora Editions</h2>
+          <div class="col-12 text-center">
+            <h2 class="font-weight-light">Emerging Fedora Editions</h2>
             <p class="lead">Preview the future of Fedora.</p>
           </div>
         </div>
@@ -78,50 +78,46 @@
             {{editions_card(color="magenta",
                             logo="/static/images/fedora-coreos-logo.png",
                             official=False,
-                            description=_('Fedora CoreOS provides the best platform for cores.'),
+                            description=_('We need some text about Fedora CoreOS to go here; it should give users a good idea of what they can use Fedora CoreOS for.'),
                             download_link="coreos/download",
                             learnmorelink="coreos/"
             )}}     
           </div>
   
           <div class="col-lg-4 mt-5">
-            {{editions_card(color="green",
-                            logo="/static/images/fedora-coreos-logo.png",
+            {{editions_card(color="blue",
+                            logo="/static/images/fedora-silverblue-logo.png",
                             official=False,
-                            description=_('Fedora Silverblue'),
+                            description=_('We need a good description of Silverblue to go here; it should give the high level idea behind Silverblue and what it would be used for.'),
                             download_link="silverblue/download",
                             learnmorelink="silverblue/"
             )}}   
             </div>
   
             <div class="col-lg-4 mt-5">
-                <div class="d-flex flex-column h-100 p-3 bg-white rounded editions-cutout-purple">
-                  <div class="row">
-                    <div class="col-9">
-                        <img src="/static/images/fedora-atomic-logo.png" class="mt--2"/>
-                    </div>
-                  </div>
-                  <div class="row py-3">
-                      <div class="col-10 font-weight-light">
-                          Fedora Atomic provides the best platform for your 
-                          Linux-Docker-Kubernetes (LDK) application stack.
-                      </div>
-                  </div>
-                  <div class="row align-items-end flex-grow-1">
-                      <div class="col-6 lead font-weight-normal">
-                          <a href="../${lang}/atomic/download">
-                            Learn more.
-                          </a>
-                      </div>
-                      <div class="col-6 text-right">
-                          <a href="../${lang}/atomic/download" class="text-white"><i class="fa fa-2x fa-download"></i></a>
-                      </div>
-                  </div>
-                </div>
-              </div>
+              {{editions_card(color="magenta",
+                              logo="/static/images/fedora-iot-logo.png",
+                              official=False,
+                              description=_('We need some text about Fedora IoT to go here; it should give users a good idea of what they can use Fedora IoT for.'),
+                              download_link="silverblue/download",
+                              learnmorelink="silverblue/"
+              )}} 
+            </div>
         </div> <!--row-->
       </div> <!--contatiner-->
     </div> <!-- gradient-->
+
+         <div class="bg-light py-5">
+              <div class="container">
+                <div class="row">
+                 <div class="col-12 text-center">
+                    <h4 class="display font-weight-light py-3">Fedora is always free for anyone to</h4>
+                   <h3 class="display font-weight-bold text-muted py-3 "><span class="text-fedora-green px-3">&bull;</span> use <span class="text-fedora-magenta px-3">&bull;</span> modify <span class="text-fedora-orange px-3">&bull;</span> distribute <span class="text-fedora-purple px-3">&bull;</span></h3>
+                   <h4 class="display font-weight-light py-3">It is built and used by people across the globe<br/> who work together as a community.</h4>
+                  </div>
+               </div>
+              </div> 
+           </div>  
 {% endblock %}
 
 

@@ -39,6 +39,13 @@ body, .tooltip, .popover
     background-size: 100px;
 }
 
+.editions-cutout-blue{
+    background: url(../images/blue-corner-cutout.png) white;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: 100px;
+}
+
 .editions-cutout-purple{
     background: url(../images/purple-corner-cutout.png) white;
     background-repeat: no-repeat;
@@ -54,16 +61,8 @@ body, .tooltip, .popover
 }
 
 
-.bg-gradient-tranparent-to-003{
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.03));
-}
-
-.bg-gradient-light{
-    background: linear-gradient(white, #e3e3e3);
-}
-
-.bg-gradient-dark{
-    background: linear-gradient(rgb(68, 68, 68), #202020);
+.bg-semilight{
+    background: #efefef;
 }
 
 .bg-fedora-blue{
@@ -89,6 +88,32 @@ body, .tooltip, .popover
 .bg-fedora-purple{
     background: var(--fedora-purple);
 }
+
+
+.text-fedora-blue{
+    color: var(--fedora-blue);
+}
+
+.text-fedora-darkblue{
+    color: var(--fedora-darkblue);
+}
+
+.text-fedora-magenta{
+    color: var(--fedora-magenta);
+}
+
+.text-fedora-orange{
+    color: var(--fedora-orange);
+}
+
+.text-fedora-green{
+    color: var(--fedora-green);
+}
+
+.text-fedora-purple{
+    color: var(--fedora-purple);
+}
+
 
 .rounded-left-1{
     border-top-left-radius: 1rem;
