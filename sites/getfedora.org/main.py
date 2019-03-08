@@ -17,7 +17,7 @@ assets = Environment(app)
 assets.url_expire = True
 
 freezer = Freezer(app)
-app.config['FREEZER_STATIC_IGNORE'] += ['/css', '/js']
+app.config['FREEZER_STATIC_IGNORE'] += ['/css', '/js', '/vendor']
 
 js = Bundle(
     '../static/js/bootstrap.min.js',
@@ -28,10 +28,8 @@ js = Bundle(
 assets.register('js_all', js)
 
 css = Bundle(
-    '../static/css/bootstrap.min.css',
-    '../static/css/app.css',
-    '../static/css/font-awesome.css',
-    filters='cssutils',
+    '../static/scss/fedora.scss',
+    filters='scss',
     output='css/bundle.css')
 assets.register('css_all', css)
 
