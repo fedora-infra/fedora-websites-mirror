@@ -10,6 +10,7 @@ import os.path
 import globalvar
 
 app = Flask(__name__, static_folder='../static/', static_url_path='/static')
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 babel = Babel(app)
 
