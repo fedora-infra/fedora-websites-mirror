@@ -66,6 +66,7 @@ def export_route(name, path, template=None):
 
 export_route('index', '/')
 export_route('workstation', '/workstation/')
+export_route('server', '/server/')
 
 if __name__ == '__main__':
     # Minification is good for production, but not for debugging.

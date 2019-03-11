@@ -1,0 +1,24 @@
+{% macro feature_card(title="", description="", learnmorelink="")%}
+<div class="d-flex flex-column h-100 p-3 bg-white rounded border">
+  <div class="row">
+    <div class="col-9">
+      <h4>{{title}}</h4>
+    </div>
+  </div>
+  <div class="row py-3">
+    <div class="col-10 font-weight-light">
+      {{description}}
+    </div>
+  </div>
+
+  {% if learnmorelink %}
+  <div class="row align-items-end flex-grow-1">
+    <div class="col-6 lead font-weight-normal">
+      <a href="/{{learnmorelink}}">
+        {% trans %}Learn more.{% endtrans %}
+     </a>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endmacro %}
