@@ -15,24 +15,35 @@ $fedora-orange: #e59728;
 $fedora-green: #79db32;
 $fedora-purple: #a07cbc;
 
-$fedora-colors: () !default;
-$fedora-colors: map-merge(
-  (
-    "fedora-blue": $fedora-blue,
-    "fedora-dark-blue": $fedora-dark-blue,
-    "fedora-magenta": $fedora-magenta,
-    "fedora-orange": $fedora-orange,
-    "fedora-green": $fedora-green,
-    "fedora-purple": $fedora-purple
-  ),
-  $fedora-colors
+$fedora-colors: (
+    "blue": $fedora-blue,
+    "dark-blue": $fedora-dark-blue,
+    "magenta": $fedora-magenta,
+    "orange": $fedora-orange,
+    "green": $fedora-green,
+    "purple": $fedora-purple
 );
 
 @each $color, $value in $fedora-colors {
-    .text-#{$color}{
+    .text-fedora-#{$color}{
         color: #{$value};
     }
-    .bg-#{$color}{
+    .bg-fedora-#{$color}{
+        background-color: #{$value};
+    }
+    .editions-cutout-#{$color}{
+        background: url(../images/#{$color}-corner-cutout.png) white;
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-size: 100px;
+    }
+}
+
+@each $color, $value in $grays {
+    .text-gray-#{$color}{
+        color: #{$value};
+    }
+    .bg-gray-#{$color}{
         background-color: #{$value};
     }
 }
@@ -49,64 +60,12 @@ $fedora-colors: map-merge(
     background-position: right 0;
 }
 
-.editions-cutout-green{
-    background: url(../images/green-corner-cutout.png) white;
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-size: 100px;
-}
-
-
-.editions-cutout-orange{
-    background: url(../images/orange-corner-cutout.png) white;
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-size: 100px;
-}
-
-.editions-cutout-blue{
-    background: url(../images/blue-corner-cutout.png) white;
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-size: 100px;
-}
-
-.editions-cutout-purple{
-    background: url(../images/purple-corner-cutout.png) white;
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-size: 100px;
-}
-
-.editions-cutout-magenta{
-    background: url(../images/magenta-corner-cutout.png) white;
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-size: 100px;
-}
-
-
-.bg-semilight{
-    background: #efefef;
-}
-
 
 .rounded-left-1{
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
 }
 
-.mt--1{
-    margin-top:-1rem;
-}
-
-.mt--2{
-    margin-top:-2rem;
-}
-
-.mt--3{
-    margin-top:-3rem;
-}
 
 .line-height-1{
     line-height: 1rem;
@@ -117,15 +76,11 @@ $fedora-colors: map-merge(
     bottom:0 !important;
 }
 
-a.text-white:hover{
-    color: #fff !important;
-    text-shadow: 1px 1px 0px #ccc, 2px 2px 0px #999;
-}
 
 .text-small{
     font-size:80%!important;
 }
 
-.bg-dark a{ color: #ccc;}
-
-.bg-dark a{}
+.bg-dark a{ 
+    color: $gray-400;
+}
