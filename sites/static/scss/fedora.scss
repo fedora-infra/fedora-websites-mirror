@@ -31,6 +31,15 @@ $fedora-colors: (
     .bg-fedora-#{$color}{
         background-color: #{$value};
     }
+
+    .btn-fedora-#{$color} {
+        @include button-variant($value, $value);
+    }
+
+    .btn-outline-fedora-#{$color} {
+        @include button-outline-variant($value);
+    }
+
     .editions-cutout-#{$color}{
         background: url(../images/#{$color}-corner-cutout.png) white;
         background-repeat: no-repeat;

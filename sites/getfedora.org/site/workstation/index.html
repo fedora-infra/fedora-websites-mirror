@@ -9,7 +9,7 @@
         <div class="col-6 ">
           <h1 class="font-weight-light">Fedora Workstation.</h1>
           <h5 class="font-weight-light">{% trans %}This is the Linux workstation you've been waiting for.{% endtrans %}</h5>
-          <a class="btn btn-lg btn-outline-primary mt-2" href="download/">{% trans %}Download Now{% endtrans %}</a>
+          <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="{{url_for('server_download', lang_code=lang_code)}}">{% trans %}Download Now{% endtrans %}</a>
         </div>
         <div class="col-6">
             <img src="/static/images/fedora-workstation-laptop.png" class="w-100"/>
