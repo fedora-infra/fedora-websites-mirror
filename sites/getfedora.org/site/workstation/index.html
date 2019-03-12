@@ -3,61 +3,33 @@
 {% from "editions_card.html" import editions_card with context %}
 
 {% block content %}
-  <div class="bg-gradient-tranparent-to-003">
-    <div class="container position-relative">
-      <div class="fedora-dotted-background">
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <h1 class="font-weight-light py-4">{% trans %}Welcome to Freedom.{% endtrans %}</h1>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4">
-            <h5 class="font-weight-light">{% trans %}Fedora creates and innovative free and open source platform for hardware, clouds, and containers that enables software developers and community members to build tailored solutions for their users{% endtrans %}</h5>
+  <div class="bg-tranparent">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-6 ">
+          <h1 class="font-weight-light">Fedora Workstation.</h1>
+          <h5 class="font-weight-light">This is the Linux workstation you've been waiting for.</h5>
+          <a class="btn btn-lg btn-outline-primary mt-2" href="download/">Download Now</a>
         </div>
         <div class="col-6">
-            <img src="/static/images/fedora-workstation-laptop.png" />
+            <img src="/static/images/fedora-workstation-laptop.png" class="w-100"/>
         </div>
       </div>
     </div>
   </div>
-  <div class="bg-light pt-3">
+  <div class="bg-white pt-5">
   </div>
-  <div class="bg-gradient-light border py-5">
+  <div class="bg-light border py-5">
     <div class="container">
       <div class="row">
 
 
-        <div class="col-12 mt-5">
-            {{editions_card(color="green",
-                            logo="/static/images/fedora-workstation-logo.png",
-                            official=True,
-                            description=_('Fedora Workstation is a polished, easy to use operating system for laptop and desktop computers, with a complete set of tools for developers and makers of all kinds.'),
-                            download_link="workstation/download/",
-                            learnmorelink="workstation/"
-            )}}
-        </div>
+        <div class="col-12">
 
-        <div class="col-lg-6 mt-5">
-            {{editions_card(color="orange",
-                            logo="/static/images/fedora-server-logo.png",
-                            official=True,
-                            description=_('Fedora Server is a powerful, flexible operating system that includes the best and latest datacenter technologies. It puts you in control of all your infrastructure and services.'),
-                            download_link="server/download/",
-                            learnmorelink="server/"
-            )}}          
-        </div>
 
-          <div class="col-lg-6 mt-5">
-            {{editions_card(color="purple",
-                            logo="/static/images/fedora-atomic-logo.png",
-                            official=True,
-                            description=_('Fedora Atomic provides the best platform for your Linux-Docker-Kubernetes (LDK) application stack.'),
-                            download_link="atomic/download/",
-                            learnmorelink="atomic/"
-            )}}     
-            </div>
+          Fedora Workstation is a reliable, user-friendly, and powerful operating system for your laptop or desktop computer. It supports a wide range of developers, from hobbyists and students to professionals in corporate environments.
+
+        </div>
       </div> <!--row-->
     </div> <!--contatiner-->
   </div> <!-- gradient-->
@@ -65,11 +37,11 @@
 
 
 
-  <div class="bg-gradient-dark py-5">
+  <div class="bg-gray-200 py-5">
       <div class="container">
         <div class="row">
-          <div class="col-12 text-light text-center">
-            <h2 class="text-uppercase font-weight-light">Developing Fedora Editions</h2>
+          <div class="col-12 text-center">
+            <h2 class="font-weight-light">Emerging Fedora Editions</h2>
             <p class="lead">Preview the future of Fedora.</p>
           </div>
         </div>
@@ -78,50 +50,46 @@
             {{editions_card(color="magenta",
                             logo="/static/images/fedora-coreos-logo.png",
                             official=False,
-                            description=_('Fedora CoreOS provides the best platform for cores.'),
+                            description=_('We need some text about Fedora CoreOS to go here; it should give users a good idea of what they can use Fedora CoreOS for.'),
                             download_link="coreos/download",
                             learnmorelink="coreos/"
             )}}     
           </div>
   
           <div class="col-lg-4 mt-5">
-            {{editions_card(color="green",
-                            logo="/static/images/fedora-coreos-logo.png",
+            {{editions_card(color="blue",
+                            logo="/static/images/fedora-silverblue-logo.png",
                             official=False,
-                            description=_('Fedora Silverblue'),
+                            description=_('We need a good description of Silverblue to go here; it should give the high level idea behind Silverblue and what it would be used for.'),
                             download_link="silverblue/download",
                             learnmorelink="silverblue/"
             )}}   
             </div>
   
             <div class="col-lg-4 mt-5">
-                <div class="d-flex flex-column h-100 p-3 bg-white rounded editions-cutout-purple">
-                  <div class="row">
-                    <div class="col-9">
-                        <img src="/static/images/fedora-atomic-logo.png" class="mt--2"/>
-                    </div>
-                  </div>
-                  <div class="row py-3">
-                      <div class="col-10 font-weight-light">
-                          Fedora Atomic provides the best platform for your 
-                          Linux-Docker-Kubernetes (LDK) application stack.
-                      </div>
-                  </div>
-                  <div class="row align-items-end flex-grow-1">
-                      <div class="col-6 lead font-weight-normal">
-                          <a href="../${lang}/atomic/download">
-                            Learn more.
-                          </a>
-                      </div>
-                      <div class="col-6 text-right">
-                          <a href="../${lang}/atomic/download" class="text-white"><i class="fa fa-2x fa-download"></i></a>
-                      </div>
-                  </div>
-                </div>
-              </div>
+              {{editions_card(color="magenta",
+                              logo="/static/images/fedora-iot-logo.png",
+                              official=False,
+                              description=_('We need some text about Fedora IoT to go here; it should give users a good idea of what they can use Fedora IoT for.'),
+                              download_link="silverblue/download",
+                              learnmorelink="silverblue/"
+              )}} 
+            </div>
         </div> <!--row-->
       </div> <!--contatiner-->
     </div> <!-- gradient-->
+
+         <div class="bg-light py-5">
+              <div class="container">
+                <div class="row">
+                 <div class="col-12 text-center">
+                    <h4 class="display font-weight-light py-3">Fedora is always free for anyone to</h4>
+                   <h3 class="display font-weight-bold text-muted py-3 "><span class="text-fedora-green px-3">&bull;</span> use <span class="text-fedora-magenta px-3">&bull;</span> modify <span class="text-fedora-orange px-3">&bull;</span> distribute <span class="text-fedora-purple px-3">&bull;</span></h3>
+                   <h4 class="display font-weight-light py-3">It is built and used by people across the globe<br/> who work together as a community.</h4>
+                  </div>
+               </div>
+              </div> 
+           </div>  
 {% endblock %}
 
 
