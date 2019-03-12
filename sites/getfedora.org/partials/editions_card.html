@@ -6,7 +6,9 @@
       </div>
       <div class="col-3 line-height-1 text-muted text-right">
         {% if official == True %}
-            OFFICIAL EDITION
+        <span class="text-uppercase">
+          {% trans %}Official Edition{% endtrans %}
+        </span>
         {% endif %}
       </div>
     </div>

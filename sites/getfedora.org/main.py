@@ -60,7 +60,6 @@ def handle_language_code():
         else:
             request.view_args.pop('lang_code')
 
-
 @babel.localeselector
 def get_locale():
     translations = [str(translation) for translation in babel.list_translations()]
@@ -94,6 +93,8 @@ def index_redirect():
     return redirect('/' + app.config['BABEL_DEFAULT_LOCALE'] + '/', code=302)
 
 export_route('index', '/<lang_code>/')
+export_route('about', '/<lang_code>/about/')
+
 export_route('workstation', '/<lang_code>/workstation/')
 export_route('workstation_download', '/<lang_code>/workstation/download/')
 export_route('server', '/<lang_code>/server/')
