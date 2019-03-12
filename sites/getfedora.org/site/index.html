@@ -28,14 +28,13 @@
     <div class="container">
       <div class="row">
 
-
         <div class="col-12 mt-5">
             {{editions_card(color="green",
                             logo="/static/images/fedora-workstation-logo.png",
                             official=True,
                             description=_('Fedora Workstation is a polished, easy to use operating system for laptop and desktop computers, with a complete set of tools for developers and makers of all kinds.'),
-                            download_link="workstation/download/",
-                            learnmorelink="workstation/"
+                            download_link=url_for("workstation_download", lang_code=lang_code),
+                            learnmorelink=url_for("workstation", lang_code=lang_code)
             )}}
         </div>
 
@@ -44,8 +43,8 @@
                             logo="/static/images/fedora-server-logo.png",
                             official=True,
                             description=_('Fedora Server is a powerful, flexible operating system that includes the best and latest datacenter technologies. It puts you in control of all your infrastructure and services.'),
-                            download_link="server/download/",
-                            learnmorelink="server/"
+                            download_link=url_for("server_download", lang_code=lang_code),
+                            learnmorelink=url_for("server", lang_code=lang_code)
             )}}          
         </div>
 
@@ -54,8 +53,8 @@
                             logo="/static/images/fedora-atomic-logo.png",
                             official=True,
                             description=_('Fedora Atomic provides the best platform for your Linux-Docker-Kubernetes (LDK) application stack.'),
-                            download_link="atomic/download/",
-                            learnmorelink="atomic/"
+                            download_link=url_for("atomic_download", lang_code=lang_code),
+                            learnmorelink=url_for("atomic", lang_code=lang_code)
             )}}     
             </div>
       </div> <!--row-->

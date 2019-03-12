@@ -3,3 +3,6 @@ build
 .webassets-cache
 bundle.js
 bundle.css
+*.po
+*.pot
+translations

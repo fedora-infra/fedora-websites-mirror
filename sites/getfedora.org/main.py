@@ -1,4 +1,4 @@
-from flask import Flask, abort, render_template
+from flask import Flask, abort, g, render_template, redirect, request
 from flask_babel import Babel
 from flask_assets import Environment, Bundle
 from flask_frozen import Freezer
@@ -9,9 +9,13 @@ import os.path
 # TODO: Is there a nicer way to represent the data globalvar has?
 import globalvar
 
+FEDORA_LANGUAGES = ['en', 'de']
+
 app = Flask(__name__, static_folder='../static/', static_url_path='/static')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
+app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+app.jinja_options = {'extensions': ['jinja2.ext.with_', 'jinja2.ext.i18n']}
 babel = Babel(app)
 
 assets = Environment(app)
@@ -43,7 +47,24 @@ app.jinja_loader = loader
 
 @app.context_processor
 def inject_globalvars():
-    return dict(globalvar=globalvar)
+    return dict(
+        globalvar=globalvar,
+        lang_code=g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE'])
+
+@app.before_request
+def handle_language_code():
+    if request.view_args and 'lang_code' in request.view_args:
+        g.current_lang = request.view_args.get('lang_code')
+        if g.current_lang not in FEDORA_LANGUAGES:
+            return abort(404)
+        else:
+            request.view_args.pop('lang_code')
+
+
+@babel.localeselector
+def get_locale():
+    translations = [str(translation) for translation in babel.list_translations()]
+    return g.get('current_lang', app.config['BABEL_DEFAULT_LOCALE'])
 
 # TODO: This was an attempt at some template-url automation.
 # The idea is to get around having to write a function for every page.
@@ -59,14 +80,31 @@ def inject_globalvars():
 # This is a more manual attempt at still having some automation.
 def export_route(name, path, template=None):
     def r():
-        return render_template(template or path.strip('/') + '/index.html')
+        return render_template(template or path.strip('/').replace('<lang_code>', '') + '/index.html')
     r.__name__ = name
     app.route(path)(r)
     return r
 
-export_route('index', '/')
-export_route('workstation', '/workstation/')
-export_route('server', '/server/')
+# This will freeze, sadly, but we probably shouldn't use it in production.
+# We want Apache or whatever in production to just always redirect to
+# /<lang_code>/ for us. But for now it makes it easier to test things using the
+# flask reload server.
+@app.route('/')
+def index_redirect():
+    return redirect('/' + app.config['BABEL_DEFAULT_LOCALE'] + '/', code=302)
+
+export_route('index', '/<lang_code>/')
+export_route('workstation', '/<lang_code>/workstation/')
+export_route('workstation_download', '/<lang_code>/workstation/download/')
+export_route('server', '/<lang_code>/server/')
+export_route('server_download', '/<lang_code>/server/download/')
+export_route('atomic', '/<lang_code>/atomic/')
+export_route('atomic_download', '/<lang_code>/atomic/download/')
+
+@freezer.register_generator
+def index():
+    for lang in FEDORA_LANGUAGES:
+        yield {'lang_code': lang}
 
 if __name__ == '__main__':
     # Minification is good for production, but not for debugging.
