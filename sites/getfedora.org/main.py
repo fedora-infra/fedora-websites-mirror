@@ -25,9 +25,8 @@ freezer = Freezer(app)
 app.config['FREEZER_STATIC_IGNORE'] += ['/css', '/js', '/vendor']
 
 js = Bundle(
-    '../static/js/bootstrap.min.js',
-    '../static/js/bootstrap-rtl.js',
     '../static/js/jquery.min.js',
+    '../static/vendor/bootstrap-4.3.1/dist/js/bootstrap.bundle.js',
     filters='rjsmin',
     output='js/bundle.js')
 assets.register('js_all', js)
