@@ -34,6 +34,7 @@ assets.register('js_all', js)
 
 css = Bundle(
     '../static/scss/fedora.scss',
+    '../static/css/font-awesome.css',
     filters='scss',
     output='css/bundle.css')
 assets.register('css_all', css)
