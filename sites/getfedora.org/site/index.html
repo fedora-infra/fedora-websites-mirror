@@ -3,21 +3,15 @@
 {% from "editions_card.html" import editions_card with context %}
 
 {% block content %}
-  <div class="bg-tranparent">
-    <div class="container position-relative">
-      <div class="fedora-dotted-background">
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <h1 class="font-weight-light py-4">{% trans %}Welcome to Freedom.{% endtrans %}</h1>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4">
+  <div class="bg-tranparent pt-5">
+    <div class="container py-3 position-relative">
+      <div class="row align-items-center">
+          <div class="col-4 px-5">
+              <img class="w-100" src="/static/images/monitor-fedoralogo.png" />
+          </div>
+        <div class="col-8">
+            <h1 class="font-weight-light pb-4">{% trans %}Welcome to Freedom.{% endtrans %}</h1>
             <h5 class="font-weight-light">{% trans %}Fedora creates and innovative free and open source platform for hardware, clouds, and containers that enables software developers and community members to build tailored solutions for their users{% endtrans %}</h5>
-        </div>
-        <div class="col-6">
-            <img src="/static/images/fedora-workstation-laptop.png" />
         </div>
       </div>
     </div>

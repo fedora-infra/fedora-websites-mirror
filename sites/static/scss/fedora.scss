@@ -4,6 +4,7 @@
 /*bootstrap variable overrides */
 
 $font-family-sans-serif: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$navbar-dark-color: #fff;
 
 @import '../vendor/bootstrap-4.3.1/scss/bootstrap.scss';
 
@@ -39,6 +40,10 @@ $fedora-colors: (
         @include button-outline-variant($value);
     }
 
+    .border-fedora-#{$color} {
+        border-color: $value !important;
+    }
+
     .editions-cutout-#{$color}{
         background: url(../images/#{$color}-corner-cutout.png) white;
         background-repeat: no-repeat;
@@ -57,15 +62,8 @@ $fedora-colors: (
 }
 
 
-.fedora-dotted-background{
-    position: absolute;
-    width:100%;
-    height: 1000px;
-    top:-40px;
-    z-index: -100;
-    background: url(../images/dotted-fedora-background.png) white;
-    background-repeat: no-repeat;
-    background-position: right 0;
+.border-width-2 {
+    border-width: 2px!important;
 }
 
 
@@ -85,10 +83,14 @@ $fedora-colors: (
 }
 
 
-.text-small{
+.font-size-80{
     font-size:80%!important;
 }
 
-.bg-dark a{ 
-    color: $gray-400;
+.font-size-90{
+    font-size:90%!important;
 }
+
+/*.bg-dark a{ 
+    color: $gray-400;
+}*/

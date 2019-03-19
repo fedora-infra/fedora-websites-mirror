@@ -15,39 +15,43 @@
   </head>
 
   <body>
-    {% include 'release-tag.html' %}
-    <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-light bg-none">
-        <a class="navbar-brand" href="/"><img src="/static/images/fedora-logo.png" height="30" alt="Fedora Logo"/></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav mt-3">
-            <li class="nav-item mx-4">
-              <a class="nav-link text-uppercase" href="{{url_for('about', lang_code=lang_code)}}">{% trans %}About{% endtrans %}</a>
-            </li>
-            <li class="nav-item dropdown mx-4">
-              <a class="nav-link dropdown-toggle text-uppercase" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% trans %}Download{% endtrans %}
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Fedora Workstation</a>
-                <a class="dropdown-item" href="#">Fedora Atomic</a>
-                <a class="dropdown-item" href="#">Fedora Server</a>
-                <a class="dropdown-item" href="#">Fedora IoT</a>
-              </div>
-            </li>
-            <li class="nav-item mx-4">
-              <a class="nav-link text-uppercase" href="https://docs.fedoraproject.org/">
-                {% trans %}Help{% endtrans %}
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>  
-    <div id="site-content">
+    {# comment this out for now playing with doing this another way -- FIXME #}
+    {#% include 'release-tag.html' %#}
+
+    <div class="bg-fedora-blue border-bottom border-fedora-dark-blue border-width-2 fixed-top">
+      <div class="container">
+        <nav class="navbar navbar-dark navbar-expand-lg bg-none p-0">
+          <a class="navbar-brand pb-2" href="/"><img src="/static/images/fedora-logotext-white.png" height="16" alt="Fedora Logo"/></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav  ml-auto font-size-90 font-weight-bold">
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('about', lang_code=lang_code)}}">{% trans %}About{% endtrans %}</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% trans %}Download{% endtrans %}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Fedora Workstation</a>
+                  <a class="dropdown-item" href="#">Fedora Atomic</a>
+                  <a class="dropdown-item" href="#">Fedora Server</a>
+                  <a class="dropdown-item" href="#">Fedora IoT</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://docs.fedoraproject.org/">
+                  {% trans %}Help{% endtrans %}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div> 
+    </div>
+    <div id="site-content" class="mt-5">
       {% block content %}{% endblock %}
     </div>
     {% include 'footer.html' %}
