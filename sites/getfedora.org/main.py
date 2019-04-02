@@ -99,6 +99,9 @@ export_route('workstation', '/<lang_code>/workstation/')
 export_route('workstation_download', '/<lang_code>/workstation/download/')
 export_route('server', '/<lang_code>/server/')
 export_route('server_download', '/<lang_code>/server/download/')
+export_route('coreos', '/<lang_code>/coreos/')
+export_route('coreos_download', '/<lang_code>/coreos/download/')
+
 
 @freezer.register_generator
 def index():
