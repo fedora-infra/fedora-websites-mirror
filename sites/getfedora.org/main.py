@@ -101,7 +101,8 @@ export_route('server', '/<lang_code>/server/')
 export_route('server_download', '/<lang_code>/server/download/')
 export_route('coreos', '/<lang_code>/coreos/')
 export_route('coreos_download', '/<lang_code>/coreos/download/')
-
+export_route('silverblue', '/<lang_code>/silverblue/')
+export_route('silverblue_download', '/<lang_code>/silverblue/download/')
 
 @freezer.register_generator
 def index():
