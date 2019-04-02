@@ -22,7 +22,7 @@
     <div class="container">
       <div class="row">
 
-        <div class="col-12 mt-5">
+        <div class="col-6 mt-5">
             {{editions_card(color="green",
                             logo="/static/images/fedora-workstation-logo.png",
                             official=True,
@@ -41,16 +41,6 @@
                             learnmorelink=url_for("server", lang_code=lang_code)
             )}}          
         </div>
-
-          <div class="col-lg-6 mt-5">
-            {{editions_card(color="purple",
-                            logo="/static/images/fedora-atomic-logo.png",
-                            official=True,
-                            description=_('Fedora Atomic provides the best platform for your Linux-Docker-Kubernetes (LDK) application stack.'),
-                            download_link=url_for("atomic_download", lang_code=lang_code),
-                            learnmorelink=url_for("atomic", lang_code=lang_code)
-            )}}     
-            </div>
       </div> <!--row-->
     </div> <!--contatiner-->
   </div> <!-- gradient-->
