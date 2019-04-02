@@ -1,0 +1,55 @@
+{% extends "master_getfedora.html" %}
+
+{% block content %}
+<div class="bg-tranparent">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-6 ">
+        <h1 class="font-weight-light">Fedora IoT.</h1>
+        <h5 class="font-weight-light">{% trans %}This is the thing you've been waiting for.{% endtrans %}</h5>
+        <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="{{url_for('server_download', lang_code=lang_code)}}">{% trans %}Download Now{% endtrans %}</a>
+      </div>
+      <div class="col-6">
+          <img src="/static/images/fedora-workstation-laptop.png" class="w-100"/>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bg-white pt-5">
+</div>
+<div class="bg-light border py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        {% trans %}
+        We need some text about Fedora IoT to go here; it should give users a good idea of what they can use Fedora Iot for.
+        {% endtrans %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bg-gray-200 py-5">
+  <div class="container">
+      
+  </div>
+</div>
+
+<div class="bg-light py-5">
+  <div class="container">
+    <div class="row">
+                
+    </div>
+  </div> 
+</div>  
+{% endblock %}
+
+
+
+
+
+    
+
+  
+
+  
