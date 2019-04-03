@@ -3,13 +3,13 @@
 {% from "editions_card.html" import editions_card with context %}
 
 {% block content %}
-  <div class="bg-tranparent">
+  <div class="bg-tranparent pt-5">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-6 ">
           <h1 class="font-weight-light">Fedora Workstation.</h1>
           <h5 class="font-weight-light">{% trans %}This is the Linux workstation you've been waiting for.{% endtrans %}</h5>
-          <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="{{url_for('server_download', lang_code=lang_code)}}">{% trans %}Download Now{% endtrans %}</a>
+          <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="{{url_for('workstation_download', lang_code=lang_code)}}">{% trans %}Download Now{% endtrans %}</a>
         </div>
         <div class="col-6">
             <img src="/static/images/fedora-workstation-laptop.png" class="w-100"/>
@@ -45,35 +45,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-4 mt-5">
-            {{editions_card(color="magenta",
-                            logo="/static/images/fedora-coreos-logo.png",
-                            official=False,
-                            description=_('We need some text about Fedora CoreOS to go here; it should give users a good idea of what they can use Fedora CoreOS for.'),
-                            download_link="coreos/download",
-                            learnmorelink="coreos/"
-            )}}     
-          </div>
-  
-          <div class="col-lg-4 mt-5">
-            {{editions_card(color="blue",
-                            logo="/static/images/fedora-silverblue-logo.png",
-                            official=False,
-                            description=_('We need a good description of Silverblue to go here; it should give the high level idea behind Silverblue and what it would be used for.'),
-                            download_link="silverblue/download",
-                            learnmorelink="silverblue/"
-            )}}   
-            </div>
-  
-            <div class="col-lg-4 mt-5">
-              {{editions_card(color="magenta",
-                              logo="/static/images/fedora-iot-logo.png",
-                              official=False,
-                              description=_('We need some text about Fedora IoT to go here; it should give users a good idea of what they can use Fedora IoT for.'),
-                              download_link="silverblue/download",
-                              learnmorelink="silverblue/"
-              )}} 
-            </div>
+          
         </div> <!--row-->
       </div> <!--contatiner-->
     </div> <!-- gradient-->

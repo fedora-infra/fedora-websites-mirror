@@ -62,8 +62,8 @@
                             logo="/static/images/fedora-coreos-logo.png",
                             official=False,
                             description=_('We need some text about Fedora CoreOS to go here; it should give users a good idea of what they can use Fedora CoreOS for.'),
-                            download_link="coreos/download",
-                            learnmorelink="coreos/"
+                            download_link=url_for("coreos_download", lang_code=lang_code),
+                            learnmorelink=url_for("coreos", lang_code=lang_code)
             )}}     
           </div>
   
@@ -72,8 +72,8 @@
                             logo="/static/images/fedora-silverblue-logo.png",
                             official=False,
                             description=_('We need a good description of Silverblue to go here; it should give the high level idea behind Silverblue and what it would be used for.'),
-                            download_link="silverblue/download",
-                            learnmorelink="silverblue/"
+                            download_link=url_for("silverblue_download", lang_code=lang_code),
+                            learnmorelink=url_for("silverblue", lang_code=lang_code)
             )}}   
             </div>
   
@@ -82,8 +82,8 @@
                               logo="/static/images/fedora-iot-logo.png",
                               official=False,
                               description=_('We need some text about Fedora IoT to go here; it should give users a good idea of what they can use Fedora IoT for.'),
-                              download_link="iot/download",
-                              learnmorelink="iot/"
+                              download_link=url_for("iot_download", lang_code=lang_code),
+                              learnmorelink=url_for("iot", lang_code=lang_code)
               )}} 
             </div>
         </div> <!--row-->
