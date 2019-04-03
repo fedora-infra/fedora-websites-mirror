@@ -93,7 +93,6 @@ def index_redirect():
     return redirect('/' + app.config['BABEL_DEFAULT_LOCALE'] + '/', code=302)
 
 export_route('index', '/<lang_code>/')
-export_route('about', '/<lang_code>/about/')
 
 export_route('workstation', '/<lang_code>/workstation/')
 export_route('workstation_download', '/<lang_code>/workstation/download/')
