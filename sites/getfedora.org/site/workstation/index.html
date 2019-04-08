@@ -1,8 +1,10 @@
 {% extends "master_getfedora.html" %}
 
 {% from "editions_card.html" import editions_card with context %}
+{% from "submenu.html" import submenu with context %}
 
 {% block content %}
+{{submenu(edition="workstation", active="overview")}}
   <div class="bg-tranparent pt-5">
     <div class="container">
       <div class="row align-items-center">

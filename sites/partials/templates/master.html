@@ -18,7 +18,7 @@
     {# comment this out for now playing with doing this another way -- FIXME #}
     {#% include 'release-tag.html' %#}
 
-    <div class="bg-fedora-blue border-bottom border-fedora-dark-blue border-width-2 fixed-top">
+    <div class="bg-fedora-blue border-bottom border-fedora-dark-blue border-width-2">
       <div class="container">
         <nav class="navbar navbar-dark navbar-expand-lg bg-none p-0">
           <a class="navbar-brand pb-2" href="/"><img src="/static/images/fedora-logotext-white.png" height="16" alt="Fedora Logo"/></a>
@@ -32,23 +32,14 @@
                   {% trans %}Editions{% endtrans %}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <span class="dropdown-header">Official Editions</span>
                   <a class="dropdown-item" href="{{url_for('workstation', lang_code=lang_code)}}">Fedora Workstation</a>
                   <a class="dropdown-item" href="{{url_for('server', lang_code=lang_code)}}">Fedora Server</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {% trans %}Download{% endtrans %}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <span class="dropdown-header">Official Editions</span>
-                  <a class="dropdown-item" href="{{url_for('workstation_download', lang_code=lang_code)}}">Fedora Workstation</a>
-                  <a class="dropdown-item" href="{{url_for('server_download', lang_code=lang_code)}}">Fedora Server</a>
                   <div class="dropdown-divider"></div>
                   <span class="dropdown-header">Emerging Editions</span>
-                  <a class="dropdown-item" href="{{url_for('coreos_download', lang_code=lang_code)}}">Fedora CoreOS</a>
-                  <a class="dropdown-item" href="{{url_for('silverblue_download', lang_code=lang_code)}}">Fedora Silverblue</a>
-                  <a class="dropdown-item" href="{{url_for('iot_download', lang_code=lang_code)}}">Fedora IoT</a>
+                  <a class="dropdown-item" href="{{url_for('coreos', lang_code=lang_code)}}">Fedora CoreOS</a>
+                  <a class="dropdown-item" href="{{url_for('silverblue', lang_code=lang_code)}}">Fedora Silverblue</a>
+                  <a class="dropdown-item" href="{{url_for('iot', lang_code=lang_code)}}">Fedora IoT</a>
                 </div>
               </li>
               <li class="nav-item">
@@ -61,7 +52,7 @@
         </nav>
       </div> 
     </div>
-    <div id="site-content" class="mt-5">
+    <div id="site-content">
       {% block content %}{% endblock %}
     </div>
     {% include 'footer.html' %}

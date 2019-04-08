@@ -1,0 +1,36 @@
+{% macro submenu(edition=None, active=None)%}
+{% if edition == "server" %}
+  {% set logoimage = '<img src="/static/images/server-logo2.png" height="16" alt="Fedora Server Logo"/>' %}
+  {% set activeclass = "active border-bottom border-fedora-orange border-width-3"%}
+{% elif edition == "workstation" %}
+  {% set logoimage = '<img src="/static/images/workstation-logo2.png" height="16" alt="Fedora Server Logo"/>' %}
+  {% set activeclass = "active border-bottom border-fedora-green border-width-3"%}
+{% endif %}
+<div class="bg-light border-bottom">
+        <div class="container">
+          <nav class="navbar navbar-light navbar-expand-lg bg-none p-0">
+              <a class="navbar-brand" href="/">
+                {{logoimage|safe}}
+              </a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav  ml-auto font-size-90 font-weight-bold">
+                  <li class="nav-item">
+                    <a class="nav-link {{activeclass if active == 'overview'}}" href="{{url_for(edition, lang_code=lang_code)}}">
+                      {% trans %}Overview{% endtrans %}
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link {{activeclass if active == 'download'}}" href="{{url_for(edition+'_download', lang_code=lang_code)}}">
+                        {% trans %}Download{% endtrans %}
+                      </a>
+                    </li>
+                </ul>
+                
+              </div>
+            </nav>
+          </div>
+      </div>
+{% endmacro %}
