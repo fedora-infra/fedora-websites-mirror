@@ -1,10 +1,19 @@
 {% macro submenu(edition=None, active=None)%}
 {% if edition == "server" %}
-  {% set logoimage = '<img src="/static/images/server-logo2.png" height="16" alt="Fedora Server Logo"/>' %}
+  {% set logoimage = '<img src="/static/images/logo-inline-server.png" alt="Fedora Server Logo"/>' %}
   {% set activeclass = "active border-bottom border-fedora-orange border-width-3"%}
 {% elif edition == "workstation" %}
-  {% set logoimage = '<img src="/static/images/workstation-logo2.png" height="16" alt="Fedora Server Logo"/>' %}
+  {% set logoimage = '<img src="/static/images/logo-inline-workstation.png" alt="Fedora Server Logo"/>' %}
   {% set activeclass = "active border-bottom border-fedora-green border-width-3"%}
+{% elif edition == "coreos" %}
+  {% set logoimage = '<img src="/static/images/logo-inline-coreos.png" alt="Fedora CoreOS Logo"/>' %}
+  {% set activeclass = "active border-bottom border-fedora-magenta border-width-3"%}
+{% elif edition == "iot" %}
+  {% set logoimage = '<img src="/static/images/logo-inline-iot.png" alt="Fedora IoT Logo"/>' %}
+  {% set activeclass = "active border-bottom border-fedora-purple border-width-3"%}
+  {% elif edition == "silverblue" %}
+{% set logoimage = '<img src="/static/images/logo-inline-silverblue.png" alt="Fedora Silverblue Logo"/>' %}
+  {% set activeclass = "active border-bottom border-fedora-darkblue border-width-3"%}
 {% endif %}
 <div class="bg-light border-bottom">
         <div class="container">
