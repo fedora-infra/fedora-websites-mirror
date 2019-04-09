@@ -1,1 +1,21 @@
-SDFASDFASDF
+{% extends "master_getfedora.html" %}
+
+{% from "submenu.html" import submenu with context %}
+
+{% block content %}
+{{submenu(edition="server", active="download")}}
+  <div class="bg-tranparent pt-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12">
+          <h1 class="font-weight-light">Download Fedora Server.</h1>
+          <h5 class="font-weight-light">{% trans %}Download the Linux server you've been waiting for.{% endtrans %}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="my-5 py-5">&nbsp;</div> <!--REMOVE ME. TEMPORARY SPACER UNTIL WE GET CONTENT-->
+  <div class="my-5 py-5">&nbsp;</div> <!--REMOVE ME. TEMPORARY SPACER UNTIL WE GET CONTENT-->
+  <div class="my-5 py-5">&nbsp;</div> <!--REMOVE ME. TEMPORARY SPACER UNTIL WE GET CONTENT-->
+  <div class="my-5 py-5">&nbsp;</div> <!--REMOVE ME. TEMPORARY SPACER UNTIL WE GET CONTENT-->
+{% endblock %}
