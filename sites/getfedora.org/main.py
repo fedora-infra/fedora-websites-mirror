@@ -5,6 +5,7 @@ from flask_frozen import Freezer
 from flask_htmlmin import HTMLMIN
 import jinja2
 import os.path
+import yaml
 
 # TODO: Is there a nicer way to represent the data globalvar has?
 import globalvar
@@ -47,8 +48,12 @@ app.jinja_loader = loader
 
 @app.context_processor
 def inject_globalvars():
+    r = {}
+    with open('release.yaml') as data:
+        r = yaml.safe_load(data)
     return dict(
         globalvar=globalvar,
+        releaseinfo=r,
         lang_code=g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE'])
 
 @app.before_request
