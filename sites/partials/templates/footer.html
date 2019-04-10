@@ -1,6 +1,6 @@
 <div class="footer bg-dark text-white font-size-80">
   <div class="container py-4">
-    <div class="row footerlinks">
+    <div class="row footerlinks justify-content-center">
       <div class="col-sm-2 col-xs-4 mt-3">
         <h5 class="text-uppercase"><small><strong>About</strong></small></h5>
         <div>
@@ -34,22 +34,27 @@
           </dl>
         </div>
       </div>
-      <div class="col-sm-6 col-xs-12 text-right">
-        <a href="https://www.facebook.com/TheFedoraProject" class="btn-social btn-outline"><i class="fab fa-facebook fa-2x"></i></a> 
-        <a href="https://plus.google.com/112917221531140868607" class="btn-social btn-outline"><i class="fab fa-google-plus fa-2x"></i></a> 
+    </div> <!-- /row -->
+    <div class="row footerlinks py-4">
+      <div class="col-12 text-center">
+        <a href="https://www.facebook.com/TheFedoraProject" class="btn-social btn-outline"><i class="fab fa-facebook fa-2x"></i></a>
         <a href="https://twitter.com/fedora" class="btn-social btn-outline"><i class="fab fa-twitter fa-2x"></i></a>
-        <p class="pt-3"> 
-          &copy; 2019 Red Hat, Inc. and others. <br/>Please send any comments or corrections 
-          to the <a href="https://pagure.io/fedora-websites">websites team</a>
-        </p>
-        <p>
-          Fedora is sponsored by Red Hat. <br/>
-          <a href="https://www.redhat.com/en/technologies/linux-platforms/articles/relationship-between-fedora-and-rhel">Learn more about the relationship between Red Hat and Fedora &raquo;</a>
-        </p>
-        <div>
-          <a href="https://www.redhat.com/"><img height="50px" class="rh-logo" src="/static/images/redhat.png" alt="Red Hat Logo" /></a>
-        </div>
       </div>
-    </div> <!-- /row ofs -->
+    </div>
+
+    <div class="row footerlinks">
+      <div class="col-12 text-center">
+        {% trans %}
+        Direct comments and corrections to the <a href="https://pagure.io/fedora-web/websites/">websites team</a>.
+        {% endtrans %}
+
+        <br />
+        Fedora is sponsored by Red Hat.
+        <a href="https://www.redhat.com/en/technologies/linux-platforms/articles/relationship-between-fedora-and-rhel">Learn more about the relationship between Red Hat and Fedora &raquo;</a><br />      
+        &copy; 2019 Red Hat, Inc. and others.
+        <br />
+        <a href="https://www.redhat.com/"><img height="50px" class="rh-logo" src="/static/images/redhat.png" alt="Red Hat Logo" /></a>        
+      </div>
+    </div>
   </div>
 </div>
