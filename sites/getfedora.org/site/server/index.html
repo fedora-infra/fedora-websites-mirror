@@ -3,104 +3,93 @@
 {% from "feature_card.html" import feature_card with context %}
 {% from "submenu.html" import submenu with context %}
 
+{% block title %}{% trans %}Fedora Server{% endtrans %}{% endblock %}
+
 {% block content %}
 {{submenu(edition="server", active="overview")}}
 <div class="bg-tranparent py-5">
-    <div class="container">
-      <div class="row align-items-center">
-          <div class="col-4 px-5">
-              <img src="/static/images/g-servers.png" class="w-100"/>
-          </div>
-        <div class="col-8 ">
-          <h1 class="font-weight-light">Fedora Server.</h1>
-          <h5 class="font-weight-light">{% trans %}Run applications on bare metal or the cloud with a Linux server OS packed with the latest open source technology.{% endtrans %}</h5>
-          <a class="btn btn-lg btn-outline-fedora-orange mt-2" href="{{url_for('server_download', lang_code=lang_code)}}">{% trans %}Download Now{% endtrans %}</a>
-        </div>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-4 px-5">
+        <img src="/static/images/g-servers.png" class="w-100"/>
+      </div>
+      <div class="col-8 ">
+        <h1 class="font-weight-light">Fedora Server.</h1>
+        <h5 class="font-weight-light">{% trans %}Run applications on bare metal or the cloud with a Linux server OS packed with the latest open source technology.{% endtrans %}</h5>
+        <a class="btn btn-lg btn-outline-fedora-orange mt-2" href="{{url_for('server_download', lang_code=lang_code)}}">{% trans %}Download Now{% endtrans %}</a>
       </div>
     </div>
   </div>
-  <div class="bg-light border py-5">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-8 mx-auto text-center">
-            <h3 class="font-weight-light pb-4">{% trans %}Leading Edge{% endtrans %}</h3>
-            <h5 class="font-weight-light">
-              {% trans %}
-              Fedora Server is a short-lifecycle, community-supported server operating system that enables seasoned system administrators, experienced with any OS, to make use of the very latest technologies available in the open source community.
-              {% endtrans %}
-            </h5>
-          </div>
-        </div>
+</div>
+<div class="bg-light border py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-8 mx-auto text-center">
+        <h3 class="font-weight-light pb-4">{% trans %}Leading Edge{% endtrans %}</h3>
+        <h5 class="font-weight-light">
+          {% trans %}
+          Fedora Server is a short-lifecycle, community-supported server operating system that enables seasoned system administrators, experienced with any OS, to make use of the very latest technologies available in the open source community.
+          {% endtrans %}
+        </h5>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="bg-gray-200 py-5">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-3 px-5">
-              <img class="w-100" src="/static/images/g-jigsaw.png" />
-            </div>
-            <div class="col-9">
-              <h3 class="font-weight-light pb-4">{% trans %}Modularity{% endtrans %}</h3>
-              <h5 class="font-weight-light">
-                {% trans %}
-                Choose the right version of an application or language stack you need and keep it even when your OS upgrades to a newer version.
-                {% endtrans %}
-              </h5>
-              <p><a href="https://docs.pagure.org/modularity/">Learn More.</a></p>
-            </div>
-
-          </div>
-        </div> 
+<div class="bg-gray-200 py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-3 px-5">
+        <img class="w-100" src="/static/images/g-jigsaw.png" />
       </div>
+      <div class="col-9">
+        <h3 class="font-weight-light pb-4">{% trans %}Modularity{% endtrans %}</h3>
+        <h5 class="font-weight-light">
+          {% trans %}
+          Choose the right version of an application or language stack you need and keep it even when your OS upgrades to a newer version.
+          {% endtrans %}
+        </h5>
+        <p><a href="https://docs.pagure.org/modularity/">Learn More.</a></p>
+      </div>
+    </div>
+  </div> 
+</div>
 
-      <div class="bg-light py-5">
-          <div class="container">
-            <div class="row align-items-center">
-              <div class="col-9">
-                <h3 class="font-weight-light pb-4">{% trans %}Easy Administration{% endtrans %}</h3>
-                <h5 class="font-weight-light">
-                  {% trans %}
-                  Manage your system simply with Cockpit's powerful, modern interface. View and monitor system performance and status, and deploy and manage container-based services.
-                  {% endtrans %}
-                </h5>
-                <p><a href="https://cockpit-project.org/">Learn More.</a></p>
-              </div>
-              <div class="col-3 px-5">
-                  <img class="w-100" src="/static/images/g-monitoring.png" />
-                </div>
-  
-            </div>
-          </div> 
-        </div>
+<div class="bg-light py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h3 class="font-weight-light pb-4">{% trans %}Easy Administration{% endtrans %}</h3>
+        <h5 class="font-weight-light">
+          {% trans %}
+          Manage your system simply with Cockpit's powerful, modern interface. View and monitor system performance and status, and deploy and manage container-based services.
+          {% endtrans %}
+        </h5>
+        <p><a href="https://cockpit-project.org/">Learn More.</a></p>
+      </div>
+      <div class="col-3 px-5">
+        <img class="w-100" src="/static/images/g-monitoring.png" />
+      </div>
+    </div>
+  </div> 
+</div>
 
-        <div class="bg-gray-200 py-5">
-            <div class="container">
-              <div class="row align-items-center">
-                <div class="col-3 px-5">
-                  <img class="w-100" src="/static/images/g-identitymanagement.png" />
-                </div>
-                <div class="col-9">
-                  <h3 class="font-weight-light pb-4">{% trans %}Enterprise Domain{% endtrans %}</h3>
-                  <h5 class="font-weight-light">
-                    {% trans %}
-                    Level up your Linux network with advanced identity management, DNS, certificate services, and Windows&trade; domain integration throughout your environment with FreeIPA, the open-source domain controller.
-                    {% endtrans %}
-                  </h5>
-                  <p><a href="https://www.freeipa.org/page/Main_Page">Learn More.</a></p>
-                </div>
-    
-              </div>
-            </div> 
-          </div>
+<div class="bg-gray-200 py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-3 px-5">
+        <img class="w-100" src="/static/images/g-identitymanagement.png" />
+      </div>
+      <div class="col-9">
+        <h3 class="font-weight-light pb-4">{% trans %}Enterprise Domain{% endtrans %}</h3>
+        <h5 class="font-weight-light">
+          {% trans %}
+          Level up your Linux network with advanced identity management, DNS, certificate services, and Windows&trade; domain integration throughout your environment with FreeIPA, the open-source domain controller.
+          {% endtrans %}
+        </h5>
+        <p><a href="https://www.freeipa.org/page/Main_Page">Learn More.</a></p>
+      </div>
+    </div>
+  </div> 
+</div>
 {% endblock %}
-
-
-
-
-
-    
-
-  
-
-  

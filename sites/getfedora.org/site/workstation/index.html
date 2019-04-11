@@ -3,6 +3,8 @@
 {% from "editions_card.html" import editions_card with context %}
 {% from "submenu.html" import submenu with context %}
 
+{% block title %}{% trans %}Fedora Workstation{% endtrans %}{% endblock %}
+
 {% block content %}
 {{submenu(edition="workstation", active="overview")}}
   <div class="bg-tranparent py-5">

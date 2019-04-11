@@ -1,6 +1,8 @@
 {% extends "master_getfedora.html" %}
 {% from "submenu.html" import submenu with context %}
 
+{% block title %}{% trans %}Fedora Silverblue{% endtrans %}{% endblock %}
+
 {% block content %}
 {{submenu(edition="silverblue", active="overview")}}
 <div class="bg-tranparent">

@@ -2,6 +2,8 @@
 
 {% from "submenu.html" import submenu with context %}
 
+{% block title %}{% trans %}Download Fedora IoT{% endtrans %}{% endblock %}
+
 {% block content %}
 {{submenu(edition="iot", active="download")}}
   <div class="bg-tranparent pt-5">
