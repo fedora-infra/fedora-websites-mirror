@@ -1,12 +1,19 @@
-{% macro feature_card(title="", description="", learnmorelink="")%}
+{% macro feature_card(title="", description="", learnmorelink="", topimage=None)%}
 <div class="d-flex flex-column h-100 p-3 bg-white rounded border">
+  {% if topimage %}
+    <div class="row justify-content-center mb-3">
+        <div class="col-5">
+          <img src="{{topimage}}" class="w-100">
+        </div>
+      </div>
+  {% endif %}
   <div class="row">
-    <div class="col-9">
+    <div class="col text-center">
       <h4>{{title}}</h4>
     </div>
   </div>
-  <div class="row py-3">
-    <div class="col-10 font-weight-light">
+  <div class="row">
+    <div class="col font-weight-light">
       {{description}}
     </div>
   </div>

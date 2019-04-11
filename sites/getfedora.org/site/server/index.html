@@ -13,7 +13,7 @@
           </div>
         <div class="col-8 ">
           <h1 class="font-weight-light">Fedora Server.</h1>
-          <h5 class="font-weight-light">{% trans %}Run your applications on a Linux server OS with the latest open source technology.{% endtrans %}</h5>
+          <h5 class="font-weight-light">{% trans %}Run applications on bare metal or the cloud with a Linux server OS packed with the latest open source technology.{% endtrans %}</h5>
           <a class="btn btn-lg btn-outline-fedora-orange mt-2" href="{{url_for('server_download', lang_code=lang_code)}}">{% trans %}Download Now{% endtrans %}</a>
         </div>
       </div>
@@ -84,19 +84,22 @@
             <!-- TODO: Logos for Modularity, Cockpit, FreeIPA. -->
             {{feature_card(title=_('Modularity'),
                            description=_('Choose the right version of an application or language stack you need and keep it even when your OS upgrades to a newer version.'),
-                           learnmorelink="https://docs.pagure.org/modularity/"
+                           learnmorelink="https://docs.pagure.org/modularity/",
+                           topimage='/static/images/g-jigsaw.png'
             )}}     
           </div>
           <div class="col-lg-4 mt-5">
             {{feature_card(title=_('Easy Administration'),
                            description=_('Manage your system simply with Cockpit\'s powerful, modern interface. View and monitor system performance and status, and deploy and manage container-based services.'),
-                           learnmorelink="https://cockpit-project.org/"
+                           learnmorelink="https://cockpit-project.org/",
+                           topimage="/static/images/g-monitoring.png"
             )}}     
           </div>
           <div class="col-lg-4 mt-5">
             {{feature_card(title=_('Enterprise Domain'),
                            description=_('Level up your Linux network with advanced identity management, DNS, certificate services, and Windows&trade; domain integration throughout your environment with FreeIPA, the open-source domain controller.'),
-                           learnmorelink="https://www.freeipa.org/page/Main_Page"
+                           learnmorelink="https://www.freeipa.org/page/Main_Page",
+                           topimage='/static/images/g-identitymanagement.png'
             )}}     
           </div>
         </div> <!--row-->
