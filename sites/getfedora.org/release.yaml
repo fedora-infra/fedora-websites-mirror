@@ -11,6 +11,15 @@ workstation:
     show: true
     release_number: 30
 
+server:
+  ga:
+    release_number: 29
+    rc_version: 1.2
+    
+  beta:
+    show: true
+    release_number: 30
+
 fmw:
   osx:
     version: 4.1.1

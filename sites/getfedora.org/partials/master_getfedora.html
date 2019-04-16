@@ -23,5 +23,10 @@
 {% block js %}
 {% assets "js_all" %}
 <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+      })
+</script>
 {% endassets %}
 {% endblock %}
