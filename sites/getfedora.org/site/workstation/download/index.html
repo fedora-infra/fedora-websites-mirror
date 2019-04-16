@@ -10,7 +10,7 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-12">
-          <h1 class="font-weight-light">{% trans n=releaseinfo.workstation.ga.release_number %}Download Fedora {{n}} Workstation.{% endtrans %}</h1>
+          <h1 class="font-weight-light">{% trans n=releaseinfo.ga.workstation.release_number %}Download Fedora {{n}} Workstation.{% endtrans %}</h1>
           <h5 class="font-weight-light">{% trans %}We're so glad you've decided to give Fedora Workstation a try. We know you'll love it.{% endtrans %}</h5>
         </div>
       </div>
@@ -60,7 +60,7 @@
         </div>
 
         <div class="col-6">
-          <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.workstation.ga.release_number}}/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-{{releaseinfo.workstation.ga.release_number}}-{{releaseinfo.workstation.ga.rc_version}}.iso">
+          <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">
             <i class="fas fa-compact-disc"></i> {% trans %}Download x86_64 DVD ISO{% endtrans %}
           </a>
         </div>
@@ -120,9 +120,9 @@
             {% endtrans %}
           </p>
           <ul class="font-weight-light">
-            <li><a href="https://download.fedoraproject.org/pub/fedora-secondary/releases/{{releaseinfo.workstation.ga.release_number}}/Workstation/i386/iso/Fedora-Workstation-Live-i386-{{releaseinfo.workstation.ga.release_number}}-{{releaseinfo.workstation.ga.rc_version}}.iso">32-bit ISO</a></li>
-            <li><a href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.workstation.ga.release_number}}/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-{{releaseinfo.workstation.ga.release_number}}-{{releaseinfo.workstation.ga.rc_version}}.iso">64-bit network install image</a></li>
-            <li><a href="https://download.fedoraproject.org/pub/fedora-secondary/releases/{{releaseinfo.workstation.ga.release_number}}/Workstation/i386/iso/Fedora-Workstation-netinst-i386-{{releaseinfo.workstation.ga.release_number}}-{{releaseinfo.workstation.ga.rc_version}}.iso">32-bit network install image</a></li>
+            <li><a href="https://download.fedoraproject.org/pub/fedora-secondary/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/i386/iso/Fedora-Workstation-Live-i386-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">32-bit ISO</a></li>
+            <li><a href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">64-bit network install image</a></li>
+            <li><a href="https://download.fedoraproject.org/pub/fedora-secondary/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/i386/iso/Fedora-Workstation-netinst-i386-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">32-bit network install image</a></li>
           </ul>
         </div>
       </div>

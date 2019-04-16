@@ -6,16 +6,82 @@
 
 {% block content %}
 {{submenu(edition="server", active="download")}}
-  <div class="bg-tranparent pt-5">
+  <div class="bg-tranparent py-5">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-12">
-          <h1 class="font-weight-light">Download Fedora Server.</h1>
-          <h5 class="font-weight-light">{% trans %}Download the Linux server you've been waiting for.{% endtrans %}</h5>
+          <h1 class="font-weight-light">{% trans n=releaseinfo.ga.server.release_number %}Download Fedora {{n}} Server.{% endtrans %}</h1>
+          <h5 class="font-weight-light">{% trans %}Your download will finish before we come up with a fancy tagline for this page.{% endtrans %}</h5>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="bg-light border py-5">
+    <div class="container">
+
+      <!-- Intro text -->
+      <div class="row">
+        <div class="col-12">
+          <h1 class="font-weight-bold text-center">{% trans %}Fedora Server is on x86_64 and ARM.{% endtrans %}</h1>
+          <hr />
+        </div>
+      </div>
+
+      <!-- Teaser titles -->
+      <div class="row">
+        <div class="col-6">
+          <h3 class="font-weight-light">{% trans %}On x86_64?{% endtrans %}</h3>
+        </div>
+        <div class="col-6">
+          <h3 class="font-weight-light">
+            {% trans armlink="https://arm.fedoraproject.org/" %}
+            On aarch64? (<a href="{{armlink}}">Learn more</a>)
+            {% endtrans %}
+          </h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <ul>
+            <li>
+              <a href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/x86_64/iso/Fedora-Server-dvd-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">
+                {% trans %}Download x86_64 DVD{% endtrans %}
+              </a>
+            </li>
+            <li>
+              <a href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/x86_64/iso/Fedora-Server-netinst-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">
+                {% trans %}Download x86_64 Net-Installer{% endtrans %}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-6">
+          <ul>
+            <li>
+              <a href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/iso/Fedora-Server-dvd-aarch64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">
+                {% trans %}Download aarch64 DVD{% endtrans %}
+              </a>
+            </li>
+            <li>
+              <a href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/iso/Fedora-Server-netinst-aarch64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">
+                {% trans %}Download aarch64 Net-Installer{% endtrans %}
+              </a>
+            </li>
+            <li>
+              <a href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/images/Fedora-Server-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.aarch64.raw.xz">
+                {% trans %}Download aarch64 raw image{% endtrans %}
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div> <!-- /final row -->
+    </div>
+  </div>
+
   <div class="my-5 py-5">&nbsp;</div> <!--REMOVE ME. TEMPORARY SPACER UNTIL WE GET CONTENT-->
   <div class="my-5 py-5">&nbsp;</div> <!--REMOVE ME. TEMPORARY SPACER UNTIL WE GET CONTENT-->
   <div class="my-5 py-5">&nbsp;</div> <!--REMOVE ME. TEMPORARY SPACER UNTIL WE GET CONTENT-->
