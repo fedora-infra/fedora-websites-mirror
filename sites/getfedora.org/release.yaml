@@ -1,24 +1,19 @@
-# editionname:
-#   current_ga:
-#     release_number: NN
-
-workstation:
-  ga:
+ga:
+  workstation:
+    release_number: 29
+    rc_version: 1.2
+  server:
     release_number: 29
     rc_version: 1.2
     
-  beta:
-    show: true
+beta:
+  show: false
+  workstation:
     release_number: 30
-
-server:
-  ga:
-    release_number: 29
-    rc_version: 1.2
-    
-  beta:
-    show: true
+    rc_version: 1.8
+  server:
     release_number: 30
+    rc_version: 1.8
 
 fmw:
   osx:
