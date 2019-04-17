@@ -1,6 +1,7 @@
 {% extends "master_getfedora.html" %}
 
 {% from "submenu.html" import submenu with context %}
+{% from "export_regulations.html" import export_regulations %}
 
 {% block title %}{% trans %}Download Fedora Workstation{% endtrans %}{% endblock %}
 
@@ -128,4 +129,5 @@
       </div>
     </div>
   </div>
+  {{export_regulations()}}
 {% endblock %}
