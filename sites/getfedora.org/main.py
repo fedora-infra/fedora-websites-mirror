@@ -109,6 +109,7 @@ export_route('silverblue', '/<lang_code>/silverblue/')
 export_route('silverblue_download', '/<lang_code>/silverblue/download/')
 export_route('iot', '/<lang_code>/iot/')
 export_route('iot_download', '/<lang_code>/iot/download/')
+export_route('security', '/<lang_code>/security/')
 
 @freezer.register_generator
 def index():
