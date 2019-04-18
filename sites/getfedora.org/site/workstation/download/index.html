@@ -125,6 +125,15 @@
             <li><a href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">64-bit network install image</a></li>
             <li><a href="https://download.fedoraproject.org/pub/fedora-secondary/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/i386/iso/Fedora-Workstation-netinst-i386-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">32-bit network install image</a></li>
           </ul>
+
+          <hr />
+
+          <h3 class="font-weight-light pb-4">{% trans %}We take security seriously.{% endtrans %}</h3>
+          <a href="{{url_for('security', lang_code=lang_code)}}">
+            {% trans %}
+            Verify your download.
+            {% endtrans %}
+          </a>
         </div>
       </div>
     </div>
