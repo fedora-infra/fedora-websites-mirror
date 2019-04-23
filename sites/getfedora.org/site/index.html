@@ -111,6 +111,46 @@
                </div>
               </div> 
            </div>  
+
+           <div class="bg-gray-200 border">
+              <div class="container">
+                <div class="row mb-4">
+                  <div class="col-4">
+                    <img src="/static/images/fmag-ribbon.png">
+                  </div>
+                  <div class="col-8 pt-5">
+                    <h2 class="pt-4 text-right font-weight-light">Make the most of using Fedora.</h2>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="col-12">
+                    <div class="card-deck" id="magazineposts">
+                    </div>
+                  </div>
+               </div>
+              </div> 
+           </div> 
+{% endblock %}
+
+{% block js %}
+{{ super() }}
+<script>
+    $( document ).ready(function() {
+        $.get( "https://fedoramagazine.org/wp-json/wp/v2/posts", { per_page: 3 } )
+      .done(function( data ) {
+        $.each(data, function(i, item){
+            const postlink = item.link;
+            const posttitle = item.title.rendered;
+            const date = new Date(item.date);
+            const month = date.toLocaleString('en-us', { month: 'long' });
+            const postdate = ( month + ' ' + date.getDate()+', ' +date.getFullYear());
+            $.get(item._links['wp:featuredmedia'][0].href).done(function(imagedata){
+                $("#magazineposts").append("<div class='card'><a href='"+postlink+"'><img src='"+imagedata.media_details.sizes.medium_large.source_url+"' class='card-img-top'></a><div class='card-body font-weight-bold '><a class='text-dark' href='"+postlink+"'>"+posttitle+"</a><div><small>"+postdate+"</small></div></div></div>")
+            });
+        })
+      });
+    });
+    </script>
 {% endblock %}
 
 
