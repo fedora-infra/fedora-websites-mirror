@@ -26,7 +26,7 @@ freezer = Freezer(app)
 app.config['FREEZER_STATIC_IGNORE'] += ['/css', '/js', '/vendor']
 
 js = Bundle(
-    '../static/vendor/jquery-3.3.1/jquery-3.3.1.slim.min.js',
+    '../static/vendor/jquery-3.3.1/jquery-3.3.1.min.js',
     '../static/vendor/bootstrap-4.3.1/dist/js/bootstrap.bundle.js',
     filters='rjsmin',
     output='js/bundle.js')
