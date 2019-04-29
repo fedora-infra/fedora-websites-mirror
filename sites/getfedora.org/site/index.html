@@ -1,6 +1,8 @@
 {% extends "master_getfedora.html" %}
 
 {% from "editions_card.html" import editions_card with context %}
+{% from "link_card.html" import link_card with context %}
+
 
 {% block title %}{% trans %}Fedora{% endtrans %}{% endblock %}
 
@@ -60,32 +62,25 @@
         </div>
         <div class="row">
           <div class="col-lg-4 mt-5">
-            {{editions_card(color="magenta",
-                            logo="/static/images/fedora-coreos-logo.png",
-                            official=False,
-                            description=_('We need some text about Fedora CoreOS to go here; it should give users a good idea of what they can use Fedora CoreOS for.'),
-                            download_link=url_for("coreos_download", lang_code=lang_code),
-                            learnmorelink=url_for("coreos", lang_code=lang_code)
+            {{link_card(logo="/static/images/fedora-coreos-logo.png",
+                            description=_('Fedora CoreOS an automatically updating, minimal, monolithic, container-focused operating system'),
+                            learnmorelink="https://coreos.fedoraproject.org/"
             )}}     
           </div>
   
           <div class="col-lg-4 mt-5">
-            {{editions_card(color="blue",
+            {{link_card(
                             logo="/static/images/fedora-silverblue-logo.png",
-                            official=False,
-                            description=_('We need a good description of Silverblue to go here; it should give the high level idea behind Silverblue and what it would be used for.'),
-                            download_link=url_for("silverblue_download", lang_code=lang_code),
-                            learnmorelink=url_for("silverblue", lang_code=lang_code)
+                            description=_('Fedora Silverblue is an immutable desktop operating system aimed at good support for container-focused workflows'),
+                            learnmorelink="https://silverblue.fedoraproject.org/"
             )}}   
             </div>
   
             <div class="col-lg-4 mt-5">
-              {{editions_card(color="purple",
+              {{link_card(
                               logo="/static/images/fedora-iot-logo.png",
-                              official=False,
-                              description=_('We need some text about Fedora IoT to go here; it should give users a good idea of what they can use Fedora IoT for.'),
-                              download_link=url_for("iot_download", lang_code=lang_code),
-                              learnmorelink=url_for("iot", lang_code=lang_code)
+                              description=_('Fedora IoT provides a trusted open source platform as a strong foundation for IoT ecosystems'),
+                              learnmorelink="https://iot.fedoraproject.org/"
               )}} 
             </div>
         </div> <!--row-->
