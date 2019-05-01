@@ -3,7 +3,7 @@
 {% from "editions_card.html" import editions_card with context %}
 {% from "submenu.html" import submenu with context %}
 
-{% block title %}{% trans %}Fedora Workstation{% endtrans %}{% endblock %}
+{% block title %}{% trans trimmed %}Fedora Workstation{% endtrans %}{% endblock %}
 
 {% block content %}
 {{submenu(edition="workstation", active="overview")}}
@@ -11,9 +11,9 @@
     <div class="container">
       <div class="row align-items-center justify-content-center">
         <div class="col-12 col-md-7 col-lg-6 order-12 order-lg-1 text-center text-md-left">
-          <h1 class="font-weight-light">{% trans %}Fedora Workstation.{% endtrans %}</h1>
-          <h5 class="font-weight-light">{% trans %}This is the Linux workstation you've been waiting for.{% endtrans %}</h5>
-          <a class="btn btn btn-outline-fedora-blue mt-2" href="{{url_for('workstation_download', lang_code=lang_code)}}">{% trans %}Download Now{% endtrans %}</a>
+          <h1 class="font-weight-light">{% trans trimmed %}Fedora Workstation.{% endtrans %}</h1>
+          <h5 class="font-weight-light">{% trans trimmed %}This is the Linux workstation you've been waiting for.{% endtrans %}</h5>
+          <a class="btn btn btn-outline-fedora-blue mt-2" href="{{url_for('workstation_download', lang_code=lang_code)}}">{% trans trimmed %}Download Now{% endtrans %}</a>
         </div>
         <div class="col-9 col-md-5 col-lg-6 order-1 order-lg-12">
           <img src="/static/images/g-laptop-wallpaper.png" class="w-100 pb-4 pb-lg-0"/>
@@ -28,9 +28,9 @@
           <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-code-window.png" />
         </div>
         <div class="col-12 col-lg-6">
-          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans %}Created for Developers.{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Created for Developers.{% endtrans %}</h3>
           <h5 class="font-weight-light">
-            {% trans %}
+            {% trans trimmed %}
             Fedora Workstation is a reliable, user-friendly, and powerful operating system for your laptop or desktop computer. It supports a wide range of developers, from hobbyists and students to professionals in corporate environments.
             {% endtrans %}
           </h5>
@@ -43,9 +43,9 @@
     <div class="container">
       <div class="row align-items-center justify-content-center">
         <div class="col-12 col-lg-6 order-12 order-lg-1">
-          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans %}Sleek User Interface.{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Sleek User Interface.{% endtrans %}</h3>
           <h5 class="font-weight-light">
-            {% trans %}
+            {% trans trimmed %}
             Focus on your code in the GNOME 3 desktop environment. GNOME is built with developer feedback and minimizes distractions, so you can concentrate on what's important.
             {% endtrans %}
           </h5>
@@ -64,9 +64,9 @@
           <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-toolbox.png" />
         </div>
         <div class="col-12 col-lg-7">
-          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans %}Complete Open Source toolbox{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Complete Open Source toolbox{% endtrans %}</h3>
           <h5 class="font-weight-light">
-            {% trans %}
+            {% trans trimmed %}
             Skip the drag of trying to find or build the tools you need. With Fedora's complete set of open source languages, tools, and utilities, everything is a click or command line away. There's even project hosting and repositories like COPR to make your code and builds available quickly to the community.
             {% endtrans %}
           </h5>
@@ -80,9 +80,9 @@
       <div class="row align-items-center justify-content-center">
         
         <div class="col-12 col-lg-6 order-12 order-lg-1">
-          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans %}Virtualization.{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Virtualization.{% endtrans %}</h3>
           <h5 class="font-weight-light">
-            {% trans %}
+            {% trans trimmed %}
             Get virtual machines up and running quickly to test your code on multiple platforms using GNOME Boxes. Or dig into powerful, scriptable virtualization tools for even more control.
             {% endtrans %}
           </h5>
@@ -101,9 +101,9 @@
           <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-containers.png" />
         </div>
         <div class="col-12 col-lg-7">
-          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans %}Containerize. Hack. Deploy.{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Containerize. Hack. Deploy.{% endtrans %}</h3>
           <h5 class="font-weight-light">
-            {% trans %}
+            {% trans trimmed %}
             Containerize your own applications or deploy containerized applications out of the box with built-in Open Container Initiative (OCI) image support.
             {% endtrans %}
           </h5>

@@ -3,15 +3,15 @@
 {% from "editions_card.html" import editions_card with context %}
 {% from "submenu.html" import submenu with context %}
 
-{% block title %}{% trans %}Security and Download Verification{% endtrans %}{% endblock %}
+{% block title %}{% trans trimmed %}Security and Download Verification{% endtrans %}{% endblock %}
 
 {% block content %}
   <div class="bg-tranparent py-5">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-12">
-          <h1 class="font-weight-light">{% trans %}Fedora keeps you safe.{% endtrans %}</h1>
-          <h5 class="font-weight-light">{% trans %}Learn how to verify your downloads.{% endtrans %}</h5>
+          <h1 class="font-weight-light">{% trans trimmed %}Fedora keeps you safe.{% endtrans %}</h1>
+          <h5 class="font-weight-light">{% trans trimmed %}Learn how to verify your downloads.{% endtrans %}</h5>
         </div>
       </div>
     </div>
@@ -20,9 +20,9 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h3 class="font-weight-light pb-4">{% trans %}Verify your download with CHECKSUM files.{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4">{% trans trimmed %}Verify your download with CHECKSUM files.{% endtrans %}</h3>
           <h5 class="font-weight-light">
-            {% trans %}
+            {% trans trimmed %}
             Once you have downloaded an image, verify it for security and integrity. To verify your image, start by downloading the proper CHECKSUM file into the same directory as the image you downloaded. Then follow three easy steps.
             {% endtrans %}
           </h5>
@@ -33,21 +33,21 @@
       <div class="row">
         <div class="col-6">
           <p>
-            {% trans %}
+            {% trans trimmed %}
             First, import Fedora's GPG key(s):
             <pre><code>$ curl https://getfedora.org/static/fedora.gpg | gpg --import</code></pre>
             Note that you can verify the details of these keys below.
             {% endtrans %}
           </p>
           <p>
-            {% trans %}
+            {% trans trimmed %}
             Now, verify that the CHECKSUM file is valid:
             <pre><code>$ gpg --verify-files *-CHECKSUM</code></pre>
             The CHECKSUM file should have a good signature from one of the keys described below.
             {% endtrans %}
           </p>
           <p>
-            {% trans %}
+            {% trans trimmed %}
             Lastly, check that your download's checksum matches:
             <pre><code>$ sha256sum -c *-CHECKSUM</code></pre>
             If the output states that the file is valid, then it's ready to use!
@@ -75,19 +75,19 @@
     <div class="container">
       <div class="row">
         <div class="col-6">
-          <h3 class="font-weight-light pb-4">{% trans %}Package signing keys.{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4">{% trans trimmed %}Package signing keys.{% endtrans %}</h3>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <h5 class="font-weight-light">
-            {% trans %}
+            {% trans trimmed %}
             Learn how Fedora uses package signing to help protect you.
             {% endtrans %}
           </h5>
 
           <p>
-            {% trans %}
+            {% trans trimmed %}
             Each stable RPM package published by the Fedora Project is signed with a GPG signature. By default, <code>dnf</code> and the graphical update tools will verify these signatures and refuse to install any packages that are not signed or have bad signatures. You should always verify the signature of a package before you install it. These signatures ensure that the packages you install are what was produced by the Fedora Project and have not been altered (accidentally or maliciously) by any mirror or website that is providing the packages.
             {% endtrans %}
           </p>
@@ -95,7 +95,7 @@
           <hr />
 
           <h3 class="font-weight-light text-center py-5">
-            {% trans %}Here are our current keys:{% endtrans %}
+            {% trans trimmed %}Here are our current keys:{% endtrans %}
           </h3>
 
           {% for key_tuple in releaseinfo.gpg_keys.current | batch(2, '&nbsp;') %}
@@ -117,7 +117,7 @@
             <hr />
 
             <h3 class="font-weight-light text-center py-5">
-              {% trans %}Here are our obsolete keys:{% endtrans %}
+              {% trans trimmed %}Here are our obsolete keys:{% endtrans %}
             </h3>
 
             {% for key_tuple in releaseinfo.gpg_keys.obsolete | batch(2, '&nbsp;') %}
@@ -144,7 +144,7 @@
                  role="button"
                  aria-expanded="false"
                  aria-controls="collapseObsolete">
-                {% trans %}View our obsolete keys &raquo;{% endtrans %}
+                {% trans trimmed %}View our obsolete keys &raquo;{% endtrans %}
               </a>
             </div>
           </div>
@@ -158,9 +158,9 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-12">
-          <h3 class="font-weight-light pb-4">{% trans %}Found a security bug?{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4">{% trans trimmed %}Found a security bug?{% endtrans %}</h3>
           <h5 class="font-weight-light">
-            {% trans wikilink="https://fedoraproject.org/wiki/Security_Bugs#Reporting_a_Security_Vulnerability" %}
+            {% trans trimmed wikilink="https://fedoraproject.org/wiki/Security_Bugs#Reporting_a_Security_Vulnerability" %}
             Please take a moment and let us know.
             <a href="{{wikilink}}">Learn how on our wiki page</a>.
             {% endtrans %}

@@ -10,12 +10,12 @@
                 <ul class="navbar-nav  ml-auto font-size-90 font-weight-bold">
                   <li class="nav-item">
                     <a class="nav-link {{'active border-bottom border-fedora-orange border-width-3' if active == 'overview'}}" href="{{url_for('server', lang_code=lang_code)}}">
-                      {% trans %}Overview{% endtrans %}
+                      {% trans trimmed %}Overview{% endtrans %}
                     </a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link {{'active border-bottom border-fedora-orange border-width-3' if active == 'download'}}" href="{{url_for('server_download', lang_code=lang_code)}}">
-                        {% trans %}Download{% endtrans %}
+                        {% trans trimmed %}Download{% endtrans %}
                       </a>
                     </li>
                 </ul>

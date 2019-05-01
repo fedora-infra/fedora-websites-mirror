@@ -2,7 +2,7 @@
 
 {% from "submenu.html" import submenu with context %}
 
-{% block title %}{% trans %}Download Fedora Silverblue{% endtrans %}{% endblock %}
+{% block title %}{% trans trimmed %}Download Fedora Silverblue{% endtrans %}{% endblock %}
 
 {% block content %}
 {{submenu(edition="silverblue", active="download")}}
@@ -11,7 +11,7 @@
       <div class="row align-items-center">
         <div class="col-12">
           <h1 class="font-weight-light">Download Fedora Silverblue.</h1>
-          <h5 class="font-weight-light">{% trans %}Download the Silverblue you've been waiting for.{% endtrans %}</h5>
+          <h5 class="font-weight-light">{% trans trimmed %}Download the Silverblue you've been waiting for.{% endtrans %}</h5>
         </div>
       </div>
     </div>

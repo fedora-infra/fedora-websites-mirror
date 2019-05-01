@@ -1,7 +1,7 @@
 {% extends "master_getfedora.html" %}
 {% from "submenu.html" import submenu with context %}
 
-{% block title %}{% trans %}Fedora CoreOS{% endtrans %}{% endblock %}
+{% block title %}{% trans trimmed %}Fedora CoreOS{% endtrans %}{% endblock %}
 
 {% block content %}
 {{submenu(edition="coreos", active="overview")}}
@@ -10,8 +10,8 @@
     <div class="row align-items-center">
       <div class="col-6 ">
         <h1 class="font-weight-light">Fedora CoreOS.</h1>
-        <h5 class="font-weight-light">{% trans %}This is the coreos you've been waiting for.{% endtrans %}</h5>
-        <a class="btn btn-lg btn-outline-fedora-magenta mt-2" href="{{url_for('coreos_download', lang_code=lang_code)}}">{% trans %}Download Now{% endtrans %}</a>
+        <h5 class="font-weight-light">{% trans trimmed %}This is the coreos you've been waiting for.{% endtrans %}</h5>
+        <a class="btn btn-lg btn-outline-fedora-magenta mt-2" href="{{url_for('coreos_download', lang_code=lang_code)}}">{% trans trimmed %}Download Now{% endtrans %}</a>
       </div>
       <div class="col-6">
           <img src="/static/images/g-laptop-wallpaper.png" class="w-100"/>
@@ -25,7 +25,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        {% trans %}
+        {% trans trimmed %}
         We need some text about Fedora CoreOS to go here; it should give users a good idea of what they can use Fedora CoreOS for.
         {% endtrans %}
       </div>

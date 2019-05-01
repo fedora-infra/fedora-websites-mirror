@@ -7,7 +7,7 @@
       <div class="col-3 line-height-1 text-muted text-right d-none d-sm-block">
         {% if official == True %}
         <span class="text-uppercase">
-          {% trans %}Official Edition{% endtrans %}
+          {% trans trimmed %}Official Edition{% endtrans %}
         </span>
         {% endif %}
       </div>
@@ -20,7 +20,7 @@
     <div class="row align-items-end flex-grow-1">
         <div class="col-6 lead font-weight-normal">
             <a href="{{learnmorelink}}">
-             {% trans %}Learn more.{% endtrans %}
+             {% trans trimmed %}Learn more.{% endtrans %}
             </a>
         </div>
         <div class="col-6 text-right">

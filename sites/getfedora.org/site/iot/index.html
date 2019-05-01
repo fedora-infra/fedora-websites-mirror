@@ -1,7 +1,7 @@
 {% extends "master_getfedora.html" %}
 {% from "submenu.html" import submenu with context %}
 
-{% block title %}{% trans %}Fedora IoT{% endtrans %}{% endblock %}
+{% block title %}{% trans trimmed %}Fedora IoT{% endtrans %}{% endblock %}
 
 {% block content %}
 {{submenu(edition="iot", active="overview")}}
@@ -10,8 +10,8 @@
     <div class="row align-items-center">
       <div class="col-6 ">
         <h1 class="font-weight-light">Fedora IoT.</h1>
-        <h5 class="font-weight-light">{% trans %}This is the thing you've been waiting for.{% endtrans %}</h5>
-        <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="{{url_for('iot_download', lang_code=lang_code)}}">{% trans %}Download Now{% endtrans %}</a>
+        <h5 class="font-weight-light">{% trans trimmed %}This is the thing you've been waiting for.{% endtrans %}</h5>
+        <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="{{url_for('iot_download', lang_code=lang_code)}}">{% trans trimmed %}Download Now{% endtrans %}</a>
       </div>
       <div class="col-6">
           <img src="/static/images/g-laptop-wallpaper.png" class="w-100"/>
@@ -25,7 +25,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        {% trans %}
+        {% trans trimmed %}
         We need some text about Fedora IoT to go here; it should give users a good idea of what they can use Fedora Iot for.
         {% endtrans %}
       </div>

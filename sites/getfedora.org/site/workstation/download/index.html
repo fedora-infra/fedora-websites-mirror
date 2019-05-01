@@ -3,7 +3,7 @@
 {% from "submenu.html" import submenu with context %}
 {% from "export_regulations.html" import export_regulations %}
 
-{% block title %}{% trans %}Download Fedora Workstation{% endtrans %}{% endblock %}
+{% block title %}{% trans trimmed %}Download Fedora Workstation{% endtrans %}{% endblock %}
 
 {% block content %}
 {{submenu(edition="workstation", active="download")}}
@@ -11,8 +11,8 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-12">
-          <h1 class="font-weight-light">{% trans n=releaseinfo.ga.workstation.release_number %}Download Fedora {{n}} Workstation.{% endtrans %}</h1>
-          <h5 class="font-weight-light">{% trans %}We're so glad you've decided to give Fedora Workstation a try. We know you'll love it.{% endtrans %}</h5>
+          <h1 class="font-weight-light">{% trans trimmed n=releaseinfo.ga.workstation.release_number %}Download Fedora {{n}} Workstation.{% endtrans %}</h1>
+          <h5 class="font-weight-light">{% trans trimmed %}We're so glad you've decided to give Fedora Workstation a try. We know you'll love it.{% endtrans %}</h5>
         </div>
       </div>
     </div>
@@ -24,10 +24,10 @@
       <!-- Teaser titles -->
       <div class="row">
         <div class="col-6">
-          <h3 class="font-weight-light">{% trans %}On Windows or MacOS?{% endtrans %}</h3>
+          <h3 class="font-weight-light">{% trans trimmed %}On Windows or MacOS?{% endtrans %}</h3>
         </div>
         <div class="col-6">
-          <h3 class="font-weight-light">{% trans %}On Linux or just want an ISO file?{% endtrans %}</h3>
+          <h3 class="font-weight-light">{% trans trimmed %}On Linux or just want an ISO file?{% endtrans %}</h3>
         </div>
       </div>
 
@@ -35,14 +35,14 @@
       <div class="row">
         <div class="col-6">
           <p>
-            {% trans %}
+            {% trans trimmed %}
             Get started by using <strong>Fedora Media Writer</strong>, which makes it super easy to give Fedora a try.
             {% endtrans %}
           </p>
         </div>
         <div class="col-6">
           <p>
-            {% trans %}
+            {% trans trimmed %}
             Not sure how to use this file? <a href="https://fedoraproject.org/wiki/How_to_create_and_use_Live_USB">Learn here</a>.
             {% endtrans %}
           </p>
@@ -52,17 +52,17 @@
       <div class="row">
         <div class="col-6">
           <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="https://getfedora.org/fmw/FedoraMediaWriter-win32-{{releaseinfo.fmw.win.version}}.exe">
-            <i class="fab fa-windows"></i> {% trans %}Download for Windows{% endtrans %}
+            <i class="fab fa-windows"></i> {% trans trimmed %}Download for Windows{% endtrans %}
           </a>
 
           <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="https://getfedora.org/fmw/FedoraMediaWriter-osx-{{releaseinfo.fmw.osx.version}}.dmg">
-            <i class="fab fa-apple"></i> {% trans %}Download for MacOS{% endtrans %}
+            <i class="fab fa-apple"></i> {% trans trimmed %}Download for MacOS{% endtrans %}
           </a>
         </div>
 
         <div class="col-6">
           <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">
-            <i class="fas fa-compact-disc"></i> {% trans %}Download x86_64 DVD ISO{% endtrans %}
+            <i class="fas fa-compact-disc"></i> {% trans trimmed %}Download x86_64 DVD ISO{% endtrans %}
           </a>
         </div>
       </div> <!-- /final row -->
@@ -73,15 +73,15 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-6">
-          <h3 class="font-weight-light pb-4">{% trans %}Learn more about Fedora Media Writer.{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4">{% trans trimmed %}Learn more about Fedora Media Writer.{% endtrans %}</h3>
           <p class="font-weight-light">
-            {% trans %}
+            {% trans trimmed %}
             Getting going with Fedora is easier than ever.
             All you need is a 2GB USB flash drive, and Fedora Media Writer.
             {% endtrans %}
           </p>
           <p class="font-weight-light">
-            {% trans %}
+            {% trans trimmed %}
             Once Fedora Media Writer is installed, it will set up your flash drive
             to run a "Live" version of Fedora Workstation, meaning that you can boot
             it from your flash drive and try it out right away without making any
@@ -91,7 +91,7 @@
           </p>
           <p class="muted font-italic">
             <small>
-              {% trans %}
+              {% trans trimmed %}
               <sup>*</sup> Fedora requires a minimum of 10GB disk, 1GB RAM, and
               a 1GHz processor to install and run successfully.
               {% endtrans %}
@@ -112,9 +112,9 @@
           <img class="w-100" src="/static/images/g-monitor-overview.png" />
         </div>
         <div class="col-6">
-          <h3 class="font-weight-light pb-4">{% trans %}But wait! There's more.{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4">{% trans trimmed %}But wait! There's more.{% endtrans %}</h3>
           <p class="font-weight-light">
-            {% trans %}
+            {% trans trimmed %}
             Need something a bit different? Check out our other Fedora
             Workstation downloads here, featuring secondary architectures and
             network-based installation images.
@@ -128,9 +128,9 @@
 
           <hr />
 
-          <h3 class="font-weight-light pb-4">{% trans %}We take security seriously.{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4">{% trans trimmed %}We take security seriously.{% endtrans %}</h3>
           <a href="{{url_for('security', lang_code=lang_code)}}">
-            {% trans %}
+            {% trans trimmed %}
             Verify your download.
             {% endtrans %}
           </a>

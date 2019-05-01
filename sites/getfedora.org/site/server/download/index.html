@@ -4,7 +4,7 @@
 {% from "export_regulations.html" import export_regulations %}
 
 
-{% block title %}{% trans %}Download Fedora Server{% endtrans %}{% endblock %}
+{% block title %}{% trans trimmed %}Download Fedora Server{% endtrans %}{% endblock %}
 
 {% block content %}
 
@@ -14,8 +14,8 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-12">
-          <h1 class="font-weight-light">{% trans n=releaseinfo.ga.server.release_number %}Download Fedora {{n}} Server.{% endtrans %}</h1>
-          <h5 class="font-weight-light">{% trans %}Your download will finish before we come up with a fancy tagline for this page.{% endtrans %}</h5>
+          <h1 class="font-weight-light">{% trans trimmed n=releaseinfo.ga.server.release_number %}Download Fedora {{n}} Server.{% endtrans %}</h1>
+          <h5 class="font-weight-light">{% trans trimmed %}Your download will finish before we come up with a fancy tagline for this page.{% endtrans %}</h5>
 
         </div>
       </div>
@@ -25,81 +25,81 @@
   <div class="bg-light border py-5">
     <div class="container">
       <div class="row">
-        <div class="col-12"><h3 class="font-weight-light text-center mb-3">{% trans %}Fedora Server is available for x86_64 and ARM.{% endtrans %}</h3></div>
+        <div class="col-12"><h3 class="font-weight-light text-center mb-3">{% trans trimmed %}Fedora Server is available for x86_64 and ARM.{% endtrans %}</h3></div>
         <div class="col-6">
-          <h5 class="font-weight-light">{% trans %}Using the x86_64 Architecture?{% endtrans %}</h5>
+          <h5 class="font-weight-light">{% trans trimmed %}Using the x86_64 Architecture?{% endtrans %}</h5>
           <ul class="list-group">
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans %}Standard ISO image for x86_64{% endtrans %}
+                {% trans trimmed %}Standard ISO image for x86_64{% endtrans %}
               </div>
               <div>
                 <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
                    role="button" data-trigger="focus" href="javascript:void(0)" 
-                   data-content="{% trans %}Fedora Server ISO image that includes all the packages required to install Fedora Server.{% endtrans %}">
+                   data-content="{% trans trimmed %}Fedora Server ISO image that includes all the packages required to install Fedora Server.{% endtrans %}">
                    <i class="fa fa-info-circle"></i>
                 </a>
-                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/x86_64/iso/Fedora-Server-dvd-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans %}Download{% endtrans %}</a>
+                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/x86_64/iso/Fedora-Server-dvd-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
             </li>
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans %}Netinstall ISO image for x86_64{% endtrans %}
+                {% trans trimmed %}Netinstall ISO image for x86_64{% endtrans %}
               </div>
               <div>
                 <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
                    role="button" data-trigger="focus" href="javascript:void(0)" 
-                   data-content="{% trans %}Netinstall image description FIXME{% endtrans %}">
+                   data-content="{% trans trimmed %}Netinstall image description FIXME{% endtrans %}">
                    <i class="fa fa-info-circle"></i>
                 </a>
-                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/x86_64/iso/Fedora-Server-netinst-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans %}Download{% endtrans %}</a>
+                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/x86_64/iso/Fedora-Server-netinst-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
             </li>
           </ul>
         </div>
         <div class="col-6">
-          <h5 class="font-weight-light">{% trans %}Using the aarch64 Architecture?{% endtrans %}</h5>
+          <h5 class="font-weight-light">{% trans trimmed %}Using the aarch64 Architecture?{% endtrans %}</h5>
           <ul class="list-group">
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans %}Standard ISO image for aarch64{% endtrans %}
+                {% trans trimmed %}Standard ISO image for aarch64{% endtrans %}
               </div>
               <div>
                 <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
                    role="button" data-trigger="focus" href="javascript:void(0)" 
-                   data-content="{% trans %}Fedora Server ISO image that includes all the packages required to install Fedora Server.{% endtrans %}">
+                   data-content="{% trans trimmed %}Fedora Server ISO image that includes all the packages required to install Fedora Server.{% endtrans %}">
                    <i class="fa fa-info-circle"></i>
                 </a>
-                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/iso/Fedora-Server-dvd-aarch64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans %}Download{% endtrans %}</a>
+                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/iso/Fedora-Server-dvd-aarch64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
             </li>
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans %}Netinstall ISO image for aarch64{% endtrans %}
+                {% trans trimmed %}Netinstall ISO image for aarch64{% endtrans %}
               </div>
               <div>
                 <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
                    role="button" data-trigger="focus" href="javascript:void(0)" 
-                   data-content="{% trans %}Netinstall image description FIXME{% endtrans %}">
+                   data-content="{% trans trimmed %}Netinstall image description FIXME{% endtrans %}">
                    <i class="fa fa-info-circle"></i>
                 </a>
                 <a class="btn btn-outline-primary btn-sm" 
                    href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/iso/Fedora-Server-netinst-aarch64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">
-                   {% trans %}Download{% endtrans %}
+                   {% trans trimmed %}Download{% endtrans %}
                 </a>
               </div>
             </li>
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans %}Raw image for aarch64{% endtrans %}
+                {% trans trimmed %}Raw image for aarch64{% endtrans %}
               </div>
               <div>
                 <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
                    role="button" data-trigger="focus" href="javascript:void(0)" 
-                   data-content="{% trans %}RAW image description FIXME{% endtrans %}">
+                   data-content="{% trans trimmed %}RAW image description FIXME{% endtrans %}">
                    <i class="fa fa-info-circle"></i>
                 </a>
-                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/images/Fedora-Server-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.aarch64.raw.xz">{% trans %}Download{% endtrans %}</a>
+                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/images/Fedora-Server-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.aarch64.raw.xz">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
             </li>
           </ul>
@@ -108,7 +108,7 @@
       <div class="row">
         <div class="col-12">
           <a href="{{url_for('security', lang_code=lang_code)}}">
-            {% trans %}
+            {% trans trimmed %}
             Verify your download.
             {% endtrans %}
           </a>
@@ -124,14 +124,14 @@
             <img class="w-100" src="/static/images/g-cloud-server.png" />
           </div>
           <div class="col-8">
-            <h3 class="font-weight-light pb-4">{% trans %}Fedora Server tailored for the cloud{% endtrans %}</h3>
+            <h3 class="font-weight-light pb-4">{% trans trimmed %}Fedora Server tailored for the cloud{% endtrans %}</h3>
             <p class="font-weight-light">
-              {% trans %}
+              {% trans trimmed %}
               Fedora Server is also available via a range of images that are designed for use in the cloud. Multiple formats are available for Openstack, Vagrant, the Amazon Public Cloud, and more.
               {% endtrans %}
             </p>
             <p class="font-weight-light">
-              {% trans %}
+              {% trans trimmed %}
               Check out the <a href="https://cloud.fedoraproject.org/">Fedora Cloud</a> page for all the details and downloads.
               {% endtrans %}
             </p>
