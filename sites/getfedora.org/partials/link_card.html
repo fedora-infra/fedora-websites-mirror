@@ -1,0 +1,21 @@
+{% macro link_card(logo="", description='', learnmorelink="")%}
+<div class="d-flex flex-column h-100 p-3 bg-white rounded border">
+    <div class="row">
+      <div class="col-12">
+          <img src="{{logo}}" class="mt-n5"/>
+      </div>
+    </div>
+    <div class="row py-3">
+        <div class="col-10 font-weight-light">
+            {{description}}
+        </div>
+    </div>
+    <div class="row align-items-end flex-grow-1">
+        <div class="col-12 lead  text-right font-weight-normal">
+            <a href="{{learnmorelink}}">
+             {% trans %}Learn more.{% endtrans %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endmacro %}
