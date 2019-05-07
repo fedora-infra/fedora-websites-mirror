@@ -1,3 +1,6 @@
+
+# -*- coding: UTF-8 -*-
+
 from flask import Flask, abort, g, render_template, redirect, request
 from flask_babel import Babel
 from flask_assets import Environment, Bundle
@@ -10,7 +13,10 @@ import yaml
 # TODO: Is there a nicer way to represent the data globalvar has?
 import globalvar
 
-FEDORA_LANGUAGES = ['en', 'de']
+FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
+
+# List of langs from old getfedora.org
+#FEDORA_LANGUAGES = { 'en' : 'English' , 'af': 'Afrikaans', 'ar': 'عربي', 'as': 'অসমীয়া', 'ast': 'Asturianu', 'bal': 'بلوچی', 'bg': 'български език', 'bn': 'বাংলা', 'bn_IN': 'বাংলা (ভারত)', 'br': 'Brezhoneg', 'ca': 'Català', 'cs': 'česky', 'da': 'dansk', 'de': 'Deutsch', 'el': 'Ελληνικά', 'en': 'English', 'en_GB': 'English (UK)', 'es': 'Español', 'eu': 'euskera', 'fa': 'پارسی', 'fi': 'suomi', 'fr': 'Français', 'fur': 'Friulian', 'gl': 'galego', 'gu': 'ગુજરાતી', 'he': 'עברית', 'hi': 'हिन्दी', 'hu': 'Magyar', 'ia': 'Interlingua', 'id': 'Indonesia', 'is': 'Íslenska', 'it': 'Italiano', 'ja': '日本語', 'ka': 'ქართული', 'kn': 'ಕನ್ನಡ', 'ko': '한국어', 'lv': 'latviešu', 'ml': 'മലയാളം', 'mr': 'मराठी', 'nb': 'Norsk bokmål', 'nl': 'Nederlands', 'or': 'ଓଡ଼ିଆ', 'pa': 'ਪੰਜਾਬੀ', 'pl': 'polski', 'pt': 'Português', 'pt_BR': 'Português brasileiro', 'ro': 'română', 'ru': 'Pусский', 'sk': 'slovenčina', 'sq': 'Shqip', 'sr': 'српски', 'sv': 'svenska', 'ta': 'தமிழ்', 'te': 'తెలుగు', 'tg': 'тоҷикӣ', 'th': 'ไทย', 'tr': 'Tϋrkçe', 'uk': 'українська', 'vi': 'Tiếng Việt', 'zh_CN': '简体中文', 'zh_TW': '正體中文'}
 
 app = Flask(__name__, static_folder='../static/', static_url_path='/static')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -54,7 +60,9 @@ def inject_globalvars():
     return dict(
         globalvar=globalvar,
         releaseinfo=r,
-        lang_code=g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE'])
+        lang_code=g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE'],
+        languages=FEDORA_LANGUAGES,
+        endpoint=request.endpoint)
 
 @app.before_request
 def handle_language_code():

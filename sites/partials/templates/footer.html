@@ -57,7 +57,10 @@
         </p>
         <p>
           &copy; 2019 Red Hat, Inc. and others.
-        </p>   
+        </p>
+        {% for l in languages %}
+          <a href="{{url_for(endpoint, lang_code=l)}}">{{languages[l]}}</a>
+        {% endfor %}
       </div>
     </div>
   </div>
