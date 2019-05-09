@@ -110,3 +110,25 @@ code, pre {
         padding: 0 5px;
     }
 }
+
+#languagelist{
+    column-count: 2;
+}
+
+@include media-breakpoint-up(sm) { 
+    #languagelist{
+        column-count: 3;
+    }
+ }
+
+@include media-breakpoint-up(md) { 
+    #languagelist{
+        column-count: 4;
+    }
+ }
+
+ @include media-breakpoint-up(lg) { 
+    #languagelist{
+        column-count: 5;
+    }
+ }

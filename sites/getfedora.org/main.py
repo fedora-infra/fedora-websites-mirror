@@ -1,5 +1,4 @@
-
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
 from flask import Flask, abort, g, render_template, redirect, request
 from flask_babel import Babel
@@ -16,7 +15,67 @@ import globalvar
 #FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
 
 # List of langs from old getfedora.org
-FEDORA_LANGUAGES_FULL = { 'en' : u'English' , 'af': u'Afrikaans', 'ar': u'عربي', 'as': u'অসমীয়া', 'ast': u'Asturianu', 'bal': u'بلوچی', 'bg': u'български език', 'bn': u'বাংলা', 'bn_IN': u'বাংলা (ভারত)', 'br': u'Brezhoneg', 'ca': u'Català', 'cs': u'česky', 'da': u'dansk', 'de': u'Deutsch', 'el': u'Ελληνικά', 'en': u'English', 'en_GB': u'English (UK)', 'es': u'Español', 'eu': u'euskera', 'fa': u'پارسی', 'fi': u'suomi', 'fr': u'Français', 'fur': u'Friulian', 'gl': u'galego', 'gu': u'ગુજરાતી', 'he': u'עברית', 'hi': u'हिन्दी', 'hu': u'Magyar', 'ia': u'Interlingua', 'id': u'Indonesia', 'is': u'Íslenska', 'it': u'Italiano', 'ja': u'日本語', 'ka': u'ქართული', 'kn': u'ಕನ್ನಡ', 'ko': u'한국어', 'lv': u'latviešu', 'ml': u'മലയാളം', 'mr': u'मराठी', 'nb': u'Norsk bokmål', 'nl': u'Nederlands', 'or': u'ଓଡ଼ିଆ', 'pa': u'ਪੰਜਾਬੀ', 'pl': u'polski', 'pt': u'Português', 'pt_BR': u'Português brasileiro', 'ro': u'română', 'ru': u'Pусский', 'sk': u'slovenčina', 'sq': u'Shqip', 'sr': u'српски', 'sv': u'svenska', 'ta': u'தமிழ்', 'te': u'తెలుగు', 'tg': u'тоҷикӣ', 'th': u'ไทย', 'tr': u'Tϋrkçe', 'uk': u'українська', 'vi': u'Tiếng Việt', 'zh_CN': u'简体中文', 'zh_TW': u'正體中文'}
+FEDORA_LANGUAGES_FULL = { 'en' : u'English',
+                          'af': u'Afrikaans',
+                          'ar': u'عربي',
+                          'as': u'অসমীয়া',
+                          'ast': u'Asturianu',
+                          'bal': u'بلوچی',
+                          'bg': u'български език',
+                          'bn': u'বাংলা',
+                          'bn_IN': u'বাংলা (ভারত)',
+                          'br': u'Brezhoneg',
+                          'ca': u'Català',
+                          'cs': u'česky',
+                          'da': u'dansk',
+                          'de': u'Deutsch',
+                          'el': u'Ελληνικά',
+                          'en': u'English',
+                          'en_GB': u'English (UK)',
+                          'es': u'Español',
+                          'eu': u'euskera',
+                          'fa': u'پارسی',
+                          'fi': u'suomi',
+                          'fr': u'Français',
+                          'fur': u'Friulian',
+                          'gl': u'galego',
+                          'gu': u'ગુજરાતી',
+                          'he': u'עברית',
+                          'hi': u'हिन्दी',
+                          'hu': u'Magyar',
+                          'ia': u'Interlingua',
+                          'id': u'Indonesia',
+                          'is': u'Íslenska',
+                          'it': u'Italiano',
+                          'ja': u'日本語',
+                          'ka': u'ქართული',
+                          'kn': u'ಕನ್ನಡ',
+                          'ko': u'한국어',
+                          'lv': u'latviešu',
+                          'ml': u'മലയാളം',
+                          'mr': u'मराठी',
+                          'nb': u'Norsk bokmål',
+                          'nl': u'Nederlands',
+                          'or': u'ଓଡ଼ିଆ',
+                          'pa': u'ਪੰਜਾਬੀ',
+                          'pl': u'polski',
+                          'pt': u'Português',
+                          'pt_BR': u'Português brasileiro',
+                          'ro': u'română',
+                          'ru': u'Pусский',
+                          'sk': u'slovenčina',
+                          'sq': u'Shqip',
+                          'sr': u'српски',
+                          'sv': u'svenska',
+                          'ta': u'தமிழ்',
+                          'te': u'తెలుగు',
+                          'tg': u'тоҷикӣ',
+                          'th': u'ไทย',
+                          'tr': u'Tϋrkçe',
+                          'uk': u'українська',
+                          'vi': u'Tiếng Việt',
+                          'zh_CN': u'简体中文',
+                          'zh_TW': u'正體中文'}
 
 FEDORA_LANGUAGE_DEFAULT = 'en'
 

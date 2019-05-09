@@ -60,9 +60,19 @@
         <p>
           &copy; 2019 Red Hat, Inc. and others.
         </p>
-        {% for code, lang in languages|dictsort %}
-          <a href="{{url_for(endpoint, lang_code=code)}}">{{lang}}</a>
-        {% endfor %}
+        <div class="dropdown position-static">
+          <a class="dropdown-toggle d-block" href="#" role="button" id="languagechooser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="fa fa-language mr-2 fa-1x"></span> {{languages[lang_code]}}
+          </a>
+          
+          <div class="dropdown-menu w-100 " aria-labelledby="languagechooser">
+            <ul class="list-unstyled font-size-80 text-center" id="languagelist">
+              {% for l in languages|sort %}
+                <li><a href="{{url_for(endpoint, lang_code=l)}}">{{languages[l]}}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
