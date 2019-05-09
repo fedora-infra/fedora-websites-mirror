@@ -13,15 +13,20 @@ import yaml
 # TODO: Is there a nicer way to represent the data globalvar has?
 import globalvar
 
-FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
+#FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
 
 # List of langs from old getfedora.org
-#FEDORA_LANGUAGES = { 'en' : 'English' , 'af': 'Afrikaans', 'ar': 'عربي', 'as': 'অসমীয়া', 'ast': 'Asturianu', 'bal': 'بلوچی', 'bg': 'български език', 'bn': 'বাংলা', 'bn_IN': 'বাংলা (ভারত)', 'br': 'Brezhoneg', 'ca': 'Català', 'cs': 'česky', 'da': 'dansk', 'de': 'Deutsch', 'el': 'Ελληνικά', 'en': 'English', 'en_GB': 'English (UK)', 'es': 'Español', 'eu': 'euskera', 'fa': 'پارسی', 'fi': 'suomi', 'fr': 'Français', 'fur': 'Friulian', 'gl': 'galego', 'gu': 'ગુજરાતી', 'he': 'עברית', 'hi': 'हिन्दी', 'hu': 'Magyar', 'ia': 'Interlingua', 'id': 'Indonesia', 'is': 'Íslenska', 'it': 'Italiano', 'ja': '日本語', 'ka': 'ქართული', 'kn': 'ಕನ್ನಡ', 'ko': '한국어', 'lv': 'latviešu', 'ml': 'മലയാളം', 'mr': 'मराठी', 'nb': 'Norsk bokmål', 'nl': 'Nederlands', 'or': 'ଓଡ଼ିଆ', 'pa': 'ਪੰਜਾਬੀ', 'pl': 'polski', 'pt': 'Português', 'pt_BR': 'Português brasileiro', 'ro': 'română', 'ru': 'Pусский', 'sk': 'slovenčina', 'sq': 'Shqip', 'sr': 'српски', 'sv': 'svenska', 'ta': 'தமிழ்', 'te': 'తెలుగు', 'tg': 'тоҷикӣ', 'th': 'ไทย', 'tr': 'Tϋrkçe', 'uk': 'українська', 'vi': 'Tiếng Việt', 'zh_CN': '简体中文', 'zh_TW': '正體中文'}
+FEDORA_LANGUAGES_FULL = { 'en' : u'English' , 'af': u'Afrikaans', 'ar': u'عربي', 'as': u'অসমীয়া', 'ast': u'Asturianu', 'bal': u'بلوچی', 'bg': u'български език', 'bn': u'বাংলা', 'bn_IN': u'বাংলা (ভারত)', 'br': u'Brezhoneg', 'ca': u'Català', 'cs': u'česky', 'da': u'dansk', 'de': u'Deutsch', 'el': u'Ελληνικά', 'en': u'English', 'en_GB': u'English (UK)', 'es': u'Español', 'eu': u'euskera', 'fa': u'پارسی', 'fi': u'suomi', 'fr': u'Français', 'fur': u'Friulian', 'gl': u'galego', 'gu': u'ગુજરાતી', 'he': u'עברית', 'hi': u'हिन्दी', 'hu': u'Magyar', 'ia': u'Interlingua', 'id': u'Indonesia', 'is': u'Íslenska', 'it': u'Italiano', 'ja': u'日本語', 'ka': u'ქართული', 'kn': u'ಕನ್ನಡ', 'ko': u'한국어', 'lv': u'latviešu', 'ml': u'മലയാളം', 'mr': u'मराठी', 'nb': u'Norsk bokmål', 'nl': u'Nederlands', 'or': u'ଓଡ଼ିଆ', 'pa': u'ਪੰਜਾਬੀ', 'pl': u'polski', 'pt': u'Português', 'pt_BR': u'Português brasileiro', 'ro': u'română', 'ru': u'Pусский', 'sk': u'slovenčina', 'sq': u'Shqip', 'sr': u'српски', 'sv': u'svenska', 'ta': u'தமிழ்', 'te': u'తెలుగు', 'tg': u'тоҷикӣ', 'th': u'ไทย', 'tr': u'Tϋrkçe', 'uk': u'українська', 'vi': u'Tiếng Việt', 'zh_CN': u'简体中文', 'zh_TW': u'正體中文'}
+
+FEDORA_LANGUAGE_DEFAULT = 'en'
+
+# Only include translations which actually have a translations file
+FEDORA_LANGUAGES = {k: v for k, v in FEDORA_LANGUAGES_FULL.items() if k in os.listdir('translations') or k == FEDORA_LANGUAGE_DEFAULT}
 
 app = Flask(__name__, static_folder='../static/', static_url_path='/static')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+app.config['BABEL_DEFAULT_LOCALE'] = FEDORA_LANGUAGE_DEFAULT
 app.jinja_options = {'extensions': ['jinja2.ext.with_', 'jinja2.ext.i18n']}
 babel = Babel(app)
 

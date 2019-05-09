@@ -6,10 +6,7 @@ WORKDIR /sites
 RUN dnf -y install python-flask python-frozen-flask python-flask-assets python-rjsmin python-cssmin python-flask-babel python-flask-htmlmin python-cssutils rubygem-sass babel python3-jinja2 python-pyyaml \
     && dnf clean all \
     && mkdir /built \
-    && cd getfedora.org && pybabel extract -F ../babel.cfg -o messages.pot . ../partials/ \
-    && pybabel init -i messages.pot -d translations -l de \
-    && sed -i 's/msgstr ""/msgstr "GERMAN HERE"/g' translations/de/LC_MESSAGES/messages.po \
-    && pybabel compile -d translations \
+    && cd getfedora.org && ./scripts/pull-translations.sh \
     && python main.py && mv build /built/getfedora.org
 #    && cd getfedora.org && python main.py && mv build /built/getfedora.org
 #     ...
