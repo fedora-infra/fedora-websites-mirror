@@ -3,7 +3,7 @@ FROM fedora:latest as builder
 COPY sites /sites
 WORKDIR /sites
 
-RUN dnf -y install python-flask python-frozen-flask python-flask-assets python-rjsmin python-cssmin python-flask-babel python-flask-htmlmin python-cssutils rubygem-sass babel python3-jinja2 python-pyyaml \
+RUN dnf -y install python-flask python-frozen-flask python-flask-assets python-rjsmin python-cssmin python-flask-babel python-flask-htmlmin python-cssutils rubygem-sass babel python3-jinja2 python-pyyaml python-zanata-client \
     && dnf clean all \
     && mkdir /built \
     && cd getfedora.org && ./scripts/pull-translations.sh \
