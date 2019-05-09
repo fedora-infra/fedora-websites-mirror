@@ -3295,15 +3295,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7071068"
-     inkscape:cx="3822.8964"
-     inkscape:cy="-8165.2481"
+     inkscape:zoom="0.1767767"
+     inkscape:cx="3644.6159"
+     inkscape:cy="-1651.6793"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g-monitor-wallpaper"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1136"
-     inkscape:window-x="0"
+     inkscape:window-x="1920"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:snap-global="false"
@@ -3597,15 +3597,15 @@
          ry="0.35407406"
          rx="0.35407406" />
       <image
-         sodipodi:absref="/home/rlerch/Source/websites/sites/asset_sources/fedora29.png"
-         xlink:href="fedora29.png"
-         y="-7.9002228"
-         x="194.49173"
-         id="image1213"
-         style="stroke-width:0.57260603;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
-         preserveAspectRatio="none"
+         sodipodi:absref="/home/rlerch/Source/websites/sites/asset_sources/fedora.png"
+         xlink:href="fedora.png"
+         width="110.93127"
          height="62.355347"
-         width="110.93127" />
+         preserveAspectRatio="none"
+         style="stroke-width:0.57260603;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
+         id="image1213"
+         x="194.49173"
+         y="-7.9002228" />
     </g>
     <g
        id="g-laptop-wallpaper"
@@ -3649,15 +3649,15 @@
          x="38.785179"
          y="-7.6248479" />
       <image
-         sodipodi:absref="/home/rlerch/Source/websites/sites/asset_sources/fedora29.png"
-         xlink:href="fedora29.png"
-         width="110.93127"
-         height="62.355347"
-         preserveAspectRatio="none"
-         style="stroke-width:0.51924849;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
-         id="image1216"
+         sodipodi:absref="/home/rlerch/Source/websites/sites/asset_sources/fedora.png"
+         xlink:href="fedora.png"
+         y="-7.6477194"
          x="38.444664"
-         y="-7.6477194" />
+         id="image1216"
+         style="stroke-width:0.51924849;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
+         preserveAspectRatio="none"
+         height="62.355347"
+         width="110.93127" />
     </g>
     <g
        id="g7948">
@@ -3801,13 +3801,13 @@
       <image
          sodipodi:absref="/home/rlerch/Source/websites/sites/asset_sources/fedora29.png"
          xlink:href="fedora29.png"
-         width="110.93127"
-         height="62.355347"
-         preserveAspectRatio="none"
-         style="stroke-width:0.57260603;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
-         id="image1213-9"
+         y="-7.6131339"
          x="194.25758"
-         y="-7.6131339" />
+         id="image1213-9"
+         style="stroke-width:0.57260603;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
+         preserveAspectRatio="none"
+         height="62.355347"
+         width="110.93127" />
       <rect
          ry="2.7775369"
          rx="2.7775369"
@@ -6452,13 +6452,13 @@
       <image
          sodipodi:absref="/home/rlerch/Source/websites/sites/asset_sources/fedora-overview.png"
          xlink:href="fedora-overview.png"
-         width="110.93127"
-         height="62.355347"
-         preserveAspectRatio="none"
-         style="stroke-width:0.57260603;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
-         id="image14093"
+         y="-7.9002228"
          x="194.49173"
-         y="-7.9002228" />
+         id="image14093"
+         style="stroke-width:0.57260603;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
+         preserveAspectRatio="none"
+         height="62.355347"
+         width="110.93127" />
     </g>
     <g
        inkscape:export-ydpi="96"
@@ -6502,13 +6502,13 @@
       <image
          sodipodi:absref="/home/rlerch/Source/websites/sites/asset_sources/fedora-boxes.png"
          xlink:href="fedora-boxes.png"
-         y="-7.6477194"
-         x="38.444664"
-         id="image16197"
-         style="stroke-width:0.57260603;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
-         preserveAspectRatio="none"
+         width="110.93127"
          height="62.355347"
-         width="110.93127" />
+         preserveAspectRatio="none"
+         style="stroke-width:0.57260603;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
+         id="image16197"
+         x="38.444664"
+         y="-7.6477194" />
     </g>
     <g
        inkscape:export-ydpi="84.370003"
@@ -20078,13 +20078,13 @@
       <image
          sodipodi:absref="/home/rlerch/Source/websites/sites/asset_sources/cockpit.png"
          xlink:href="cockpit.png"
-         width="110.93127"
-         height="62.355347"
-         preserveAspectRatio="none"
-         style="stroke-width:0.57260603;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
-         id="image4823"
+         y="-7.9002228"
          x="194.49173"
-         y="-7.9002228" />
+         id="image4823"
+         style="stroke-width:0.57260603;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality"
+         preserveAspectRatio="none"
+         height="62.355347"
+         width="110.93127" />
     </g>
     <g
        id="g12669"
