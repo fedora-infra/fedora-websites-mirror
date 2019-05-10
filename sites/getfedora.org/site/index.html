@@ -87,21 +87,7 @@
       </div> <!--contatiner-->
     </div> <!-- gradient-->
 
-    <div class="bg-light py-5">
-        <div class="container">
-          <div class="row align-items-center">
-              <div class="col-lg-5 col-md-6 pb-4 pb-md-0 text-center">
-                  <img class="w-75" src="/static/images/globe.png" />
-              </div>
-            <div class="col-lg-7 col-md-6">
-                  <h5 class="display font-weight-light pt-3">{% trans trimmed %}Fedora is always free for anyone to <strong>use, modify, and distribute</strong>.{% endtrans %}</h5>
-                  <h5 class="display font-weight-light pb-3">{% trans trimmed %}It is built and used by people across the globe who work together as a community.{% endtrans %}</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-
-           <div class="bg-gray-200 border">
+           <div class="bg-light border">
               <div class="container">
                 <div class="row mb-4">
                   <div class="col-4">
@@ -118,7 +104,47 @@
                   </div>
                </div>
               </div> 
-           </div> 
+           </div>
+
+           <div class="bg-gray-200 py-5">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <h2 class="font-weight-light">{% trans trimmed %}Want more Fedora options?{% endtrans %}</h2>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 mt-5">
+                    {{link_card(logo="/static/images/fedora-spins-logo.png",
+                                    description=_('If you prefer an alternative desktop environment such as KDE Plasma Desktop or Xfce, you can download a Fedora Spin for your preferred desktop environment and use that to install Fedora, pre-configured for the desktop environment of your choice.'),
+                                    learnmorelink="https://spins.fedoraproject.org/"
+                    )}}     
+                  </div>
+          
+                  <div class="col-lg-6 mt-5">
+                    {{link_card(
+                                    logo="/static/images/fedora-labs-logo.png",
+                                    description=_('Fedora Labs is a selection of curated bundles of purpose-driven software and content as curated and maintained by members of the Fedora Community. These may be installed as standalone full versions of Fedora or as add-ons to existing Fedora installations.'),
+                                    learnmorelink="https://labs.fedoraproject.org/"
+                    )}}   
+                    </div>
+                </div> <!--row-->
+              </div> <!--contatiner-->
+            </div> <!-- gradient-->
+
+           <div class="bg-light py-5">
+              <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 col-md-6 pb-4 pb-md-0 text-center">
+                        <img class="w-75" src="/static/images/globe.png" />
+                    </div>
+                  <div class="col-lg-7 col-md-6">
+                        <h5 class="display font-weight-light pt-3">{% trans trimmed %}Fedora is always free for anyone to <strong>use, modify, and distribute</strong>.{% endtrans %}</h5>
+                        <h5 class="display font-weight-light pb-3">{% trans trimmed %}It is built and used by people across the globe who work together as a community.{% endtrans %}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
 {% endblock %}
 
 {% block js %}
