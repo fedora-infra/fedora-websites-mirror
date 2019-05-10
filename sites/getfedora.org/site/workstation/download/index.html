@@ -21,7 +21,7 @@
   <div class="bg-light border py-5">
     <div class="container">
       <div class="row">
-        <div class="col-6">
+        <div class="col-12 col-md-6">
           <div class="d-flex flex-column h-100">
             <h3 class="font-weight-light">{% trans trimmed %}On Windows or MacOS?{% endtrans %}</h3>
             <p>
@@ -29,18 +29,25 @@
               Get started by using <strong>Fedora Media Writer</strong>, which makes it super easy to give Fedora a try.
               {% endtrans %}
             </p>
-            <p class="mt-auto">
-              <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="https://getfedora.org/fmw/FedoraMediaWriter-win32-{{releaseinfo.fmw.win.version}}.exe">
-                <i class="fab fa-windows"></i> {% trans trimmed %}Download for Windows{% endtrans %}
-              </a>
-    
-              <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="https://getfedora.org/fmw/FedoraMediaWriter-osx-{{releaseinfo.fmw.osx.version}}.dmg">
-                <i class="fab fa-apple"></i> {% trans trimmed %}Download for MacOS{% endtrans %}
-              </a>
-            </p>
+            <ul class="mt-auto list-group">
+                <li class="list-group-item d-flex align-items-center p-2">
+                    <div class="flex-grow-1">
+                      {% trans trimmed %}Fedora Media Writer{% endtrans %}
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-outline-fedora-blue" href="https://getfedora.org/fmw/FedoraMediaWriter-win32-{{releaseinfo.fmw.win.version}}.exe">
+                          <i class="fab fa-windows"></i> {% trans trimmed %}Windows{% endtrans %}
+                        </a>
+              
+                        <a class="btn btn-outline-fedora-blue" href="https://getfedora.org/fmw/FedoraMediaWriter-osx-{{releaseinfo.fmw.osx.version}}.dmg">
+                          <i class="fab fa-apple"></i> {% trans trimmed %}MacOS{% endtrans %}
+                        </a>
+                    </div>
+                  </li>
+              </ul>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-md-6 pt-4 pt-md-0">
           <div class="d-flex flex-column h-100">
             <h3 class="font-weight-light">{% trans trimmed %}On Linux or just want an ISO file?{% endtrans %}</h3>
             <p>
@@ -48,11 +55,18 @@
               Not sure how to use this file? <a href="https://fedoraproject.org/wiki/How_to_create_and_use_Live_USB">Learn here</a>.
               {% endtrans %}
             </p>
-            <p class="mt-auto">
-              <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">
-                <i class="fas fa-compact-disc"></i> {% trans trimmed %}Download x86_64 DVD ISO{% endtrans %}
-              </a>
-            </p>
+            <ul class="mt-auto list-group">
+                <li class="list-group-item d-flex align-items-center p-2">
+                    <div class="flex-grow-1">
+                      {% trans trimmed %}x86_64 DVD ISO{% endtrans %}
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-outline-fedora-blue" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">
+                          {% trans trimmed %}Download{% endtrans %}
+                        </a>
+                    </div>
+                  </li>
+            </ul>
           </div>
         </div>
       </div>
