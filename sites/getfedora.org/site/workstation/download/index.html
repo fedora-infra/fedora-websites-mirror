@@ -107,11 +107,21 @@
 
   <div class="bg-transparent py-5">
     <div class="container">
-      <div class="row align-items-center">
-        <div class="col-6 px-5">
-          <img class="w-100" src="/static/images/g-monitor-overview.png" />
+      <div class="row">
+        <div class="col-sm-6 border-right">
+            <h3 class="font-weight-light pb-4">{% trans trimmed %}We take security seriously.{% endtrans %}</h3>
+            <p class="font-weight-light">
+                {% trans trimmed %}
+                Once you have downloaded an image, be sure to verify it for both security and integrity.
+                {% endtrans %}
+            </p>
+            <a href="{{url_for('security', lang_code=lang_code)}}">
+              {% trans trimmed %}
+              Verify your download.
+              {% endtrans %}
+            </a>
         </div>
-        <div class="col-6">
+        <div class="col-sm-6">
           <h3 class="font-weight-light pb-4">{% trans trimmed %}But wait! There's more.{% endtrans %}</h3>
           <p class="font-weight-light">
             {% trans trimmed %}
@@ -120,20 +130,47 @@
             network-based installation images.
             {% endtrans %}
           </p>
-          <ul class="font-weight-light">
-            <li><a href="https://download.fedoraproject.org/pub/fedora-secondary/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/i386/iso/Fedora-Workstation-Live-i386-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">32-bit ISO</a></li>
-            <li><a href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">64-bit network install image</a></li>
-            <li><a href="https://download.fedoraproject.org/pub/fedora-secondary/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/i386/iso/Fedora-Workstation-netinst-i386-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">32-bit network install image</a></li>
-          </ul>
-
-          <hr />
-
-          <h3 class="font-weight-light pb-4">{% trans trimmed %}We take security seriously.{% endtrans %}</h3>
-          <a href="{{url_for('security', lang_code=lang_code)}}">
-            {% trans trimmed %}
-            Verify your download.
-            {% endtrans %}
-          </a>
+          <ul class="list-group">
+              <li class="list-group-item d-flex align-items-center">
+                <div class="flex-grow-1">
+                  {% trans trimmed %}32-bit ISO{% endtrans %}
+                </div>
+                <div>
+                  {# <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
+                     role="button" data-trigger="focus" href="javascript:void(0)" 
+                     data-content="{% trans trimmed %}CAPTION HERE{% endtrans %}">
+                     <i class="fa fa-info-circle"></i>
+                  </a> #}
+                  <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora-secondary/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/i386/iso/Fedora-Workstation-Live-i386-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans trimmed %}Download{% endtrans %}</a>
+                </div>
+              </li>
+              <li class="list-group-item d-flex align-items-center">
+                <div class="flex-grow-1">
+                  {% trans trimmed %}64-bit network install image{% endtrans %}
+                </div>
+                <div>
+                  {# <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
+                      role="button" data-trigger="focus" href="javascript:void(0)" 
+                      data-content="{% trans trimmed %}CAPTION HERE{% endtrans %}">
+                      <i class="fa fa-info-circle"></i>
+                  </a> #}
+                  <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans trimmed %}Download{% endtrans %}</a>
+                </div>
+              </li>
+              <li class="list-group-item d-flex align-items-center">
+                <div class="flex-grow-1">
+                  {% trans trimmed %}32-bit network install image{% endtrans %}
+                </div>
+                <div>
+                  {# <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
+                      role="button" data-trigger="focus" href="javascript:void(0)" 
+                      data-content="{% trans trimmed %}CAPTION HERE{% endtrans %}">
+                      <i class="fa fa-info-circle"></i>
+                  </a> #}
+                  <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora-secondary/releases/{{releaseinfo.ga.workstation.release_number}}/Workstation/i386/iso/Fedora-Workstation-netinst-i386-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans trimmed %}Download{% endtrans %}</a>
+                </div>
+              </li>
+            </ul>
         </div>
       </div>
     </div>
