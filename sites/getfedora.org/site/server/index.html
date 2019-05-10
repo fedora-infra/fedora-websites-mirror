@@ -10,10 +10,10 @@
 <div class="bg-tranparent py-5">
   <div class="container">
     <div class="row align-items-center">
-      <div class="col-4 px-5">
-        <img src="/static/images/g-servers.png" class="w-100"/>
+      <div class="col-9 col-lg-4 col-md-5 col-sm-6 px-5 mx-auto">
+        <img src="/static/images/g-servers.png" class="w-100 pb-4 pb-md-0 "/>
       </div>
-      <div class="col-8 ">
+      <div class="col-12 col-lg-8 col-md-7 text-center text-md-left">
         <h1 class="font-weight-light">Fedora Server.</h1>
         <h5 class="font-weight-light">{% trans trimmed %}Run applications on bare metal or the cloud with a Linux server OS packed with the latest open source technology.{% endtrans %}</h5>
         <a class="btn btn-lg btn-outline-fedora-orange mt-2" href="{{url_for('server_download', lang_code=lang_code)}}">{% trans trimmed %}Download Now{% endtrans %}</a>
@@ -24,7 +24,7 @@
 <div class="bg-light border py-5">
   <div class="container">
     <div class="row align-items-center">
-      <div class="col-8 mx-auto text-center">
+      <div class="col-lg-8 col-12 mx-auto text-center">
         <h3 class="font-weight-light pb-4">{% trans trimmed %}Leading Edge{% endtrans %}</h3>
         <h5 class="font-weight-light">
           {% trans trimmed %}
@@ -38,12 +38,12 @@
 
 <div class="bg-white py-5">
   <div class="container py-3">
-    <div class="row align-items-center">
-      <div class="col-4 px-5">
-        <img class="w-100" src="/static/images/g-jigsaw.png" />
+    <div class="row align-items-center justify-content-center">
+      <div class="col-7 col-lg-4 col-md-5 col-sm-6 px-5">
+        <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-jigsaw.png" />
       </div>
-      <div class="col-8">
-        <h3 class="font-weight-light pb-4">{% trans trimmed %}Modularity{% endtrans %}</h3>
+      <div class="col-12 col-lg-8 col-md-7">
+        <h3 class="font-weight-light pb-4 text-center text-md-left">{% trans trimmed %}Modularity{% endtrans %}</h3>
         <h5 class="font-weight-light">
           {% trans trimmed %}
           Choose the right version of an application or language stack you need and keep it even when your OS upgrades to a newer version.
@@ -57,9 +57,9 @@
 
 <div class="bg-light py-5">
   <div class="container py-3">
-    <div class="row align-items-center">
-      <div class="col-6">
-        <h3 class="font-weight-light pb-4">{% trans trimmed %}Easy Administration{% endtrans %}</h3>
+    <div class="row align-items-center justify-content-center">
+      <div class="col-12 col-lg-6 col-md-5 order-12 order-md-1">
+        <h3 class="font-weight-light pb-4 text-center text-md-left">{% trans trimmed %}Easy Administration{% endtrans %}</h3>
         <h5 class="font-weight-light">
           {% trans trimmed %}
           Manage your system simply with Cockpit's powerful, modern interface. View and monitor system performance and status, and deploy and manage container-based services.
@@ -67,8 +67,8 @@
         </h5>
         <p><a href="https://cockpit-project.org/">Learn More.</a></p>
       </div>
-      <div class="col-6 px-5">
-        <img class="w-100" src="/static/images/g-monitoring.png" />
+      <div class="col-8 col-lg-6 col-md-7 col-sm-7 px-5 order-1 order-md-12">
+        <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-monitoring.png" />
       </div>
     </div>
   </div> 
@@ -76,12 +76,12 @@
 
 <div class="bg-white py-5">
   <div class="container py-3">
-    <div class="row align-items-center">
-      <div class="col-4 px-">
-        <img class="w-100" src="/static/images/g-identitymanagement.png" />
+    <div class="row align-items-center justify-content-center">
+      <div class="col-7 col-lg-4 col-md-5 col-sm-6 px-5">
+        <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-identitymanagement.png" />
       </div>
-      <div class="col-8">
-        <h3 class="font-weight-light pb-4">{% trans trimmed %}Enterprise Domain{% endtrans %}</h3>
+      <div class="col-12 col-lg-8 col-md-7">
+        <h3 class="font-weight-light pb-4 text-center text-md-left">{% trans trimmed %}Enterprise Domain{% endtrans %}</h3>
         <h5 class="font-weight-light">
           {% trans trimmed %}
           Level up your Linux network with advanced identity management, DNS, certificate services, and Windows&trade; domain integration throughout your environment with FreeIPA, the open-source domain controller.
