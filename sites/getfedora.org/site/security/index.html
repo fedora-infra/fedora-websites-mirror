@@ -61,7 +61,7 @@
           <ul>
             {% for arch in releaseinfo.ga[edition].checksum_arches %}
             <li>
-              <a href="/static/checksums/{{releaseinfo.ga[edition].checksum_prefix}}-{{releaseinfo.ga[edition].release_number}}-{{releaseinfo.ga[edition].rc_version}}-{{arch}}-CHECKSUM">Fedora {{releaseinfo.ga[edition].release_number}} {{arch}} CHECKSUM</a>
+              <a href="{{checksum('%s-%d-%s-%s-CHECKSUM' % (releaseinfo.ga[edition].checksum_prefix, releaseinfo.ga[edition].release_number, releaseinfo.ga[edition].rc_version, arch))}}">Fedora {{releaseinfo.ga[edition].release_number}} {{arch}} CHECKSUM</a>
             </li>
             {% endfor %}
           </ul>

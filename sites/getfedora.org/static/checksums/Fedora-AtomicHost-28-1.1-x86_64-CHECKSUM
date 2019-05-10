@@ -1,0 +1,27 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+# Fedora-AtomicHost-28-1.1.x86_64.qcow2: 642151936 bytes
+SHA256 (Fedora-AtomicHost-28-1.1.x86_64.qcow2) = a91e30ffc0126cecceaced79bb28ebfd5427d74236779e36419aa044b81cfda8
+# Fedora-AtomicHost-28-1.1.x86_64.raw.xz: 464506420 bytes
+SHA256 (Fedora-AtomicHost-28-1.1.x86_64.raw.xz) = 92e49dccbe53d54724b5aa404f2a88d71cee2178312d48bd4a19b80e514643dc
+# Fedora-AtomicHost-Vagrant-28-1.1.x86_64.vagrant-libvirt.box: 610327687 bytes
+SHA256 (Fedora-AtomicHost-Vagrant-28-1.1.x86_64.vagrant-libvirt.box) = ebdf930ac3f350f977e009336de1857c7aebc6812eddc7d26ae49593aff77569
+# Fedora-AtomicHost-Vagrant-28-1.1.x86_64.vagrant-virtualbox.box: 624721920 bytes
+SHA256 (Fedora-AtomicHost-Vagrant-28-1.1.x86_64.vagrant-virtualbox.box) = 2ed7d5a8dd8cbc77eea146d055f4d573677d60579ae53d237c40b8e6ff858a63
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBCAAGBQJa4xrAAAoJEOCOfmKdti+xOzkQAIpMf4cHSlm+idLl9ZSyw3SR
+3291GH/vmeORYISVf1qbZNZn5NM+59kj48EXg7X38po2SfxzFM/i6dfv1TYR2lL1
+75F/nQGCn0UKiqGaDxW94N0VPeQFAtTak6C8zyDH4lToAqA43bapTXiFqh9Bkmwq
+3F3z0Zgglm//CTq1gKbkMc3/nYY9GbIPEWCaYIe589AgfBmH7yG07CpUFixLLI9x
+OduFddDuNGNCDgTuWTF1i7jwfgSZcHWs3y1K49UEQHYpWbOMwTodWLOVK+zoV8kW
+p864ihTjjhhPaeR3sBNQ6fkpggn0yfxUNh8vYTJwJSOC4nF7/EVSP2JoG5BCwVUF
+q1YH9xCRJ+AASPgCpl4lY/1d1fYu6cd1xLDvU+7chKv1Gt4nBRbYrfVqczmotWbp
+OdIVxkzgxZpG9L2GEGNnvv5C2H5Tc7tsDgeOZTCxAYNDh0/pEoTyM5kw41+ekY2y
+CaYHN6ceFOJRlYXMOlCNAl9am3fSCu3065YSekvd68ovF/kWtoMvFRfBAQDEXIty
+6B2DC+pzqNpaNUVu57pM+C1Hp3TnoDWzY60kPqsKLgPBQwslSAiyZogkpFQBkmhh
+5tRBijJaerGLjPDP7kxxhCkbiOQpTxucwNgWkXsUPFV6tOhveLuQ4q4+Zneb0kfR
+NkTIstQWFTt8rkK4SbFB
+=WBPW
+-----END PGP SIGNATURE-----

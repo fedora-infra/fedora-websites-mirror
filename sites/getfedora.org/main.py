@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, abort, g, render_template, redirect, request
+from flask import Blueprint, Flask, abort, g, render_template, redirect, request, send_from_directory, url_for
 from flask_babel import Babel
 from flask_assets import Environment, Bundle
 from flask_frozen import Freezer
@@ -116,12 +116,27 @@ loader = jinja2.FileSystemLoader(
     ])
 app.jinja_loader = loader
 
+dl_links = set()
+checksum_links = set()
+
 @app.context_processor
 def inject_globalvars():
     r = {}
     with open('release.yaml') as data:
         r = yaml.safe_load(data)
+    def download_link(override, link):
+        global dl_links
+        if override != 'default':
+            link = override
+        dl_links.add(link)
+        return link
+    def checksum_link(link):
+        global checksum_links
+        checksum_links.add(link)
+        return url_for('checksums', filename=link)
     return dict(
+        dl=download_link,
+        checksum=checksum_link,
         globalvar=globalvar,
         releaseinfo=r,
         lang_code=g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE'],
@@ -142,17 +157,6 @@ def get_locale():
     translations = [str(translation) for translation in babel.list_translations()]
     return g.get('current_lang', app.config['BABEL_DEFAULT_LOCALE'])
 
-# TODO: This was an attempt at some template-url automation.
-# The idea is to get around having to write a function for every page.
-# However it feels a bit weird, and we'd have to write a URL generator for
-# frozen-flask. So it might just be better to do the URLs manually.
-#@app.route('/', defaults={'page': ''})
-#@app.route('/<path:page>/')
-#def index(page):
-#    if os.path.isfile('./site/' + page + '/index.html'):
-#        return render_template(page + '/index.html')
-#    abort(404)
-
 # This is a more manual attempt at still having some automation.
 def export_route(name, path, template=None):
     def r():
@@ -169,7 +173,8 @@ def export_route(name, path, template=None):
 def index_redirect():
     return redirect('/' + app.config['BABEL_DEFAULT_LOCALE'] + '/', code=302)
 
-export_route('index', '/<lang_code>/')
+export_route('index', '/index.html.<lang_code>', 'index.html')
+export_route('index_lang', '/<lang_code>/')
 
 export_route('workstation', '/<lang_code>/workstation/')
 export_route('workstation_download', '/<lang_code>/workstation/download/')
@@ -183,10 +188,21 @@ export_route('iot', '/<lang_code>/iot/')
 export_route('iot_download', '/<lang_code>/iot/download/')
 export_route('security', '/<lang_code>/security/')
 
+@app.route('/static/checksums/<path:filename>')
+def checksums(filename):
+    return send_from_directory('static/checksums', filename)    
+
 @freezer.register_generator
 def index():
     for lang in FEDORA_LANGUAGES:
         yield {'lang_code': lang}
+
+blueprint = Blueprint(
+    'site',
+    __name__,
+    static_folder='./static',
+    static_url_path='/static/')
+app.register_blueprint(blueprint)
 
 if __name__ == '__main__':
     # Minification is good for production, but not for debugging.
@@ -194,3 +210,13 @@ if __name__ == '__main__':
     htmlmin = HTMLMIN(app)
 
     freezer.freeze()
+
+    print("")
+    print("Download links:")
+    for link in dl_links:
+        print link
+
+    print("")
+    print("Checksum links:")
+    for link in checksum_links:
+        print link
