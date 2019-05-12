@@ -41,7 +41,7 @@ do
 		${PYBINARY} main.py
 		# This intermediate step is to make sure the final mv is atomic.
 		# This means that syncs can happen at any point in time and they have a larger chance to be fine.
-		mv build ${OUTDIR}/${site}.new
+		mv --no-target-directory build ${OUTDIR}/${site}.new
 		mv --no-target-directory ${OUTDIR}/${site}.new ${OUTDIR}/${site}
 	)
 done
