@@ -42,6 +42,6 @@ do
 		# This intermediate step is to make sure the final mv is atomic.
 		# This means that syncs can happen at any point in time and they have a larger chance to be fine.
 		mv build ${OUTDIR}/${site}.new
-		mv ${OUTDIR}/${site}.new ${OUTDIR}/${site}
+		mv --no-target-directory ${OUTDIR}/${site}.new ${OUTDIR}/${site}
 	)
 done
