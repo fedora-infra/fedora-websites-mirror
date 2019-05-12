@@ -214,9 +214,9 @@ if __name__ == '__main__':
     print("")
     print("Download links:")
     for link in dl_links:
-        print link
+        print(link)
 
     print("")
     print("Checksum links:")
     for link in checksum_links:
-        print link
+        print(link)
