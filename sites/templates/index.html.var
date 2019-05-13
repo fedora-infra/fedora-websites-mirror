@@ -1,0 +1,6 @@
+URI: index.html
+{% for langcode in languages.keys() %}
+Content-language: {{ langcode }}
+Content-type: text/html
+URI: index.html.{{ langcode }}
+{% endfor %}

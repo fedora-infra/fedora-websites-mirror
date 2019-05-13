@@ -113,6 +113,7 @@ loader = jinja2.FileSystemLoader(
     [ './site/'
     , './partials/'      
     , '../partials/templates/'
+    , '../templates'
     ])
 app.jinja_loader = loader
 
@@ -139,7 +140,7 @@ def inject_globalvars():
         checksum=checksum_link,
         globalvar=globalvar,
         releaseinfo=r,
-        lang_code=g.current_lang if g.current_lang else app.config['BABEL_DEFAULT_LOCALE'],
+        lang_code=g.current_lang if hasattr(g, 'current_lang') else app.config['BABEL_DEFAULT_LOCALE'],
         languages=FEDORA_LANGUAGES,
         endpoint=request.endpoint)
 
@@ -197,6 +198,10 @@ def checksums(filename):
 @app.route('/releases.json')
 def releases_json():
     return send_from_directory('static', 'releases.json')
+
+@app.route('/index.html.var')
+def index_html_var_for_apache():
+    return render_template('index.html.var')
 
 @freezer.register_generator
 def index():
