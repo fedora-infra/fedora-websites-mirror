@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint, Flask, abort, g, render_template, redirect, request, send_from_directory, url_for
+from flask import Blueprint, Flask, abort, g, render_template, redirect, request, Response, send_from_directory, url_for
 from flask_babel import Babel
 from flask_assets import Environment, Bundle
 from flask_frozen import Freezer
@@ -201,7 +201,9 @@ def releases_json():
 
 @app.route('/index.html.var')
 def index_html_var_for_apache():
-    return render_template('index.html.var')
+    return Response(
+        render_template('index.html.var'),
+        mimetype='text/rfc822-headers')
 
 @freezer.register_generator
 def index():
