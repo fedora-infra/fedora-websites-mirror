@@ -174,8 +174,7 @@ def export_route(name, path, template=None):
 def index_redirect():
     return redirect('/' + app.config['BABEL_DEFAULT_LOCALE'] + '/', code=302)
 
-export_route('index', '/index.html.<lang_code>', 'index.html')
-export_route('index_lang', '/<lang_code>/')
+export_route('index', '/<lang_code>/')
 
 export_route('workstation', '/<lang_code>/workstation/')
 export_route('workstation_download', '/<lang_code>/workstation/download/')
