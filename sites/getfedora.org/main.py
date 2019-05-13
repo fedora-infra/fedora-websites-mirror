@@ -192,6 +192,12 @@ export_route('security', '/<lang_code>/security/')
 def checksums(filename):
     return send_from_directory('static/checksums', filename)    
 
+# This is manually updated for now by calling:
+# python scripts/releases-json.py > static/releases.json
+@app.route('/releases.json')
+def releases_json():
+    return send_from_directory('static', 'releases.json')
+
 @freezer.register_generator
 def index():
     for lang in FEDORA_LANGUAGES:
