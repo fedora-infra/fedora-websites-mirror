@@ -1,4 +1,8 @@
 $( document ).ready(function() {
+  // If there's no "magazineposts" place, ignore this function
+  if(!$('#magazineposts').length)
+	  return;
+
   $.get( "https://fedoramagazine.org/wp-json/wp/v2/posts", { per_page: 3 } )
    .done(function( data ) {
      $.each(data, function(i, item){
