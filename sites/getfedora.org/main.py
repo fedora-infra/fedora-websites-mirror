@@ -98,6 +98,7 @@ app.config['FREEZER_STATIC_IGNORE'] += ['/css', '/js', '/vendor']
 js = Bundle(
     '../static/vendor/jquery-3.3.1/jquery-3.3.1.min.js',
     '../static/vendor/bootstrap-4.3.1/dist/js/bootstrap.bundle.js',
+    '../static/js/popover.js',
     filters='rjsmin',
     output='js/bundle.js')
 assets.register('js_all', js)
