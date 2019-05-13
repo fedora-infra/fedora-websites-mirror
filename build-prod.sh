@@ -43,6 +43,8 @@ do
 		# This means that syncs can happen at any point in time and they have a larger chance to be fine.
 		rm -rf ${OUTDIR}/${site}.new
 		mv build ${OUTDIR}/${site}.new
+		rm -rf ${OUTDIR}/${site}.old
+		mv --no-target-directory ${OUTDIR}/${site} ${OUTDIR}/${site}.old
 		mv --no-target-directory ${OUTDIR}/${site}.new ${OUTDIR}/${site}
 	)
 done
