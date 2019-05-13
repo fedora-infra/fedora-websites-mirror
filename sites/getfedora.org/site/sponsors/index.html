@@ -1,0 +1,110 @@
+{% extends "master_getfedora.html" %}
+
+{% from "editions_card.html" import editions_card with context %}
+{% from "submenu.html" import submenu with context %}
+
+{% block title %}{% trans trimmed %}Fedora Sponsors{% endtrans %}{% endblock %}
+
+{% block content %}
+  <div class="bg-tranparent py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12">
+          <h1 class="font-weight-light">{% trans trimmed %}Fedora Sponsors.{% endtrans %}</h1>
+          <h5 class="font-weight-light">{% trans trimmed %}The Fedora Project is proud to have the following organizations as sponsors....{% endtrans %}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-light border py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-lg-6 col-md-7 col-sm-9 px-5">
+          <img class="w-100 pb-4 pb-lg-0" src="/static/images/sponsors/redhat-trans.png" alt="Red Hat, Inc." />
+        </div>
+        <div class="col-12 col-lg-6">
+          <h5 class="font-weight-light">
+            {% trans trimmed link="https://www.redhat.com" %}
+            <a href="{{link}}">Red Hat, Inc.</a> is the primary sponsor for the Fedora Project. Red Hat provides the Fedora project with a wide variety of resources, including full-time employee support, infrastructure hardware and bandwidth, event funding, and legal counsel.
+            {% endtrans %}
+          </h5>
+        </div>
+      </div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
+
+  <div class="bg-gray-200 py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12">
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}The Fedora Project is also grateful to the following sponsors for providing substantial support:{% endtrans %}</h3>
+          <div class="row">
+            <div class="col-3">
+              <a href="http://linux.dell.com/"><img style="width: 85%;" src="/static/images/sponsors/dell.gif" alt="Dell Inc." /></a>
+            </div>
+            <div class="col-3">
+              <a href="http://www.proio.com/"><img style="width: 85%;" src="/static/images/sponsors/proio.jpg" alt="Proio" /></a>
+            </div>
+            <div class="col-3">
+              <a href="http://www.serverbeach.com/"><img style="width: 85%;" src="/static/images/sponsors/serverBeach.png" alt="ServerBeach" /></a>
+            </div>
+            <div class="col-3">
+              <a href="http://www.teliasoneraic.com/"><img style="width: 85%;" src="/static/images/sponsors/telia.png" alt="TeliaSonera" /></a>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-3">
+              <a href="http://osuosl.org/"><img style="width: 85%;" src="/static/images/sponsors/open_source_lab.png" alt="OSUOSL" /></a>
+            </div>
+            <div class="col-3">
+              <a href="http://www.tummy.com/"><img style="width: 85%;" src="/static/images/sponsors/tummy.png" alt="Tummy" /></a>
+            </div>
+            <div class="col-3">
+              <a href="http://www.colocationamerica.com"><img style="width: 85%;" src="/static/images/sponsors/colocation-america-logo.png" alt="ColocationAmerica" /></a>
+            </div>
+            <div class="col-3">
+              <a href="https://www.dedicatedsolutions.com"><img style="width: 85%;" src="/static/images/sponsors/dedicatedsolutions.png" alt="Dedicated Solutions" /></a>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-3">
+              <a href="http://ibiblio.org/"><img style="width: 85%;" src="/static/images/sponsors/ibiblio.png" alt="ibiblio" /></a>
+            </div>
+            <div class="col-3">
+              <a href="http://www.bodhost.com/"><img style="width: 85%;" src="/static/images/sponsors/bodhost.png" alt="BODHost" /></a>
+            </div>
+            <div class="col-3">
+              <a href="http://www.host1plus.com"><img style="width: 85%;" src="/static/images/sponsors/host1plus.png" alt="host1plus" /></a>
+            </div>
+            <div class="col-3">
+              <a href="http://www.internetx.com/"><img style="width: 85%;" src="/static/images/sponsors/internetx.png" alt="InterNetX" /></a>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-3">
+              <a href="https://www.cdn77.com/"><img style="width: 85%;" src="/static/images/sponsors/cdn77.png" alt="CDN77.com" /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
+
+  <div class="bg-light border py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12">
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Interested in sponsoring something for Fedora?{% endtrans %}</h3>
+          <h5 class="font-weight-light">
+            {% trans trimmed email="admin@fedoraproject.org" %}
+            Contact <a href="mailto:{{email}}">{{email}}</a> or stop by <strong>#fedora-admin</strong> on <strong>irc.freenode.net</strong>.
+            {% endtrans %}
+          </h5>
+        </div>
+      </div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
+{% endblock %}

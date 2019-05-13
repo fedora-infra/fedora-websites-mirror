@@ -189,6 +189,7 @@ export_route('silverblue_download', '/<lang_code>/silverblue/download/')
 export_route('iot', '/<lang_code>/iot/')
 export_route('iot_download', '/<lang_code>/iot/download/')
 export_route('security', '/<lang_code>/security/')
+export_route('sponsors', '/<lang_code>/sponsors/')
 
 @app.route('/static/checksums/<path:filename>')
 def checksums(filename):
