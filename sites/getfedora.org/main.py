@@ -191,16 +191,22 @@ export_route('iot_download', '/<lang_code>/iot/download/')
 export_route('security', '/<lang_code>/security/')
 export_route('sponsors', '/<lang_code>/sponsors/')
 
-@app.route('/static/checksums/<path:filename>')
-def checksums(filename):
-    return send_from_directory('static/checksums', filename)    
-
 # This is manually updated for now by calling:
 # python scripts/releases-json.py > static/releases.json
 @app.route('/releases.json')
 def releases_json():
     return send_from_directory('static', 'releases.json')
 
+# TODO: Use flask-multistatic to make these unnecessary.
+@app.route('/static/checksums/<path:filename>')
+def checksums(filename):
+    return send_from_directory('static/checksums', filename)
+
+@app.route('/static/fedora.gpg')
+def gpgkey():
+    return send_from_directory('static', 'fedora.gpg')
+
+# Apache i18n stuff
 @app.route('/index.html.var')
 def index_html_var_for_apache():
     return Response(
@@ -211,13 +217,6 @@ def index_html_var_for_apache():
 def index():
     for lang in FEDORA_LANGUAGES:
         yield {'lang_code': lang}
-
-blueprint = Blueprint(
-    'site',
-    __name__,
-    static_folder='./static',
-    static_url_path='/static/')
-app.register_blueprint(blueprint)
 
 if __name__ == '__main__':
     # Minification is good for production, but not for debugging.
