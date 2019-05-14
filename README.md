@@ -1,6 +1,6 @@
 # websites
 
-`dnf install python-flask python-frozen-flask python-flask-assets python-rjsmin python-cssmin python-flask-babel python-flask-htmlmin python-cssutils`
+`dnf -y install python-flask python-frozen-flask python-flask-assets python-rjsmin python-cssmin python-flask-babel python-flask-htmlmin python-cssutils rubygem-sass babel python3-jinja2 python-pyyaml python-zanata-client`
 
 The sites can be run in two ways:
 
