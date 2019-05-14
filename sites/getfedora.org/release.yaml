@@ -20,7 +20,7 @@ ga:
     
 beta:
   # Should we show the beta stuff at all?
-  show: true
+  show: false
 
   workstation:
     pretty_name: Fedora Workstation Beta
