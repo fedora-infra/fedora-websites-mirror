@@ -17,8 +17,8 @@ $fedora-colors: (
     "blue": $fedora-blue,
     "dark-blue": $fedora-dark-blue,
     "magenta": $fedora-magenta,
-    "orange": $fedora-orange,
-    "green": $fedora-green,
+    "orange": darken($fedora-orange, 10%),
+    "green": darken($fedora-green, 10%),
     "purple": $fedora-purple
 );
 

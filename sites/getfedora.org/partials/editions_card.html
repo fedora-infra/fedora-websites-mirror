@@ -1,5 +1,5 @@
 {% macro editions_card(color="", logo="", official=False, description='', download_link="", learnmorelink="")%}
-<div class="d-flex flex-column h-100 p-3 bg-white rounded border editions-cutout-{{color}}">
+<div class="d-flex flex-column h-100 p-3 bg-white rounded border">
   <div class="row">
     <div class="col-9">
       <a href="{{learnmorelink}}"><img src="{{logo}}" class="mt-n5"/></a>
@@ -17,14 +17,16 @@
       {{description}}
     </div>
   </div>
-  <div class="row align-items-end flex-grow-1">
-    <div class="col-8 lead font-weight-normal">
+  <div class="row align-items-center flex-grow-1">
+    <div class="col-sm-6 font-weight-normal">
       {% trans trimmed %}
-      <a href="{{learnmorelink}}">Learn more</a> or <a href="{{download_link}}">download now</a>.
+      <a href="{{learnmorelink}}">Learn more</a> 
       {% endtrans %}
     </div>
-    <div class="col-4 text-right">
-      <a href="{{download_link}}" class="text-white"><i class="fa fa-2x fa-download"></i></a>
+    <div class="col-sm-6 text-right">
+      {% trans trimmed %}
+      <a href="{{download_link}}" class="btn btn-outline-fedora-{{color}}">Download Now</a>
+      {% endtrans %}
     </div>
   </div>
 </div>
