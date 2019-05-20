@@ -98,7 +98,7 @@ babel = Babel(app)
 assets = Environment(app)
 assets.url_expire = True
 
-freezer = Freezer(app, with_no_argument_rules=False, log_url_for=False)
+freezer = Freezer(app)
 app.config['FREEZER_STATIC_IGNORE'] += ['/css', '/js', '/vendor']
 
 js = Bundle(
@@ -181,10 +181,6 @@ def export_route(name, path, template=None):
         # the i18n-specific index.html.langcode URL.
         # We tell the freezer to include the _i18n one, but everything else
         # refers to the pretty one.
-        #
-        # In particular, we *only* freeze the _i18n ones, but the url_for calls
-        # in templates refer to the non-i18n ones. The better way to do this
-        # would be to not.
         app.route('/<lang_code>' + path, endpoint=name)(r)
         app.route(path + 'index.html.<lang_code>', endpoint=name+'_i18n')(r)
     else:
