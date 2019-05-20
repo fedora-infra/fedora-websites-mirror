@@ -216,13 +216,6 @@ def checksums(filename):
 def gpgkey():
     return send_from_directory('static', 'fedora.gpg')
 
-# Apache i18n stuff
-@app.route('/index.html.var')
-def index_html_var_for_apache():
-    return Response(
-        render_template('index.html.var'),
-        mimetype='text/rfc822-headers')
-
 @freezer.register_generator
 def index():
     for lang in FEDORA_LANGUAGES:
