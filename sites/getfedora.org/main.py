@@ -98,7 +98,7 @@ babel = Babel(app)
 assets = Environment(app)
 assets.url_expire = True
 
-freezer = Freezer(app)
+freezer = Freezer(app, with_no_argument_rules=False, log_url_for=False)
 app.config['FREEZER_STATIC_IGNORE'] += ['/css', '/js', '/vendor']
 
 js = Bundle(
@@ -150,7 +150,7 @@ def inject_globalvars():
         releaseinfo=r,
         lang_code=g.current_lang if hasattr(g, 'current_lang') else app.config['BABEL_DEFAULT_LOCALE'],
         languages=FEDORA_LANGUAGES,
-        endpoint=request.endpoint)
+        endpoint=request.endpoint.replace('_i18n', ''))
 
 @app.before_request
 def handle_language_code():
@@ -175,9 +175,20 @@ def export_route(name, path, template=None):
         return render_template(template or path.strip('/') + '/index.html')
     r.__name__ = name
     if freezing:
-        app.route(path + 'index.html.<lang_code>')(r)
+        # This is a bit hacky, but we want to generate index.html.langcode files
+        # while tricking url_for into generating links that are prettier than
+        # that. So we generate two routes, one for the pretty url, and one for
+        # the i18n-specific index.html.langcode URL.
+        # We tell the freezer to include the _i18n one, but everything else
+        # refers to the pretty one.
+        #
+        # In particular, we *only* freeze the _i18n ones, but the url_for calls
+        # in templates refer to the non-i18n ones. The better way to do this
+        # would be to not.
+        app.route('/<lang_code>' + path, endpoint=name)(r)
+        app.route(path + 'index.html.<lang_code>', endpoint=name+'_i18n')(r)
     else:
-        app.route('/<lang_code>' + path)(r)
+        app.route('/<lang_code>' + path, endpoint=name)(r)
     return r
 
 if not freezing:
@@ -219,9 +230,9 @@ def gpgkey():
 @freezer.register_generator
 def index():
     for lang in FEDORA_LANGUAGES:
-        yield {'lang_code': lang}
+        #yield {'lang_code': lang}
         for name in freeze_indexes:
-            yield name, {'lang_code': lang}
+            yield (name + '_i18n'), {'lang_code': lang}
 
 if __name__ == '__main__':
     # Minification is good for production, but not for debugging.
