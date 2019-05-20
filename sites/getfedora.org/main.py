@@ -82,6 +82,12 @@ FEDORA_LANGUAGE_DEFAULT = 'en'
 # Only include translations which actually have a translations file
 FEDORA_LANGUAGES = {k: v for k, v in FEDORA_LANGUAGES_FULL.items() if k in os.listdir('translations') or k == FEDORA_LANGUAGE_DEFAULT}
 
+# Set this early so we can base routing logic on it.
+if __name__ == '__main__':
+    freezing = True
+else:
+    freezing = False
+
 app = Flask(__name__, static_folder='../static/', static_url_path='/static')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
@@ -144,7 +150,7 @@ def inject_globalvars():
         releaseinfo=r,
         lang_code=g.current_lang if hasattr(g, 'current_lang') else app.config['BABEL_DEFAULT_LOCALE'],
         languages=FEDORA_LANGUAGES,
-        endpoint=request.endpoint)
+        endpoint=request.endpoint.replace('_i18n', ''))
 
 @app.before_request
 def handle_language_code():
@@ -161,35 +167,46 @@ def get_locale():
     return g.get('current_lang', app.config['BABEL_DEFAULT_LOCALE'])
 
 # This is a more manual attempt at still having some automation.
+freeze_indexes = set()
 def export_route(name, path, template=None):
+    global freeze_indexes
+    freeze_indexes.add(name)
     def r():
-        return render_template(template or path.strip('/').replace('<lang_code>', '') + '/index.html')
+        return render_template(template or path.strip('/') + '/index.html')
     r.__name__ = name
-    app.route(path)(r)
+    if freezing:
+        # This is a bit hacky, but we want to generate index.html.langcode files
+        # while tricking url_for into generating links that are prettier than
+        # that. So we generate two routes, one for the pretty url, and one for
+        # the i18n-specific index.html.langcode URL.
+        # We tell the freezer to include the _i18n one, but everything else
+        # refers to the pretty one.
+        app.route('/<lang_code>' + path, endpoint=name)(r)
+        app.route(path + 'index.html.<lang_code>', endpoint=name+'_i18n')(r)
+    else:
+        app.route('/<lang_code>' + path, endpoint=name)(r)
     return r
 
-# This will freeze, sadly, but we probably shouldn't use it in production.
-# We want Apache or whatever in production to just always redirect to
-# /<lang_code>/ for us. But for now it makes it easier to test things using the
-# flask reload server.
-@app.route('/')
-def index_redirect():
-    return redirect('/' + app.config['BABEL_DEFAULT_LOCALE'] + '/', code=302)
+if not freezing:
+    @app.route('/')
+    def index_redirect():
+        return redirect('/' + app.config['BABEL_DEFAULT_LOCALE'] + '/', code=302)
 
-export_route('index', '/<lang_code>/')
+export_route('index', '/')
 
-export_route('workstation', '/<lang_code>/workstation/')
-export_route('workstation_download', '/<lang_code>/workstation/download/')
-export_route('server', '/<lang_code>/server/')
-export_route('server_download', '/<lang_code>/server/download/')
-export_route('coreos', '/<lang_code>/coreos/')
-export_route('coreos_download', '/<lang_code>/coreos/download/')
-export_route('silverblue', '/<lang_code>/silverblue/')
-export_route('silverblue_download', '/<lang_code>/silverblue/download/')
-export_route('iot', '/<lang_code>/iot/')
-export_route('iot_download', '/<lang_code>/iot/download/')
-export_route('security', '/<lang_code>/security/')
-export_route('sponsors', '/<lang_code>/sponsors/')
+# export_route(identifier
+export_route('workstation', '/workstation/')
+export_route('workstation_download', '/workstation/download/')
+export_route('server', '/server/')
+export_route('server_download', '/server/download/')
+export_route('coreos', '/coreos/')
+export_route('coreos_download', '/coreos/download/')
+export_route('silverblue', '/silverblue/')
+export_route('silverblue_download', '/silverblue/download/')
+export_route('iot', '/iot/')
+export_route('iot_download', '/iot/download/')
+export_route('security', '/security/')
+export_route('sponsors', '/sponsors/')
 
 # This is manually updated for now by calling:
 # python scripts/releases-json.py > static/releases.json
@@ -206,17 +223,12 @@ def checksums(filename):
 def gpgkey():
     return send_from_directory('static', 'fedora.gpg')
 
-# Apache i18n stuff
-@app.route('/index.html.var')
-def index_html_var_for_apache():
-    return Response(
-        render_template('index.html.var'),
-        mimetype='text/rfc822-headers')
-
 @freezer.register_generator
 def index():
     for lang in FEDORA_LANGUAGES:
-        yield {'lang_code': lang}
+        #yield {'lang_code': lang}
+        for name in freeze_indexes:
+            yield (name + '_i18n'), {'lang_code': lang}
 
 if __name__ == '__main__':
     # Minification is good for production, but not for debugging.
