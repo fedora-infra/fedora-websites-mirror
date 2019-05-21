@@ -45,6 +45,9 @@ fmw:
 # These all get listed on the security page
 gpg_keys:
   current:
+    - name: Fedora 31
+      id: 4096R/3C3359C4 2019-02-18
+      fingerprint: 7D22 D586 7F2A 4236 474B  F7B8 50CB 390B 3C33 59C4
     - name: Fedora 30
       id: 4096R/CFC659B9 2018-08-11
       fingerprint: F1D8 EC98 F241 AAF2 0DF6  9420 EF3C 111F CFC6 59B9
