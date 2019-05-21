@@ -32,7 +32,7 @@
                   {% trans trimmed %}Editions{% endtrans %}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <span class="dropdown-header">Official Editions</span>
+                  <span class="dropdown-header">{% trans trimmed %}Official Editions{% endtrans %}</span>
                   <a class="dropdown-item" href="{{url_for('workstation', lang_code=lang_code)}}">Fedora Workstation</a>
                   <a class="dropdown-item" href="{{url_for('server', lang_code=lang_code)}}">Fedora Server</a>
                 </div>
