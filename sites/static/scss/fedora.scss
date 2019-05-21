@@ -132,3 +132,7 @@ code, pre {
         column-count: 5;
     }
  }
+
+.hide-on-collapse[aria-expanded="true"] {
+    display: none;
+}
