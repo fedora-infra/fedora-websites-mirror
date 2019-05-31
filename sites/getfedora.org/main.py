@@ -214,7 +214,7 @@ export_route('sponsors', '/sponsors/')
 def releases_json():
     return send_from_directory('static', 'releases.json')
 
-@app.route('/keys/<path:filename>')
+@app.route('/static/keys/<path:filename>')
 def gpg_keys(filename):
     return send_from_directory('static/keys', filename)
 
