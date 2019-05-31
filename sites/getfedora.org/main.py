@@ -6,6 +6,7 @@ from flask_assets import Environment, Bundle
 from flask_frozen import Freezer
 from flask_htmlmin import HTMLMIN
 import jinja2
+import os
 import yaml
 
 # TODO: Is there a nicer way to represent the data globalvar has?
