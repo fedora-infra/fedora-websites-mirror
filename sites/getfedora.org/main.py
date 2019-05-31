@@ -6,7 +6,6 @@ from flask_assets import Environment, Bundle
 from flask_frozen import Freezer
 from flask_htmlmin import HTMLMIN
 import jinja2
-import os.path
 import yaml
 
 # TODO: Is there a nicer way to represent the data globalvar has?
@@ -214,6 +213,10 @@ export_route('sponsors', '/sponsors/')
 @app.route('/releases.json')
 def releases_json():
     return send_from_directory('static', 'releases.json')
+
+@app.route('/keys/<path:filename>')
+def gpg_keys(filename):
+    return send_from_directory('static/keys', filename)
 
 # TODO: Use flask-multistatic to make these unnecessary.
 @app.route('/static/checksums/<path:filename>')
