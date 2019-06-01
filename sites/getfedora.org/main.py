@@ -143,7 +143,7 @@ def inject_globalvars():
     def checksum_link(link):
         global checksum_links
         checksum_links.add(link)
-        return url_for('checksums', filename=link)
+        return url_for('checksums.static', filename=link)
     return dict(
         dl=download_link,
         checksum=checksum_link,
@@ -166,6 +166,15 @@ def handle_language_code():
 def get_locale():
     translations = [str(translation) for translation in babel.list_translations()]
     return g.get('current_lang', app.config['BABEL_DEFAULT_LOCALE'])
+
+# We register these as blueprints so that everything in these folders gets
+# frozen. This is slightly hacky, but not too bad.
+keys = Blueprint('keys', __name__, static_folder='static/keys', static_url_path='/static/keys')
+app.register_blueprint(keys)
+
+checksums = Blueprint('checksums', __name__, static_folder='static/checksums', static_url_path='/static/checksums')
+app.register_blueprint(checksums)
+
 
 # This is a more manual attempt at still having some automation.
 freeze_indexes = set()
@@ -214,15 +223,6 @@ export_route('sponsors', '/sponsors/')
 @app.route('/releases.json')
 def releases_json():
     return send_from_directory('static', 'releases.json')
-
-@app.route('/static/keys/<path:filename>')
-def gpg_keys(filename):
-    return send_from_directory('static/keys', filename)
-
-# TODO: Use flask-multistatic to make these unnecessary.
-@app.route('/static/checksums/<path:filename>')
-def checksums(filename):
-    return send_from_directory('static/checksums', filename)
 
 @app.route('/static/fedora.gpg')
 def gpgkey():
