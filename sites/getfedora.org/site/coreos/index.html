@@ -10,7 +10,7 @@
     <div class="row align-items-center">
       <div class="col-6 ">
         <h1 class="font-weight-light">Fedora CoreOS.</h1>
-        <h5 class="font-weight-light">{% trans trimmed %}This is the coreos you've been waiting for.{% endtrans %}</h5>
+        <h5 class="font-weight-light">{% trans trimmed %}Preview an automatically updating Linux OS for containerized workloads.{% endtrans %}</h5>
         <a class="btn btn-lg btn-outline-fedora-magenta mt-2" href="{{url_for('coreos_download', lang_code=lang_code)}}">{% trans trimmed %}Download Now{% endtrans %}</a>
       </div>
       <div class="col-6">
@@ -26,7 +26,7 @@
     <div class="row">
       <div class="col-12">
         {% trans trimmed %}
-        We need some text about Fedora CoreOS to go here; it should give users a good idea of what they can use Fedora CoreOS for.
+        Fedora CoreOS is an automatically-updating, minimal operating system for running containerized workloads securely and at scale. It is currently available for testing on a limited set of platforms, with more coming soon.
         {% endtrans %}
       </div>
     </div>
@@ -35,25 +35,11 @@
 
 <div class="bg-gray-200 py-5">
   <div class="container">
-      
+    <h3 class="font-weight-light">Getting Started with Fedora CoreOS</h3>
+    {% trans trimmed docs_link_start='<a href="https://docs.fedoraproject.org/en-US/fedora-coreos/getting-started/">'|safe, link_end='</a>'|safe %}
+      To get started with running Fedora CoreOS, see the {{ docs_link_start }}Getting Started{{ link_end }} guide.
+    {% endtrans %}
   </div>
 </div>
 
-<div class="bg-light py-5">
-  <div class="container">
-    <div class="row">
-                
-    </div>
-  </div> 
-</div>  
 {% endblock %}
-
-
-
-
-
-    
-
-  
-
-  
