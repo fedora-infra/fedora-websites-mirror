@@ -1,5 +1,5 @@
 /* XXX: temporary, until a better place for this is found */
 .coreos-signature-box {
-  overflow-x: scroll !important;
-  word-break: keep-all !important;
+  overflow-x: scroll;
+  word-break: keep-all;
 }

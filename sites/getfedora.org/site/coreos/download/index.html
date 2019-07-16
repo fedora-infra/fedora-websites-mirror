@@ -19,17 +19,18 @@
       </div>
 
       <hr>
-      <!-- Following #app element is adapted from https://github.com/jlebon/fedora-coreos-browser/blob/master/index.html;
-      have Jinja2 ignore templating. -->
+      <!-- Following #app element is adapted from
+        https://github.com/jlebon/fedora-coreos-browser -->
       <div id="app">
-      </div> <!-- end app -->
+      </div>
     </div>
   </div>
 {% endblock %}
 
 {% block js %}
-<!-- generated through `vue build` using the template located at /static/vue/App.vue -->
-<script src="{{ url_for('static', filename='js/chunk-vendors.5c69ae15.js') }}"></script>
-<script src="{{ url_for('static', filename='js/app.387c7d14.js') }}"></script>
+<!-- Use the Vue runtime build only,to avoid use of eval() in the full build,
+  which is blocked by the CSP. -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/vue.runtime.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/coreos-download.js') }}"></script>
 {{ super() }}
 {% endblock %}
