@@ -6,6 +6,7 @@
 
 {% block content %}
 {{submenu(edition="coreos", active="download")}}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/coreos-download.css') }}">
   <div class="bg-tranparent py-5">
     <div class="container">
       <div class="row align-items-center">
@@ -25,7 +26,7 @@
           {% trans trimmed %}Loading...{% endtrans %}
         </div>
         <div v-else-if="streamData">
-          <p>{% trans trimmed %}Stream:{% endtrans %} <span style="font-weight: bold">{% raw %}{{ streamData.stream }}{% endraw %}</span>
+          <p>{% trans trimmed %}Stream:{% endtrans %} <span class="font-weight-bold">{% raw %}{{ streamData.stream }}{% endraw %}</span>
             (<a v-bind:href="getObjectUrl(streamData.stream + '.json')">JSON</a>)
             <span v-if="streamData.metadata" v-bind:title="streamData.metadata['last-modified']">
               — {% raw %}{{ timeSince(streamData.metadata['last-modified']) }}{% endraw %}
@@ -39,19 +40,19 @@
                 <div v-if="streamData.architectures[architecture].images">
                   <div v-for="(image, provider) in streamData.architectures[architecture].images">
                     <div class="py-2">
-                      <div v-if="isAws(provider)" style="margin-left: 1em">
+                      <div v-if="isAws(provider)" class="ml-2">
                         <div v-if="image.regions">
                           <div v-for="(region, regionName) in image.regions">
-                            <div style="font-weight: bold">{% raw %}{{ displayPrettyProvider(provider, null) }}{% endraw %}</div>
+                            <div class="font-weight-bold">{% raw %}{{ displayPrettyProvider(provider, null) }}{% endraw %}</div>
                             <div>({% raw %}{{ regionName }}{% endraw %})</div>
-                            <div v-if="region.release" style="margin-left: 1em">{% raw %}{{ region.release }}{% endraw %} {% raw %}{{ streamData.stream }}{% endraw %}</div>
-                            <div v-if="region.image" style="margin-left: 1em">{% trans trimmed %}image{% endtrans %}: {% raw %}{{ region.image }}{% endraw %}</div>
+                            <div v-if="region.release" class="ml-2">{% raw %}{{ region.release }}{% endraw %} {% raw %}{{ streamData.stream }}{% endraw %}</div>
+                            <div v-if="region.image" class="ml-2">{% trans trimmed %}image{% endtrans %}: {% raw %}{{ region.image }}{% endraw %}</div>
                           </div>
                         </div>
                       </div>
-                      <div v-else style="margin-left: 1em">
-                        <div style="font-weight: bold">{% raw %}{{ displayPrettyProvider(provider, extension) }}{% endraw %}</div>
-                        <div v-if="image.image" style="margin-left: 1em">{% trans trimmed %}image{% endtrans %}: {% raw %}{{ image.image }}{% endraw %}</div>
+                      <div v-else class="ml-2">
+                        <div class="font-weight-bold">{% raw %}{{ displayPrettyProvider(provider, extension) }}{% endraw %}</div>
+                        <div v-if="image.image" class="ml-2">{% trans trimmed %}image{% endtrans %}: {% raw %}{{ image.image }}{% endraw %}</div>
                       </div>
                     </div>
                   </div>
@@ -65,22 +66,22 @@
               <div class="container">
                 <div class="row">
                   <div class="col-lg-6">
-                    <div v-if="streamData.architectures[architecture].artifacts.metal.formats" style="margin-left: 1em">
+                    <div v-if="streamData.architectures[architecture].artifacts.metal.formats" class="ml-2">
                       <h4 class="font-weight-light">{% trans trimmed %}Bare Metal{% endtrans %}</h4>
                       <div v-for="(format, extension) in streamData.architectures[architecture].artifacts.metal.formats">
                         <div class="py-2">
-                          <div style="font-weight: bold">{% raw %}{{ displayPrettyProvider('metal', extension) }}{% endraw %}</div>
+                          <div class="font-weight-bold">{% raw %}{{ displayPrettyProvider('metal', extension) }}{% endraw %}</div>
                           <!-- XXX: the conditions to display the extension here are quickly hacked in; if adding any further conditions this should be handled elsewhere in a better organized structure. -->
                           <div v-if="extension != 'installer-pxe' && extension != 'pxe'">({% raw %}{{ (extension != 'installer.iso') ? extension : ".iso" }}{% endraw %})</div>
-                          <div v-if="streamData.architectures[architecture].artifacts.metal.release" style="margin-left: 1em">
+                          <div v-if="streamData.architectures[architecture].artifacts.metal.release" class="ml-2">
                               {% raw %}{{ streamData.architectures[architecture].artifacts.metal.release }}{% endraw %} {% raw %}{{ streamData.stream }}{% endraw %}
                           </div>
-                          <div v-if="format.disk" style="margin-left: 1em">
+                          <div v-if="format.disk" class="ml-2">
                             <span v-if="format.disk.location">
                               <a v-bind:href="format.disk.location">{% trans trimmed %}Download{% endtrans %}</a>
                             </span>
                             <div><button v-on:click="toggleShowSignatureAndSha('bareMetal', 'metal', extension, 'disk')" class="btn btn-sm btn-outline-fedora-magenta mt-2">{% trans trimmed %}Verify signature & sha256{% endtrans %}</button></div>
-                            <div v-if="showSignatureAndSha('bareMetal', 'metal', extension, 'disk')" style="overflow-x: scroll; word-break: keep-all" class="bg-gray-100 p-1 my-2">
+                            <div v-if="showSignatureAndSha('bareMetal', 'metal', extension, 'disk')" class="coreos-signature-box bg-gray-100 p-1 my-2">
                               <div v-if="format.disk.signature">
                                 <span>{% trans trimmed %}signature{% endtrans %}: </span><span><a v-bind:href="format.disk.signature">Download</a></span>
                               </div>
@@ -89,13 +90,13 @@
                               </div>
                             </div>
                           </div>
-                          <div v-if="format.kernel" style="margin-left: 1em">
+                          <div v-if="format.kernel" class="ml-2">
                             <span>{% trans trimmed %}kernel{% endtrans %}:</span>
                             <span v-if="format.kernel.location">
                               <a v-bind:href="format.kernel.location">{% trans trimmed %}Download{% endtrans %}</a>
                             </span>
                             <div><button v-on:click="toggleShowSignatureAndSha('bareMetal', 'metal', extension, 'kernel')" class="btn btn-sm btn-outline-fedora-magenta mt-2">{% trans trimmed %}Verify signature & sha256{% endtrans %}</button></div>
-                            <div v-if="showSignatureAndSha('bareMetal', 'metal', extension, 'kernel')" style="overflow-x: scroll; word-break: keep-all" class="bg-gray-100 p-1 my-2">
+                            <div v-if="showSignatureAndSha('bareMetal', 'metal', extension, 'kernel')" class="coreos-signature-box bg-gray-100 p-1 my-2">
                               <div v-if="format.kernel.signature">
                                 <span>{% trans trimmed %}signature{% endtrans %}: </span><span><a v-bind:href="format.kernel.signature">Download</a></span>
                               </div>
@@ -104,13 +105,13 @@
                               </div>
                             </div>
                           </div>
-                          <div v-if="format.initramfs" style="margin-left: 1em">
+                          <div v-if="format.initramfs" class="ml-2">
                             <span>initramfs:</span>
                             <span v-if="format.initramfs.location">
                               <a v-bind:href="format.initramfs.location">{% trans trimmed %}Download{% endtrans %}</a>
                             </span>
                             <div><button v-on:click="toggleShowSignatureAndSha('bareMetal', 'metal', extension, 'initramfs')" class="btn btn-sm btn-outline-fedora-magenta mt-2">{% trans trimmed %}Verify signature & sha256{% endtrans %}</button></div>
-                            <div v-if="showSignatureAndSha('bareMetal', 'metal', extension, 'initramfs')" style="overflow-x: scroll; word-break: keep-all" class="bg-gray-100 p-1 my-2">
+                            <div v-if="showSignatureAndSha('bareMetal', 'metal', extension, 'initramfs')" class="coreos-signature-box bg-gray-100 p-1 my-2">
                               <div v-if="format.initramfs.signature">
                                 <span>{% trans trimmed %}signature{% endtrans %}: </span><span><a v-bind:href="format.initramfs.signature">Download</a></span>
                               </div>
@@ -124,24 +125,24 @@
                     </div>
                   </div>
                   <div class="col-lg-6">
-                    <div style="margin-left: 1em">
+                    <div class="ml-2">
                       <h4 class="font-weight-light">{% trans trimmed %}Virtualized{% endtrans %}</h4>
                       <div v-if="streamData.architectures[architecture].artifacts">
                         <div v-for="(artifact, provider) in streamData.architectures[architecture].artifacts">
-                            <div v-if="isVirtualizedImage(provider) && artifact.formats" style="margin-left: 1em">
+                            <div v-if="isVirtualizedImage(provider) && artifact.formats" class="ml-2">
                               <div class="py-2">
                               <div v-for="(format, extension) in artifact.formats">
-                                <div style="font-weight: bold">{% raw %}{{ displayPrettyProvider(provider, extension) }}{% endraw %}</div>
+                                <div class="font-weight-bold">{% raw %}{{ displayPrettyProvider(provider, extension) }}{% endraw %}</div>
                                 <div>({% raw %}{{ extension }}{% endraw %})</div>
-                                <div v-if="artifact.release" style="margin-left: 1em">
+                                <div v-if="artifact.release" class="ml-2">
                                   {% raw %}{{ artifact.release }}{% endraw %} {% raw %}{{ streamData.stream }}{% endraw %} 
                                 </div>
-                                <div v-if="format.disk" style="margin-left: 1em">
+                                <div v-if="format.disk" class="ml-2">
                                   <span v-if="format.disk.location">
                                     <a v-bind:href="format.disk.location">{% trans trimmed %}Download{% endtrans %}</a>
                                   </span>
                                   <div><button v-on:click="toggleShowSignatureAndSha('virtualized', provider, extension, 'disk')" class="btn btn-sm btn-outline-fedora-magenta mt-2">{% trans trimmed %}Verify signature & sha256{% endtrans %}</button></div>
-                                  <div v-if="showSignatureAndSha('virtualized', provider, extension, 'disk')" style="overflow-x: scroll; word-break: keep-all" class="bg-gray-100 p-1 my-2">
+                                  <div v-if="showSignatureAndSha('virtualized', provider, extension, 'disk')" class="coreos-signature-box bg-gray-100 p-1 my-2">
                                     <div v-if="format.disk.signature">
                                       <span>signature: </span><span><a v-bind:href="format.disk.signature">Download</a></span>
                                     </div>
@@ -167,20 +168,20 @@
               <div class="col">
                 <div v-if="streamData.architectures[architecture].artifacts">
                   <div v-for="(artifact, provider) in streamData.architectures[architecture].artifacts">
-                    <div v-if="isCloudImage(provider) && artifact.formats" style="margin-left: 1em">
+                    <div v-if="isCloudImage(provider) && artifact.formats" class="ml-2">
                       <div class="py-2">
                         <div v-for="(format, extension) in artifact.formats">
-                          <div style="font-weight: bold">{% raw %}{{ displayPrettyProvider(provider, extension) }}{% endraw %}</div>
+                          <div class="font-weight-bold">{% raw %}{{ displayPrettyProvider(provider, extension) }}{% endraw %}</div>
                           <div>({% raw %}{{ extension }}{% endraw %})</div>
-                          <div v-if="artifact.release" style="margin-left: 1em">
+                          <div v-if="artifact.release" class="ml-2">
                             {% raw %}{{ artifact.release }}{% endraw %} {% raw %}{{ streamData.stream }}{% endraw %}
                           </div>
-                          <div v-if="format.disk" style="margin-left: 1em">
+                          <div v-if="format.disk" class="ml-2">
                             <span v-if="format.disk.location">
                               <a v-bind:href="format.disk.location">{% trans trimmed %}Download{% endtrans %}</a>
                             </span>
                             <div><button v-on:click="toggleShowSignatureAndSha('cloud', provider, extension, 'disk')" class="btn btn-sm btn-outline-fedora-magenta mt-2">{% trans trimmed %}Verify signature & sha256{% endtrans %}</button></div>
-                            <div v-if="showSignatureAndSha('cloud', provider, extension, 'disk')" style="overflow-x: scroll; word-break: keep-all" class="bg-gray-100 p-1 my-2">
+                            <div v-if="showSignatureAndSha('cloud', provider, extension, 'disk')" class="coreos-signature-box bg-gray-100 p-1 my-2">
                               <div v-if="format.disk.signature">
                                 <span>{% trans trimmed %}signature{% endtrans %}: </span><span><a v-bind:href="format.disk.signature">Download</a></span>
                               </div>
