@@ -175,7 +175,6 @@ app.register_blueprint(keys)
 checksums = Blueprint('checksums', __name__, static_folder='static/checksums', static_url_path='/static/checksums')
 app.register_blueprint(checksums)
 
-
 # This is a more manual attempt at still having some automation.
 freeze_indexes = set()
 def export_route(name, path, template=None):
