@@ -207,7 +207,7 @@
 {% endblock %}
 
 {% block js %}
-<script type="text/javascript" src="/static/js/vue.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/vue.min.js') }}"></script>
 <script>
   // PROD:
   //const baseUrl = 'https://builds.coreos.fedoraproject.org/streams'
@@ -468,4 +468,5 @@
     }
   })
 </script>
+{{ super() }}
 {% endblock %}
