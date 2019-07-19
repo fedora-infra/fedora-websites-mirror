@@ -250,7 +250,8 @@ var coreos_download_app = new Vue({
         h('span', { "class":"font-weight-bold" }, this.streamData.stream),
         " (",
         h('span', {}, [
-          h('a', { attrs: { href: this.getObjectUrl(this.streamData.stream + '.json') } }, "JSON")]),
+          h('a', { attrs: { href: this.getObjectUrl(this.streamData.stream + '.json') } }, "JSON")
+        ]),
         ")",
         "—",
         h('span', {}, this.timeSince(this.streamData.metadata['last-modified']))
@@ -283,9 +284,15 @@ var coreos_download_app = new Vue({
                   amiInfo.release ? h('div', { class: "ml-2" }, [
                     h('span', {}, [ amiInfo.release, " " ]),
                     h('span', { class: "text-secondary" }, coreos_download_app.streamData.stream)
-                   ]) : null,
-                  amiInfo.image ? h('div', { class: "ml-2" }, amiInfo.image) : null
-                ]);
+                  ]) : null,
+                  amiInfo.image ? h('div', { class: "ml-2" }, [
+                    h('a', {
+                      attrs: {
+                        href: "https://console.aws.amazon.com/ec2/home?region=" + amiInfo.region + "#launchAmi=" + amiInfo.image
+                      }
+                    }, amiInfo.image)
+                  ]) : null
+                ])
               }));
             }
           }
@@ -352,7 +359,7 @@ var coreos_download_app = new Vue({
             displayInfo.release ? h('div', { class: "ml-2" }, [
               h('span', {}, [ displayInfo.release, " " ]),
               h('span', { class: "text-secondary" }, coreos_download_app.streamData.stream)
-             ]) : null,
+            ]) : null,
             displayInfo.downloads ? h('div', { class: "ml-2" }, [
               createDownloadsSubSection(displayInfo.downloads.disk, 'disk', false, imageType),
               createDownloadsSubSection(displayInfo.downloads.kernel, 'kernel', true, imageType),
