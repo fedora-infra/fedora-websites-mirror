@@ -1,3 +1,5 @@
+// Adapted from https://github.com/jlebon/fedora-coreos-browser.
+//
 // PROD:
 //const baseUrl = 'https://builds.coreos.fedoraproject.org/streams'
 // DEVEL:
@@ -64,8 +66,8 @@ function getDownloadsFromFormat(formatData, downloads) {
   }
 }
 
-var app = new Vue({
-  el: '#app',
+var coreos_download_app = new Vue({
+  el: '#coreos-download-app',
   data: {
     // currently selected stream
     stream: 'testing',
@@ -167,7 +169,6 @@ var app = new Vue({
               displayEntry = {platform: prettyPlatform, release: release, downloads: downloads, extension: extension, showSignatureAndSha: false};
               Vue.set(display, platform + "-" + format, displayEntry);
             }
-
             if (this.isCloudImage(platform)) {
               addDisplayEntry(this.streamDisplay.cloud, platform, format, formats, release, prettyPlatform, extension);
             }
@@ -239,110 +240,120 @@ var app = new Vue({
       }
     }
   },
-  render: function(createElement) {
+  render: function(h) {
     if (this.loading) {
-      return createElement('div', {}, "Loading...");
+      return h('div', {}, "Loading...");
     }
     else if (this.streamData) {
-      streamName = createElement('p', {}, [
+      streamName = h('p', {}, [
         "Stream: ",
-        createElement('span', { "class":"font-weight-bold" }, this.streamData.stream),
+        h('span', { "class":"font-weight-bold" }, this.streamData.stream),
         " (",
-        createElement('span', {}, [
-          createElement('a', { attrs: { href: this.getObjectUrl(this.streamData.stream + '.json') } }, "JSON")]),
+        h('span', {}, [
+          h('a', { attrs: { href: this.getObjectUrl(this.streamData.stream + '.json') } }, "JSON")]),
         ")",
         "—",
-        createElement('span', {}, this.timeSince(this.streamData.metadata['last-modified']))
+        h('span', {}, this.timeSince(this.streamData.metadata['last-modified']))
       ]);
 
-      cloudLaunchableTitle = createElement('h3', { class:"font-weight-light" }, "Cloud Launchable");
+      cloudLaunchableTitle = h('h3', { class:"font-weight-light" }, "Cloud Launchable");
       cloudLaunchableSection = {};
       cloudLaunchable = {};
-      virtualizedTitle = createElement('h4', { class:"font-weight-light" }, "Virtualized");
+      virtualizedTitle = h('h4', { class:"font-weight-light" }, "Virtualized");
       virtualizedSection = {};
       virtualized = {};
-      bareMetalTitle = createElement('h4', { class:"font-weight-light" }, "Bare Metal");
+      bareMetalTitle = h('h4', { class:"font-weight-light" }, "Bare Metal");
       bareMetalSection = {};
       bareMetal = {};
-      bareMetalAndVirtualizedTitle = createElement('h3', { class:"font-weight-light" }, "Bare Metal & Virtualized");
-      cloudTitle = createElement('h3', { class:"font-weight-light" }, "For Cloud Operators");
+      bareMetalAndVirtualizedTitle = h('h3', { class:"font-weight-light" }, "Bare Metal & Virtualized");
+      cloudTitle = h('h3', { class:"font-weight-light" }, "For Cloud Operators");
       cloudSection = {};
       cloud = {};
 
       if (this.streamDisplay.cloudLaunchable) {
-        cloudLaunchableSection = createElement('div', {}, Object.entries(this.streamDisplay.cloudLaunchable).map(function(entry) {
+        cloudLaunchableSection = h('div', {}, Object.entries(this.streamDisplay.cloudLaunchable).map(function(entry) {
           platform = entry[0];
           displayInfo = entry[1];
-          if (app.isAws(platform)) {
+          if (coreos_download_app.isAws(platform)) {
             if (displayInfo.list) {
-              return createElement('div', {}, displayInfo.list.map(function(amiInfo) {
-                return createElement('div', {}, [
-                  amiInfo.platform ? createElement('div', { class: "font-weight-bold" }, amiInfo.platform) : null,
-                  amiInfo.region ? createElement('div', {}, [ "(", amiInfo.region, ")" ]) : null,
-                  amiInfo.release ? createElement('div', { class: "ml-2" }, [
-                    createElement('span', {}, [ amiInfo.release, " " ]),
-                    createElement('span', { class: "text-secondary" }, app.streamData.stream)
+              return h('div', {}, displayInfo.list.map(function(amiInfo) {
+                return h('div', {}, [
+                  amiInfo.platform ? h('div', { class: "font-weight-bold" }, amiInfo.platform) : null,
+                  amiInfo.region ? h('div', {}, [ "(", amiInfo.region, ")" ]) : null,
+                  amiInfo.release ? h('div', { class: "ml-2" }, [
+                    h('span', {}, [ amiInfo.release, " " ]),
+                    h('span', { class: "text-secondary" }, coreos_download_app.streamData.stream)
                    ]) : null,
-                  amiInfo.image ? createElement('div', { class: "ml-2" }, amiInfo.image) : null
+                  amiInfo.image ? h('div', { class: "ml-2" }, amiInfo.image) : null
                 ]);
               }));
             }
           }
           else {
-            return createElement('div', {}, [
-              displayInfo.platform ? createElement('div', { class: "font-weight-bold" }, displayInfo.platform) : null,
-              displayInfo.image ? createElement('div', { class: "ml-2" }, displayInfo.image) : null
+            return h('div', {}, [
+              displayInfo.platform ? h('div', { class: "font-weight-bold" }, displayInfo.platform) : null,
+              displayInfo.image ? h('div', { class: "ml-2" }, displayInfo.image) : null
             ]);
           }
         }));
       }
       else {
-        cloudLaunchableSection = createElement('div', {}, "No cloud launchable images found.");
+        cloudLaunchableSection = h('div', {}, "No cloud launchable images found.");
       }
-      cloudLaunchable = createElement('div', { class: "col-12 py-2 my-2" }, [ cloudLaunchableSection ]);
+      cloudLaunchable = h('div', { class: "col-12 py-2 my-2" }, [ cloudLaunchableSection ]);
 
       function createDownloadsSubSection(displayDownloads, contentType, showTitle, imageType) {
-        return displayDownloads ? createElement('div', { class: "pb-2" }, [
-          showTitle ? createElement('span', {}, contentType + ": ") : null,
-          displayDownloads.location ? createElement('span', {}, [
-            createElement('a', { attrs: { href: displayDownloads.location } }, "Download")
+        return displayDownloads ? h('div', { class: "pb-2" }, [
+          showTitle ? h('span', {}, contentType + ": ") : null,
+          displayDownloads.location ? h('span', {}, [
+            h('a', { attrs: { href: displayDownloads.location } }, "Download")
           ]) : null,
-          createElement('div', {}, [
-            createElement('button', {
-              on: { click: function(e) { if (e.target !== e.currentTarget) { return } else { app.toggleShowSignatureAndSha(imageType, e.target.attributes.platformFormat.value, contentType); e.stopPropagation(); e.preventDefault(); } } },
+          h('div', {}, [
+            h('button', {
+              on: {
+                click: function(e) {
+                  if (e.target !== e.currentTarget) {
+                    return;
+                  }
+                  else {
+                    coreos_download_app.toggleShowSignatureAndSha(imageType,e.target.attributes.platformFormat.value, contentType);
+                    e.stopPropagation();
+                    e.preventDefault();
+                  }
+                }
+              },
               class: "btn btn-sm btn-outline-fedora-magenta mt-2",
               attrs: {
                 platformFormat: platformFormat
               }
             }, "Verify signature & sha256")
           ]),
-          app.showSignatureAndSha(imageType, platformFormat, contentType) ? createElement('div', { class: "coreos-signature-box bg-gray-100 p-1 my-2" }, [
-            displayDownloads.signature ? createElement('div', {}, [
-              createElement('span', {}, "signature: "),
-              createElement('span', {}, [
-                createElement('a', { attrs: { href: displayDownloads.signature } }, "Download")
+          coreos_download_app.showSignatureAndSha(imageType, platformFormat, contentType) ? h('div', { class: "coreos-signature-box bg-gray-100 p-1 my-2" }, [
+            displayDownloads.signature ? h('div', {}, [
+              h('span', {}, "signature: "),
+              h('span', {}, [
+                h('a', { attrs: { href: displayDownloads.signature } }, "Download")
               ])
             ]) : null,
-            displayDownloads.sha256 ? createElement('div', {}, [
-              createElement('span', {}, "sha256: "),
-              createElement('span', {}, displayDownloads.sha256)
+            displayDownloads.sha256 ? h('div', {}, [
+              h('span', {}, "sha256: "),
+              h('span', {}, displayDownloads.sha256)
             ]) : null
           ]) : null
         ]) : null
       }
-
       function createArtifactsSection(displayArtifacts, imageType) {
-        return createElement('div', {}, Object.entries(displayArtifacts).map(function(entry) {
+        return h('div', {}, Object.entries(displayArtifacts).map(function(entry) {
           platformFormat = entry[0];
           displayInfo = entry[1];
-          return createElement('div', { class: "my-2" }, [
-            displayInfo.platform ? createElement('div', { class: "font-weight-bold" }, displayInfo.platform) : null,
-            displayInfo.extension ? createElement('div', {}, [ "(", displayInfo.extension, ")" ]) : null,
-            displayInfo.release ? createElement('div', { class: "ml-2" }, [
-              createElement('span', {}, [ displayInfo.release, " " ]),
-              createElement('span', { class: "text-secondary" }, app.streamData.stream)
+          return h('div', { class: "my-2" }, [
+            displayInfo.platform ? h('div', { class: "font-weight-bold" }, displayInfo.platform) : null,
+            displayInfo.extension ? h('div', {}, [ "(", displayInfo.extension, ")" ]) : null,
+            displayInfo.release ? h('div', { class: "ml-2" }, [
+              h('span', {}, [ displayInfo.release, " " ]),
+              h('span', { class: "text-secondary" }, coreos_download_app.streamData.stream)
              ]) : null,
-            displayInfo.downloads ? createElement('div', { class: "ml-2" }, [
+            displayInfo.downloads ? h('div', { class: "ml-2" }, [
               createDownloadsSubSection(displayInfo.downloads.disk, 'disk', false, imageType),
               createDownloadsSubSection(displayInfo.downloads.kernel, 'kernel', true, imageType),
               createDownloadsSubSection(displayInfo.downloads.initramfs, 'initramfs', true, imageType)
@@ -350,47 +361,46 @@ var app = new Vue({
           ]);
         }));
       }
-
       if (this.streamDisplay.bareMetal) {
         bareMetalSection = createArtifactsSection(this.streamDisplay.bareMetal, 'bareMetal');
       }
       else {
-        bareMetalSection = createElement('div', {}, "No bare metal images found.");
+        bareMetalSection = h('div', {}, "No bare metal images found.");
       }
-      bareMetal = createElement('div', { class: "col-6 py-2 my-2" }, [ bareMetalTitle, bareMetalSection ]);
+      bareMetal = h('div', { class: "col-6 py-2 my-2" }, [ bareMetalTitle, bareMetalSection ]);
 
       if (this.streamDisplay.virtualized) {
         virtualizedSection = createArtifactsSection(this.streamDisplay.virtualized, 'virtualized');
       }
       else {
-        virtualizedSection = createElement('div', {}, "No virtualized images found.");
+        virtualizedSection = h('div', {}, "No virtualized images found.");
       }
-      virtualized = createElement('div', { class: "col-6 py-2 my-2" }, [ virtualizedTitle, virtualizedSection ]);
+      virtualized = h('div', { class: "col-6 py-2 my-2" }, [ virtualizedTitle, virtualizedSection ]);
       
       if (this.streamDisplay.cloud) {
         cloudSection = createArtifactsSection(this.streamDisplay.cloud, 'cloud');
       }
       else {
-        cloudSection = createElement('div', {}, "No cloud images found.");
+        cloudSection = h('div', {}, "No cloud images found.");
       }
-      cloud = createElement('div', { class: "col-12 py-2 my-2" }, [ cloudSection ]);
+      cloud = h('div', { class: "col-12 py-2 my-2" }, [ cloudSection ]);
 
-      return createElement('div', {}, [
+      return h('div', {}, [
         streamName,
         cloudLaunchableTitle,
         cloudLaunchable,
-        createElement('hr'),
+        h('hr'),
         bareMetalAndVirtualizedTitle,
-        createElement('div', { class: "container" }, [
-          createElement('div', { class: "row" }, [ bareMetal, virtualized ])
+        h('div', { class: "container" }, [
+          h('div', { class: "row" }, [ bareMetal, virtualized ])
         ]),
-        createElement('hr'),
+        h('hr'),
         cloudTitle,
         cloud
       ]);
     }
     else {
-      return createElement('div', {}, "No stream data found!");
+      return h('div', {}, "No stream data found!");
     }
   }
 })
