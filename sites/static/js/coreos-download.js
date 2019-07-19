@@ -333,7 +333,7 @@ var coreos_download_app = new Vue({
               attrs: {
                 platformFormat: platformFormat
               }
-            }, "Verify signature & sha256")
+            }, "Verify signature & SHA256")
           ]),
           coreos_download_app.showSignatureAndSha(imageType, platformFormat, contentType) ? h('div', { class: "coreos-signature-box bg-gray-100 p-1 my-2" }, [
             displayDownloads.signature ? h('div', {}, [
@@ -343,7 +343,7 @@ var coreos_download_app = new Vue({
               ])
             ]) : null,
             displayDownloads.sha256 ? h('div', {}, [
-              h('span', {}, "sha256: "),
+              h('span', {}, "SHA256: "),
               h('span', {}, displayDownloads.sha256)
             ]) : null
           ]) : null
@@ -392,17 +392,27 @@ var coreos_download_app = new Vue({
       }
       cloud = h('div', { class: "col-12 py-2 my-2" }, [ cloudSection ]);
 
+      verifyBlurb = h('div', {}, [
+        h('div', { class:"font-weight-light" }, [
+          "Verify your download using the detached signature after importing ",
+          h('a', { attrs: { href: "https://getfedora.org/security/" } }, "Fedora's GPG signing keys"),
+          ". The detached signature is for the released artifact itself. If there is a good signature from one of the Fedora keys, and the SHA256 checksum matches, then the download is valid."
+        ])
+      ]);
+
       return h('div', {}, [
         streamName,
         cloudLaunchableTitle,
         cloudLaunchable,
         h('hr'),
         bareMetalAndVirtualizedTitle,
+        verifyBlurb,
         h('div', { class: "container" }, [
           h('div', { class: "row" }, [ bareMetal, virtualized ])
         ]),
         h('hr'),
         cloudTitle,
+        verifyBlurb,
         cloud
       ]);
     }
