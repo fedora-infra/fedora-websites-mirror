@@ -31,6 +31,9 @@ const prettyPlatforms = {
 function getMember(obj, member) {
   return (member in obj) ? obj[member] : null;
 }
+function getFilename(url) {
+  return url.substring(url.lastIndexOf('/') + 1);
+}
 function getArtifactUrl(base, path) {
   return `${base}/${path}`;
 }
@@ -260,13 +263,12 @@ var coreos_download_app = new Vue({
       cloudLaunchableTitle = h('h3', { class:"font-weight-light" }, "Cloud Launchable");
       cloudLaunchableSection = {};
       cloudLaunchable = {};
-      virtualizedTitle = h('h4', { class:"font-weight-light" }, "Virtualized");
+      virtualizedTitle = h('h3', { class:"font-weight-light" }, "Virtualized");
       virtualizedSection = {};
       virtualized = {};
-      bareMetalTitle = h('h4', { class:"font-weight-light" }, "Bare Metal");
+      bareMetalTitle = h('h3', { class:"font-weight-light" }, "Bare Metal");
       bareMetalSection = {};
       bareMetal = {};
-      bareMetalAndVirtualizedTitle = h('h3', { class:"font-weight-light" }, "Bare Metal & Virtualized");
       cloudTitle = h('h3', { class:"font-weight-light" }, "For Cloud Operators");
       cloudSection = {};
       cloud = {};
@@ -335,17 +337,44 @@ var coreos_download_app = new Vue({
               }
             }, "Verify signature & SHA256")
           ]),
-          coreos_download_app.showSignatureAndSha(imageType, platformFormat, contentType) ? h('div', { class: "coreos-signature-box bg-gray-100 p-1 my-2" }, [
-            displayDownloads.signature ? h('div', {}, [
-              h('span', {}, "signature: "),
-              h('span', {}, [
-                h('a', { attrs: { href: displayDownloads.signature } }, "Download")
+          coreos_download_app.showSignatureAndSha(imageType, platformFormat, contentType) ? h('div', { class: "bg-gray-100 p-2 my-2" }, [ h('p', {}, [
+              displayDownloads.sha256 ? h('div', {}, [
+                "SHA256: ",
+                displayDownloads.sha256
+              ]) : null,
+              displayDownloads.sha256 ? h('div', {}, [
+                h('a', {
+                  attrs: {
+                    href: "data:text/plain;charset=utf-8," + encodeURIComponent("SHA256 (" + getFilename(displayDownloads.location) + ") = " + displayDownloads.sha256),
+                    download: getFilename(displayDownloads.location) + "-CHECKSUM"
+                  }
+                }, "Checksum file")
+              ]) : null,
+              displayDownloads.signature ? h('div', {}, [
+                h('a', {
+                  attrs: {
+                    href: displayDownloads.signature
+                  }
+                }, "Signature")
+              ]) : null
+            ]),
+            h('div', {}, [
+              h('p', {}, "To verify your download:"),
+              h('ol', {}, [
+                h('li', {}, [
+                  h('p', {}, "Import Fedora's GPG keys"),
+                  h('pre', {}, [ h('code', {}, "curl https://getfedora.org/static/fedora.gpg | gpg --import") ])
+                ]),
+                h('li', {}, [
+                  h('p', {}, "Verify the signature is valid"),
+                  h('pre', {}, [ h('code', {}, "gpg --verify " + getFilename(displayDownloads.signature) + " " + getFilename(displayDownloads.location)) ])
+                ]),
+                h('li', {}, [
+                  h('p', {}, "Verify the checksum matches"),
+                  h('pre', {}, [ h('code', {}, "sha256sum -c " + getFilename(displayDownloads.location) + "-CHECKSUM") ])
+                ])
               ])
-            ]) : null,
-            displayDownloads.sha256 ? h('div', {}, [
-              h('span', {}, "SHA256: "),
-              h('span', {}, displayDownloads.sha256)
-            ]) : null
+            ])
           ]) : null
         ]) : null
       }
@@ -374,7 +403,7 @@ var coreos_download_app = new Vue({
       else {
         bareMetalSection = h('div', {}, "No bare metal images found.");
       }
-      bareMetal = h('div', { class: "col-6 py-2 my-2" }, [ bareMetalTitle, bareMetalSection ]);
+      bareMetal = h('div', { class: "col-12 py-2 my-2" }, [ bareMetalSection ]);
 
       if (this.streamDisplay.virtualized) {
         virtualizedSection = createArtifactsSection(this.streamDisplay.virtualized, 'virtualized');
@@ -382,7 +411,7 @@ var coreos_download_app = new Vue({
       else {
         virtualizedSection = h('div', {}, "No virtualized images found.");
       }
-      virtualized = h('div', { class: "col-6 py-2 my-2" }, [ virtualizedTitle, virtualizedSection ]);
+      virtualized = h('div', { class: "col-12 py-2 my-2" }, [ virtualizedSection ]);
       
       if (this.streamDisplay.cloud) {
         cloudSection = createArtifactsSection(this.streamDisplay.cloud, 'cloud');
@@ -405,11 +434,13 @@ var coreos_download_app = new Vue({
         cloudLaunchableTitle,
         cloudLaunchable,
         h('hr'),
-        bareMetalAndVirtualizedTitle,
+        bareMetalTitle,
         verifyBlurb,
-        h('div', { class: "container" }, [
-          h('div', { class: "row" }, [ bareMetal, virtualized ])
-        ]),
+        bareMetal,
+        h('hr'),
+        virtualizedTitle,
+        verifyBlurb,
+        virtualized,
         h('hr'),
         cloudTitle,
         verifyBlurb,
