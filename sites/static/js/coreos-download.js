@@ -41,9 +41,6 @@ function fetchStreamData(base, stream) {
   return fetch(`${base}/${stream}.json`)
     .then(response => response.ok ? response.json() : {});
 }
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text);
-}
 function getPrettyPlatform(platform, extension) {
   prettyPlatform = getMember(prettyPlatforms, platform);
   if (prettyPlatform != null) {
