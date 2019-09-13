@@ -1,10 +1,7 @@
 # websites
 
-`dnf -y install python-flask python-frozen-flask python-flask-assets python-rjsmin python-cssmin python-flask-babel python-flask-htmlmin python-cssutils rubygem-sass babel python3-jinja2 python-pyyaml python-zanata-client`
+This repository is the home of getfedora.org, and hopefully eventually the
+other Fedora Project websites.
 
-The sites can be run in two ways:
-
-* Dynamically with `export FLASK_APP=main.py; flask run --reload --debugger`
-* Statically with `python main.py` and loading the 'build' directory.
-
-To test the static generation and make sure it does what you expect, build it as per above, and then from the new `build` directory, run `python -mSimpleHTTPServer` and go to localhost:8000 in a browser.
+Documentation for getting started with using it can be found here:
+https://docs.fedoraproject.org/en-US/websites/
