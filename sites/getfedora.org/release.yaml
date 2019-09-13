@@ -1,40 +1,72 @@
 ga:
-  workstation:
-    pretty_name: Fedora Workstation
-    release_number: 30
-    rc_version: 1.2
-    checksum_prefix: Fedora-Workstation
-    checksum_arches: [x86_64, i386]
-    download_override:
-      live_x86_64: default
-      live_i386: default
-      netinst_x86_64: default
-      netinst_i386: default
+  announcement_url: https://fedoramagazine.org/announcing-fedora-30
+  announcement_release_number: 30
 
-  server:
-    pretty_name: Fedora Server
-    release_number: 30
-    rc_version: 1.2
-    checksum_prefix: Fedora-Server
-    checksum_arches: [x86_64, aarch64]
+  editions:
+    workstation:
+      pretty_name: Fedora Workstation
+      release_number: 30
+      rc_version: 1.2
+      checksum_prefix: Fedora-Workstation
+      checksum_arches: [x86_64, i386] # Nuke i386 for 31+
+      # set to default for default, false if the media doesn't exist, or
+      # a link to override the default.
+      # For F31+ set the i386 ones to false (or delete them and the blocks in
+      #   the download page templates)
+      download_override:
+        live_x86_64: default
+        live_i386: default
+        netinst_x86_64: default
+        netinst_i386: default
+
+    server:
+      pretty_name: Fedora Server
+      release_number: 30
+      rc_version: 1.2
+      checksum_prefix: Fedora-Server
+      checksum_arches: [x86_64, aarch64]
+      # Same as above goes here.
+      download_override:
+        standard_x86_64: default
+        standard_aarch64: default
+        netinst_x86_64: default
+        netinst_aarch64: default
+        raw_aarch64: default
+
     
 beta:
   # Should we show the beta stuff at all?
   show: false
+  announcement_release_number: 31
 
-  workstation:
-    pretty_name: Fedora Workstation Beta
-    release_number: 31
-    rc_version: 1.8
-    checksum_prefix: Fedora-Workstation
-    checksum_arches: [x86_64, i386]
+  editions:
+    workstation:
+      pretty_name: Fedora Workstation Beta
+      release_number: 31
+      rc_version: 1.1
+      checksum_prefix: Fedora-Workstation
+      checksum_arches: [x86_64]
+      # set to default for default, false if the media doesn't exist, or
+      # a link to override the default.
+      # NOTE: No i386 here because 31+ doesn't have it
+      download_override:
+        live_x86_64: default
+        netinst_x86_64: default
 
-  server:
-    pretty_name: Fedora Server Beta
-    release_number: 31
-    rc_version: 1.8
-    checksum_prefix: Fedora-Server
-    checksum_arches: [x86_64, aarch64]
+    server:
+      pretty_name: Fedora Server Beta
+      release_number: 31
+      rc_version: 1.1
+      checksum_prefix: Fedora-Server
+      checksum_arches: [x86_64, aarch64]
+      # Same as above goes here.
+      download_override:
+        standard_x86_64: default
+        standard_aarch64: default
+        netinst_x86_64: default
+        netinst_aarch64: default
+        raw_aarch64: default
+
 
 fmw:
   osx:

@@ -14,7 +14,7 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-12">
-          <h1 class="font-weight-light">{% trans trimmed n=releaseinfo.ga.server.release_number %}Download Fedora {{n}} Server.{% endtrans %}</h1>
+          <h1 class="font-weight-light">{% trans trimmed n=releaseinfo.ga.editions.server.release_number %}Download Fedora {{n}} Server.{% endtrans %}</h1>
           {#<h5 class="font-weight-light">{% trans trimmed %}Your download will finish before we come up with a fancy tagline for this page.{% endtrans %}</h5>#}
 
         </div>
@@ -29,79 +29,149 @@
         <div class="col-12 col-lg-6">
           <h5 class="font-weight-light">{% trans trimmed %}Using the x86_64 Architecture?{% endtrans %}</h5>
           <ul class="list-group">
+            {% if releaseinfo.ga.editions.server.download_override.standard_x86_64 %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans trimmed %}Standard ISO image for x86_64{% endtrans %}
+                {% trans trimmed n=releaseinfo.ga.editions.server.release_number %}
+                Fedora {{n}}: Standard ISO image for x86_64
+                {% endtrans %}
               </div>
               <div>
-                {#<a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
-                   role="button" data-trigger="focus" href="javascript:void(0)" 
-                   data-content="{% trans trimmed %}Fedora Server ISO image that includes all the packages required to install Fedora Server.{% endtrans %}">
-                   <i class="fa fa-info-circle"></i>
-                </a>#}
-                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/x86_64/iso/Fedora-Server-dvd-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans trimmed %}Download{% endtrans %}</a>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.server.download_override.standard_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Server/x86_64/iso/Fedora-Server-dvd-x86_64-%d-%s.iso' % (releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.rc_version))}}">
+                  {% trans trimmed %}Download{% endtrans %}
+                </a>
               </div>
             </li>
+            {% endif %}
+
+            {% if releaseinfo.ga.editions.server.download_override.netinst_x86_64 %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans trimmed %}Netinstall ISO image for x86_64{% endtrans %}
+                {% trans trimmed n=releaseinfo.ga.editions.server.release_number %}
+                Fedora {{n}}: Netinstall ISO image for x86_64
+                {% endtrans %}
               </div>
               <div>
-                {#<a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
-                   role="button" data-trigger="focus" href="javascript:void(0)" 
-                   data-content="{% trans trimmed %}Netinstall image description FIXME{% endtrans %}">
-                   <i class="fa fa-info-circle"></i>
-                </a>#}
-                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/x86_64/iso/Fedora-Server-netinst-x86_64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans trimmed %}Download{% endtrans %}</a>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.server.download_override.netinst_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Server/x86_64/iso/Fedora-Server-netinst-x86_64-%d-%s.iso' % (releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
             </li>
+            {% endif %}
+
+            {% if releaseinfo.beta.show and releaseinfo.beta.editions.server.download_override.standard_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.editions.server.release_number %}
+                Fedora {{n}}: Standard ISO image for x86_64
+                {% endtrans %}
+                <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.server.download_override.standard_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Server/x86_64/iso/Fedora-Server-dvd-x86_64-%d_Beta-%s.iso' % (releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.rc_version))}}">
+                  {% trans trimmed %}Download{% endtrans %}
+                </a>
+              </div>
+            </li>
+            {% endif %}
+
+            {% if releaseinfo.beta.show and releaseinfo.beta.editions.server.download_override.netinst_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.editions.server.release_number %}
+                Fedora {{n}}: Netinstall ISO image for x86_64
+                {% endtrans %}
+                <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.server.download_override.netinst_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Server/x86_64/iso/Fedora-Server-netinst-x86_64-%d_Beta-%s.iso' % (releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
           </ul>
         </div>
         <div class="col-12 col-lg-6 mt-lg-0 mt-4">
           <h5 class="font-weight-light">{% trans trimmed %}Using the aarch64 Architecture?{% endtrans %}</h5>
           <ul class="list-group">
+            {% if releaseinfo.ga.editions.server.download_override.standard_aarch64 %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans trimmed %}Standard ISO image for aarch64{% endtrans %}
+                {% trans trimmed n=releaseinfo.ga.editions.server.release_number %}
+                Fedora {{n}}: Standard ISO image for aarch64
+                {% endtrans %}
               </div>
               <div>
-                {#<a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
-                   role="button" data-trigger="focus" href="javascript:void(0)" 
-                   data-content="{% trans trimmed %}Fedora Server ISO image that includes all the packages required to install Fedora Server.{% endtrans %}">
-                   <i class="fa fa-info-circle"></i>
-                </a>#}
-                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/iso/Fedora-Server-dvd-aarch64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">{% trans trimmed %}Download{% endtrans %}</a>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.server.download_override.standard_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Server/aarch64/iso/Fedora-Server-dvd-aarch64-%d-%s.iso' % (releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
             </li>
+            {% endif %}
+
+            {% if releaseinfo.ga.editions.server.download_override.netinst_aarch64 %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans trimmed %}Netinstall ISO image for aarch64{% endtrans %}
+                {% trans trimmed n=releaseinfo.ga.editions.server.release_number %}
+                Fedora {{n}}: Netinstall ISO image for aarch64
+                {% endtrans %}
               </div>
               <div>
-                {#<a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
-                   role="button" data-trigger="focus" href="javascript:void(0)" 
-                   data-content="{% trans trimmed %}Netinstall image description FIXME{% endtrans %}">
-                   <i class="fa fa-info-circle"></i>
-                </a>#}
-                <a class="btn btn-outline-primary btn-sm" 
-                   href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/iso/Fedora-Server-netinst-aarch64-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.iso">
-                   {% trans trimmed %}Download{% endtrans %}
-                </a>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.server.download_override.netinst_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Server/aarch64/iso/Fedora-Server-netinst-aarch64-%d-%s.iso' % (releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
             </li>
+            {% endif %}
+
+            {% if releaseinfo.ga.editions.server.download_override.raw_aarch64 %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans trimmed %}Raw image for aarch64{% endtrans %}
+                {% trans trimmed n=releaseinfo.ga.editions.server.release_number %}
+                Fedora {{n}}: Raw image for aarch64
+                {% endtrans %}
               </div>
               <div>
-                {#<a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
-                   role="button" data-trigger="focus" href="javascript:void(0)" 
-                   data-content="{% trans trimmed %}RAW image description FIXME{% endtrans %}">
-                   <i class="fa fa-info-circle"></i>
-                </a>#}
-                <a class="btn btn-outline-primary btn-sm" href="https://download.fedoraproject.org/pub/fedora/linux/releases/{{releaseinfo.ga.server.release_number}}/Server/aarch64/images/Fedora-Server-{{releaseinfo.ga.workstation.release_number}}-{{releaseinfo.ga.workstation.rc_version}}.aarch64.raw.xz">{% trans trimmed %}Download{% endtrans %}</a>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.server.download_override.raw_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Server/aarch64/images/Fedora-Server-%d-%s.aarch64.raw.xz' % (releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
             </li>
+            {% endif %}
+
+            {% if releaseinfo.beta.show and releaseinfo.beta.editions.server.download_override.standard_aarch64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.editions.server.release_number %}
+                Fedora {{n}}: Standard ISO image for aarch64
+                {% endtrans %}
+                <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.server.download_override.standard_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Server/aarch64/iso/Fedora-Server-dvd-aarch64-%d_Beta-%s.iso' % (releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+
+            {% if releaseinfo.beta.show and releaseinfo.beta.editions.server.download_override.netinst_aarch64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.editions.server.release_number %}
+                Fedora {{n}}: Netinstall ISO image for aarch64
+                {% endtrans %}
+                <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.server.download_override.netinst_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Server/aarch64/iso/Fedora-Server-netinst-aarch64-%d_Beta-%s.iso' % (releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+
+            {% if releaseinfo.beta.show and releaseinfo.beta.editions.server.download_override.raw_aarch64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.editions.server.release_number %}
+                Fedora {{n}}: Raw image for aarch64
+                {% endtrans %}
+                <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.server.download_override.raw_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Server/aarch64/images/Fedora-Server-%d_Beta-%s.aarch64.raw.xz' % (releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+
           </ul>
         </div>
       </div>

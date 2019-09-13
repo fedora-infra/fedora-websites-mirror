@@ -56,16 +56,30 @@
 
         </div>
         <div class="col-6">
-          {% for edition in releaseinfo.ga %}
-          <h6>{{releaseinfo.ga[edition].pretty_name}}</h6>
+          {% for edition in releaseinfo.ga.editions %}
+          <h6>{{releaseinfo.ga.editions[edition].pretty_name}}</h6>
           <ul>
-            {% for arch in releaseinfo.ga[edition].checksum_arches %}
+            {% for arch in releaseinfo.ga.editions[edition].checksum_arches %}
             <li>
-              <a href="{{checksum('%s-%d-%s-%s-CHECKSUM' % (releaseinfo.ga[edition].checksum_prefix, releaseinfo.ga[edition].release_number, releaseinfo.ga[edition].rc_version, arch))}}">Fedora {{releaseinfo.ga[edition].release_number}} {{arch}} CHECKSUM</a>
+              <a href="{{checksum('%s-%d-%s-%s-CHECKSUM' % (releaseinfo.ga.editions[edition].checksum_prefix, releaseinfo.ga.editions[edition].release_number, releaseinfo.ga.editions[edition].rc_version, arch))}}">Fedora {{releaseinfo.ga.editions[edition].release_number}} {{arch}} CHECKSUM</a>
             </li>
             {% endfor %}
           </ul>
           {% endfor %}
+          {% if releaseinfo.beta.show %}
+          <hr />
+          {% for edition in releaseinfo.beta.editions %}
+          <h6>{{releaseinfo.beta.editions[edition].pretty_name}}</h6>
+          <ul>
+            {% for arch in releaseinfo.beta.editions[edition].checksum_arches %}
+            <li>
+              <a href="{{checksum('%s-%d_Beta-%s-%s-CHECKSUM' % (releaseinfo.beta.editions[edition].checksum_prefix, releaseinfo.beta.editions[edition].release_number, releaseinfo.beta.editions[edition].rc_version, arch))}}">Fedora {{releaseinfo.beta.editions[edition].release_number}} {{arch}} CHECKSUM</a>
+              <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endfor %}
+          {% endif %}
         </div>
       </div>
     </div> <!--contatiner-->

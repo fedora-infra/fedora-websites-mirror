@@ -11,7 +11,7 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-12">
-          <h1 class="font-weight-light">{% trans trimmed n=releaseinfo.ga.workstation.release_number %}Download Fedora {{n}} Workstation.{% endtrans %}</h1>
+          <h1 class="font-weight-light">{% trans trimmed n=releaseinfo.ga.editions.workstation.release_number %}Download Fedora {{n}} Workstation.{% endtrans %}</h1>
           <h5 class="font-weight-light">{% trans trimmed %}We're so glad you've decided to give Fedora Workstation a try. We know you'll love it.{% endtrans %}</h5>
         </div>
       </div>
@@ -30,21 +30,20 @@
               {% endtrans %}
             </p>
             <ul class="mt-auto list-group">
-                <li class="list-group-item d-flex align-items-center p-2">
-                    <div class="flex-grow-1">
-                      {% trans trimmed %}Fedora Media Writer{% endtrans %}
-                    </div>
-                    <div class="btn-group">
-                        <a class="btn btn-outline-fedora-blue" href="https://getfedora.org/fmw/FedoraMediaWriter-win32-{{releaseinfo.fmw.win.version}}.exe">
-                          <i class="fab fa-windows"></i> 
-                        </a>
-              
-                        <a class="btn btn-outline-fedora-blue" href="https://getfedora.org/fmw/FedoraMediaWriter-osx-{{releaseinfo.fmw.osx.version}}.dmg">
-                          <i class="fab fa-apple"></i> 
-                        </a>
-                    </div>
-                  </li>
-              </ul>
+              <li class="list-group-item d-flex align-items-center p-2">
+                <div class="flex-grow-1">
+                  {% trans trimmed %}Fedora Media Writer{% endtrans %}
+                </div>
+                <div class="btn-group">
+                  <a class="btn btn-outline-fedora-blue" href="https://getfedora.org/fmw/FedoraMediaWriter-win32-{{releaseinfo.fmw.win.version}}.exe">
+                    <i class="fab fa-windows"></i> 
+                  </a>
+                  <a class="btn btn-outline-fedora-blue" href="https://getfedora.org/fmw/FedoraMediaWriter-osx-{{releaseinfo.fmw.osx.version}}.dmg">
+                    <i class="fab fa-apple"></i> 
+                  </a>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="col-12 col-md-6 pt-4 pt-md-0">
@@ -56,16 +55,35 @@
               {% endtrans %}
             </p>
             <ul class="mt-auto list-group">
-                <li class="list-group-item d-flex align-items-center p-2">
-                    <div class="flex-grow-1">
-                      {% trans trimmed %}x86_64 DVD ISO{% endtrans %}
-                    </div>
-                    <div class="btn-group">
-                      <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.workstation.download_override.live_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-%d-%s.iso' % (releaseinfo.ga.workstation.release_number, releaseinfo.ga.workstation.release_number, releaseinfo.ga.workstation.rc_version))}}">
-                          {% trans trimmed %}Download{% endtrans %}
-                        </a>
-                    </div>
-                  </li>
+              {% if releaseinfo.ga.editions.workstation.download_override.live_x86_64 %}
+              <li class="list-group-item d-flex align-items-center p-2">
+                <div class="flex-grow-1">
+                  {% trans trimmed n=releaseinfo.ga.editions.workstation.release_number %}Fedora {{n}}: x86_64 DVD ISO{% endtrans %}
+                </div>
+                <div class="btn-group">
+                  <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.workstation.download_override.live_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-%d-%s.iso' % (releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.rc_version))}}">
+                    {% trans trimmed %}Download{% endtrans %}
+                  </a>
+                </div>
+              </li>
+              {% endif %}
+
+              {% if releaseinfo.beta.show and releaseinfo.beta.editions.workstation.download_override.live_x86_64 %}
+              <li class="list-group-item d-flex align-items-center p-2">
+                <div class="flex-grow-1">
+                  {% trans trimmed n=releaseinfo.beta.editions.workstation.release_number %}
+                  Fedora {{n}}: x86_64 DVD ISO
+                  {% endtrans %}
+                  <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+                </div>
+                <div class="btn-group">
+                  <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.workstation.download_override.live_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-%d_Beta-%s.iso' % (releaseinfo.beta.editions.workstation.release_number, releaseinfo.beta.editions.workstation.release_number, releaseinfo.beta.editions.workstation.rc_version))}}">
+                    {% trans trimmed %}Download{% endtrans %}
+                  </a>
+                </div>
+              </li>
+              {% endif %}
+
             </ul>
           </div>
         </div>
@@ -77,7 +95,9 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-12 col-lg-6 order-12 order-lg-1">
-          <h3 class="font-weight-light pb-4">{% trans trimmed %}Learn more about Fedora Media Writer.{% endtrans %}</h3>
+          <h3 class="font-weight-light pb-4">
+            {% trans trimmed %}Learn more about Fedora Media Writer.{% endtrans %}
+          </h3>
           <p class="font-weight-light">
             {% trans trimmed %}
             Getting going with Fedora is easier than ever.
@@ -135,49 +155,63 @@
             {% endtrans %}
           </p>
           <ul class="list-group">
-              <li class="list-group-item d-flex align-items-center">
-                <div class="flex-grow-1">
-                  {% trans trimmed %}32-bit ISO{% endtrans %}
-                </div>
-                <div>
-                  {# <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
-                     role="button" data-trigger="focus" href="javascript:void(0)" 
-                     data-content="{% trans trimmed %}CAPTION HERE{% endtrans %}">
-                     <i class="fa fa-info-circle"></i>
-                  </a> #}
-                  <a class="btn btn-outline-primary btn-sm" href="{{dl(releaseinfo.ga.workstation.download_override.live_i386, 'https://download.fedoraproject.org/pub/fedora-secondary/releases/%d/Workstation/i386/iso/Fedora-Workstation-Live-i386-%d-%s.iso' % (releaseinfo.ga.workstation.release_number, releaseinfo.ga.workstation.release_number, releaseinfo.ga.workstation.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
-                </div>
-              </li>
-              <li class="list-group-item d-flex align-items-center">
-                <div class="flex-grow-1">
-                  {% trans trimmed %}64-bit network install image{% endtrans %}
-                </div>
-                <div>
-                  {# <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
-                      role="button" data-trigger="focus" href="javascript:void(0)" 
-                      data-content="{% trans trimmed %}CAPTION HERE{% endtrans %}">
-                      <i class="fa fa-info-circle"></i>
-                  </a> #}
-                  <a class="btn btn-outline-primary btn-sm" href="{{dl(releaseinfo.ga.workstation.download_override.netinst_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-%d-%s.iso' % (releaseinfo.ga.workstation.release_number, releaseinfo.ga.workstation.release_number, releaseinfo.ga.workstation.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
-                </div>
-              </li>
-              <li class="list-group-item d-flex align-items-center">
-                <div class="flex-grow-1">
-                  {% trans trimmed %}32-bit network install image{% endtrans %}
-                </div>
-                <div>
-                  {# <a class="text-muted mr-1" tabindex="0" data-placement="left" data-toggle="popover" 
-                      role="button" data-trigger="focus" href="javascript:void(0)" 
-                      data-content="{% trans trimmed %}CAPTION HERE{% endtrans %}">
-                      <i class="fa fa-info-circle"></i>
-                  </a> #}
-                  <a class="btn btn-outline-primary btn-sm" href="{{dl(releaseinfo.ga.workstation.download_override.netinst_i386, 'https://download.fedoraproject.org/pub/fedora-secondary/releases/%d/Workstation/i386/iso/Fedora-Workstation-netinst-i386-%d-%s.iso' % (releaseinfo.ga.workstation.release_number, releaseinfo.ga.workstation.release_number, releaseinfo.ga.workstation.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
-                </div>
-              </li>
-            </ul>
+
+            {% if releaseinfo.ga.editions.workstation.download_override.live_i386 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.editions.workstation.release_number %}
+                Fedora {{n}}: 32-bit ISO
+                {% endtrans %}
+              </div>
+              <div>
+                <a class="btn btn-outline-primary btn-sm" href="{{dl(releaseinfo.ga.editions.workstation.download_override.live_i386, 'https://download.fedoraproject.org/pub/fedora-secondary/releases/%d/Workstation/i386/iso/Fedora-Workstation-Live-i386-%d-%s.iso' % (releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+
+            {% if releaseinfo.ga.editions.workstation.download_override.netinst_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.editions.workstation.release_number %}
+                Fedora {{n}}: 64-bit network install image
+                {% endtrans %}
+              </div>
+              <div>
+                <a class="btn btn-outline-primary btn-sm" href="{{dl(releaseinfo.ga.editions.workstation.download_override.netinst_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-%d-%s.iso' % (releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+
+            {% if releaseinfo.ga.editions.workstation.download_override.netinst_i386 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.editions.workstation.release_number %}
+                Fedora {{n}}: 32-bit network install image
+                {% endtrans %}
+              </div>
+              <div>
+                <a class="btn btn-outline-primary btn-sm" href="{{dl(releaseinfo.ga.editions.workstation.download_override.netinst_i386, 'https://download.fedoraproject.org/pub/fedora-secondary/releases/%d/Workstation/i386/iso/Fedora-Workstation-netinst-i386-%d-%s.iso' % (releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+
+            {% if releaseinfo.beta.show and releaseinfo.beta.editions.workstation.download_override.netinst_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.editions.workstation.release_number %}
+                Fedora {{n}}: 64-bit network install image
+                {% endtrans %}
+                <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-primary btn-sm" href="{{dl(releaseinfo.beta.editions.workstation.download_override.netinst_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Everything/x86_64/iso/Fedora-Everything-netinst-x86_64-%d_Beta-%s.iso' % (releaseinfo.beta.editions.workstation.release_number, releaseinfo.beta.editions.workstation.release_number, releaseinfo.beta.editions.workstation.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+          </ul>
         </div>
       </div>
     </div>
   </div>
   {{export_regulations()}}
-{% endblock %}
+  {% endblock %}

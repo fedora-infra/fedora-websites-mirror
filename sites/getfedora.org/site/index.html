@@ -7,6 +7,27 @@
 {% block title %}{% trans trimmed %}Fedora{% endtrans %}{% endblock %}
 
 {% block content %}
+<div class="container-fluid">
+  <div class="row justify-content-end">
+    <div class="col-auto bg-fedora-purple text-white rounded-left-1 px-3 py-1 mt-3">
+      {% if releaseinfo['beta']['show'] %}
+      {% trans trimmed n=releaseinfo.beta.announcement_release_number %}
+      Fedora {{n}} beta released!
+      {% endtrans %}
+      <span class="font-weight-bold text-white">
+        {% trans trimmed %}Find it on the download pages linked below.{% endtrans %}
+      </span>
+      {% else %}
+      <a href="{{releaseinfo.ga.announcement_url}}" class="text-white font-weight-bold">
+        {% trans trimmed n=releaseinfo.ga.announcement_release_number %}
+        Fedora {{n}} released!
+        {% endtrans %}
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 <div class="bg-tranparent pt-5">
   <div class="container py-3 position-relative">
     <div class="row align-items-center">
