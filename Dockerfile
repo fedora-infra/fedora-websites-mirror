@@ -1,4 +1,4 @@
-FROM fedora:latest
+FROM fedora:29
 
 WORKDIR /opt/sites/getfedora.org/
 
