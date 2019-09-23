@@ -76,7 +76,7 @@
             {% if releaseinfo.beta.show and releaseinfo.beta.editions.server.download_override.netinst_x86_64 %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans trimmed n=releaseinfo.ga.editions.server.release_number %}
+                {% trans trimmed n=releaseinfo.beta.editions.server.release_number %}
                 Fedora {{n}}: Netinstall ISO image for x86_64
                 {% endtrans %}
                 <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
