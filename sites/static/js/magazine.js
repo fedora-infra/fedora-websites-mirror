@@ -3,7 +3,7 @@ $( document ).ready(function() {
   if(!$('#magazineposts').length)
 	  return;
 
-  $.get( "https://fedoramagazine.org/wp-json/wp/v2/posts", { per_page: 3 } )
+  $.get( "/magazine.json")
    .done(function( data ) {
      $.each(data, function(i, item){
        const postlink = item.link;

@@ -38,6 +38,11 @@ do
 		then
 			./scripts/pull-translations.sh
 		fi
+		if [ -x ./scripts/pull-static.sh ];
+		then
+			./scripts/pull-static.sh
+		fi
+
 		${PYBINARY} main.py
 		# This intermediate step is to make sure the final mv is atomic.
 		# This means that syncs can happen at any point in time and they have a larger chance to be fine.

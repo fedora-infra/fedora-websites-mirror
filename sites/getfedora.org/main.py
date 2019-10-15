@@ -223,6 +223,11 @@ export_route('sponsors', '/sponsors/')
 def releases_json():
     return send_from_directory('static', 'releases.json')
 
+
+@app.route('/magazine.json')
+def magazine_json():
+    return send_from_directory('static', 'magazine.json')
+
 @app.route('/static/fedora.gpg')
 def gpgkey():
     return send_from_directory('static', 'fedora.gpg')

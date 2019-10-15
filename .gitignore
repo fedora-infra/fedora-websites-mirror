@@ -6,3 +6,4 @@ bundle.css
 *.po
 *.pot
 translations
+sites/getfedora.org/static/magazine.json
