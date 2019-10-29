@@ -36,7 +36,7 @@ ga:
     
 beta:
   # Should we show the beta stuff at all?
-  show: true
+  show: false
   announcement_release_number: 31
 
   editions:
