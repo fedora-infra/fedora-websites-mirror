@@ -67,12 +67,17 @@ beta:
         netinst_aarch64: default
         raw_aarch64: default
 
-
 fmw:
   osx:
     version: 4.1.4
   win:
     version: 4.1.4
+  releases_json:
+    # milestone can be 'final' or 'beta'. Leaving it out means 'final'.
+    - version: 31
+      milestone: final
+    - version: 30
+    - version: 29
 
 # These all get listed on the security page
 gpg_keys:

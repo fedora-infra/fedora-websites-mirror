@@ -18,6 +18,7 @@ RUN dnf -y install \
     python-dateutil \
     python-dogpile-cache \
     python-requests \
+    python-fedfind \
     python-zanata-client && \
       dnf clean all
 
