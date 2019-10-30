@@ -37,4 +37,4 @@ for rel in releases_to_report:
             h['size'] = str(img['size'])
 
         output.append(h)
-print json.dumps(output)
+print (json.dumps(output))
