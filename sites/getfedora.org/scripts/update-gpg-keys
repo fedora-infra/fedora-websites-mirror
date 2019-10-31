@@ -68,6 +68,7 @@ obsolete_keys = [
     '3B921D09', # Fedora 26 secondary
     'F5282EE4', # Fedora 27
     '9DB62FB1', # Fedora 28
+    '429476B4', # Fedora 29
     '1AC70CE6', # Fedora Extras
     '731002FA', # Fedora Legacy
     '217521F6', # EPEL
