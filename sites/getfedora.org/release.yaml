@@ -16,7 +16,7 @@ ga:
       download_override:
         live_x86_64: default
         live_i386: false
-        netinst_x86_64: default
+        netinst_x86_64: false
         netinst_i386: false
 
     server:
