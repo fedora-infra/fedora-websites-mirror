@@ -31,7 +31,7 @@
 {% block js %}
 <!-- Use the Vue runtime build only,to avoid use of eval() in the full build,
   which is blocked by the CSP. -->
-<script type="text/javascript" src="{{ url_for('static', filename='js/vue.runtime.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/coreos-download.js') }}"></script>
+<script src="{{ url_for('static', filename='js/vue.runtime.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/coreos-download.js') }}"></script>
 {{ super() }}
 {% endblock %}
