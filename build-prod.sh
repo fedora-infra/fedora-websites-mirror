@@ -33,6 +33,7 @@ for site in getfedora.org
 do
 	echo "Building ${site}"
 	(
+		set -e # need this inside the subshell, else we might sync out a partial build.
 		cd sites/${site}
 		if [ "$SKIPTRANS" == "no" ];
 		then
