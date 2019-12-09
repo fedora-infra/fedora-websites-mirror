@@ -34,10 +34,14 @@
                   <a class="dropdown-item" href="{{url_for('server', lang_code=lang_code)}}">Fedora Server</a>
                 </div>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="https://docs.fedoraproject.org/">
-                  {% trans trimmed %}Documentation{% endtrans %}
+              <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {% trans trimmed %}Help{% endtrans %}
                 </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                     <a class="dropdown-item" href="https://docs.fedoraproject.org/">{% trans trimmed %}Documentation{% endtrans %}</a>
+                     <a class="dropdown-item" href="https://ask.fedoraproject.org/">{% trans trimmed %}Ask Fedora{% endtrans %}</a>
+                  </div>
               </li>
 	      <li class="nav-item">
 		<a class="nav-link" href="https://fedoraproject.org/wiki/Fedora_Project_Wiki">
