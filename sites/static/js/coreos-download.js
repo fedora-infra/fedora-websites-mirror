@@ -84,6 +84,12 @@ var coreos_download_app = new Vue({
       bareMetal: {},
       virtualized: {},
       cloud: {}
+    },
+    // innerText of tab button
+    tabInnerText: {
+      cloud_launchable: "Cloud Launchable",
+      metal_virt: "Bare Metal & Virtualized",
+      cloud_operator: "For Cloud Operators"
     }
   },
   created: function() { this.refreshStream() },
@@ -242,28 +248,28 @@ var coreos_download_app = new Vue({
     toggleHidden: function(e) {
       const id_list = ['cloud-launchable', 'metal-virt', 'cloud-operator'];
       switch(e.target.innerText) {
-        case "Cloud Launchable":
+        case this.tabInnerText.cloud_launchable:
           show_id = 'cloud-launchable';
           id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
           break;
-        case "Bare Metal & Virtualized":
+        case this.tabInnerText.metal_virt:
           show_id = 'metal-virt';
           id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
           break;
-        case "For Cloud Operators":
+        case this.tabInnerText.cloud_operator:
           show_id = 'cloud-operator';
           id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
           break;
       }
     },
     getNavbar: function(h) {
-      nav_cloud_launchable_btn = h('button', { class: "nav-link active", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, "Cloud Launchable");
+      nav_cloud_launchable_btn = h('button', { class: "nav-link active", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, this.tabInnerText.cloud_launchable);
       nav_cloud_launchable = h('li', { class: "nav-item mr-3 ml-3" }, [ nav_cloud_launchable_btn ]);
 
-      nav_metal_virt_btn = h('button', { class: "nav-link", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, "Bare Metal & Virtualized");
+      nav_metal_virt_btn = h('button', { class: "nav-link", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, this.tabInnerText.metal_virt);
       nav_metal_virt = h('li', { class: "nav-item mr-3" }, [ nav_metal_virt_btn ]);
 
-      nav_cloud_operator_btn = h('button', { class: "nav-link", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, "For Cloud Operators");
+      nav_cloud_operator_btn = h('button', { class: "nav-link", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, this.tabInnerText.cloud_operator);
       nav_cloud_operator = h('li', { class: "nav-item" }, [ nav_cloud_operator_btn ]);
 
       navbar = h('ul', { class: "nav nav-tabs" }, [ nav_cloud_launchable, nav_metal_virt, nav_cloud_operator ]);
