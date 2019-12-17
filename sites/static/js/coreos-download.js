@@ -238,6 +238,36 @@ var coreos_download_app = new Vue({
       } else {
         return stringize(Math.floor(elapsed/msPerYear), "year");
       }
+    },
+    toggleHidden: function(e) {
+      const id_list = ['cloud-launchable', 'metal-virt', 'cloud-operator'];
+      switch(e.target.innerText) {
+        case "Cloud Launchable":
+          show_id = 'cloud-launchable';
+          id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
+          break;
+        case "Bare Metal & Virtualized":
+          show_id = 'metal-virt';
+          id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
+          break;
+        case "For Cloud Operators":
+          show_id = 'cloud-operator';
+          id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
+          break;
+      }
+    },
+    getNavbar: function(h) {
+      nav_cloud_launchable_btn = h('button', { class: "nav-link active", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, "Cloud Launchable");
+      nav_cloud_launchable = h('li', { class: "nav-item mr-3 ml-3" }, [ nav_cloud_launchable_btn ]);
+
+      nav_metal_virt_btn = h('button', { class: "nav-link", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, "Bare Metal & Virtualized");
+      nav_metal_virt = h('li', { class: "nav-item mr-3" }, [ nav_metal_virt_btn ]);
+
+      nav_cloud_operator_btn = h('button', { class: "nav-link", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, "For Cloud Operators");
+      nav_cloud_operator = h('li', { class: "nav-item" }, [ nav_cloud_operator_btn ]);
+
+      navbar = h('ul', { class: "nav nav-tabs" }, [ nav_cloud_launchable, nav_metal_virt, nav_cloud_operator ]);
+      return navbar
     }
   },
   render: function(h) {
@@ -426,22 +456,20 @@ var coreos_download_app = new Vue({
         ])
       ]);
 
+      let navbar = this.getNavbar(h);
+
+      let bare_metal_container = h('div', { class: "col-12 p-0" }, [ bareMetalTitle, verifyBlurb, bareMetal ]);
+      let virtualized_container = h('div', { class: "col-12 p-0" }, [ virtualizedTitle, verifyBlurb, virtualized ]);
+
+      let cloud_launchable_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: "cloud-launchable", hidden: false} }, [ cloudLaunchableTitle, streamName, cloudLaunchable ]);
+      let metal_virt_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: "metal-virt", hidden: true } }, [ bare_metal_container, virtualized_container ]);
+      let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: "cloud-operator", hidden: true } }, [ cloudTitle, verifyBlurb, cloud ]);
+
       return h('div', {}, [
-        streamName,
-        cloudLaunchableTitle,
-        cloudLaunchable,
-        h('hr'),
-        bareMetalTitle,
-        verifyBlurb,
-        bareMetal,
-        h('hr'),
-        virtualizedTitle,
-        verifyBlurb,
-        virtualized,
-        h('hr'),
-        cloudTitle,
-        verifyBlurb,
-        cloud
+        navbar,
+        cloud_launchable_container,
+        metal_virt_container,
+        cloud_operators_container
       ]);
     }
     else {
