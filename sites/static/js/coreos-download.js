@@ -264,16 +264,19 @@ var coreos_download_app = new Vue({
       }
     },
     getNavbar: function(h) {
-      nav_cloud_launchable_btn = h('button', { class: "nav-link active", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, this.tabInnerText.cloud_launchable);
-      nav_cloud_launchable = h('li', { class: "nav-item mr-3 ml-3" }, [ nav_cloud_launchable_btn ]);
+      cloud_icon = h('i', { class: "fas fa-cloud mr-2" })
+      nav_cloud_launchable_btn = h('button', { class: "nav-link active col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_icon, this.tabInnerText.cloud_launchable ]);
+      nav_cloud_launchable = h('li', { class: "nav-item col-4" }, [ nav_cloud_launchable_btn ]);
 
-      nav_metal_virt_btn = h('button', { class: "nav-link", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, this.tabInnerText.metal_virt);
-      nav_metal_virt = h('li', { class: "nav-item mr-3" }, [ nav_metal_virt_btn ]);
+      server_icon = h('i', { class: "fas fa-server mr-2" })
+      nav_metal_virt_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ server_icon, this.tabInnerText.metal_virt ]);
+      nav_metal_virt = h('li', { class: "nav-item col-4" }, [ nav_metal_virt_btn ]);
 
-      nav_cloud_operator_btn = h('button', { class: "nav-link", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, this.tabInnerText.cloud_operator);
-      nav_cloud_operator = h('li', { class: "nav-item" }, [ nav_cloud_operator_btn ]);
+      cloud_upload_icon = h('i', { class: "fas fa-cloud-upload-alt mr-2" })
+      nav_cloud_operator_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_upload_icon, this.tabInnerText.cloud_operator ]);
+      nav_cloud_operator = h('li', { class: "nav-item col-4" }, [ nav_cloud_operator_btn ]);
 
-      navbar = h('ul', { class: "nav nav-tabs" }, [ nav_cloud_launchable, nav_metal_virt, nav_cloud_operator ]);
+      navbar = h('ul', { class: "nav nav-tabs col-12 p-0" }, [ nav_cloud_launchable, nav_metal_virt, nav_cloud_operator ]);
       return navbar
     }
   },
