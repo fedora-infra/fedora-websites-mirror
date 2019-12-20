@@ -94,6 +94,36 @@ var jumbotron_buttons = new Vue ({
   el: '#jumbotron-buttons',
   data: data,
   methods: {
+    getObjectUrl: function(path) {
+      return getArtifactUrl(data.streamUrl, path);
+    },
+    // Adapted from https://stackoverflow.com/a/6109105
+    timeSince: function(rfc3339_timestamp) {
+      var current = Date.now();
+      var timestamp = Date.parse(rfc3339_timestamp);
+      var elapsed = current - timestamp;
+      var msPerMinute = 60 * 1000;
+      var msPerHour = msPerMinute * 60;
+      var msPerDay = msPerHour * 24;
+      var msPerMonth = msPerDay * 30;
+      var msPerYear = msPerDay * 365;
+      function stringize(n, s) {
+        return n + ` ${s}` + (n == 1 ? "" : "s") + ' ago';
+      };
+      if (elapsed < msPerMinute) {
+        return stringize(Math.floor(elapsed/1000), "second");
+      } else if (elapsed < msPerHour) {
+        return stringize(Math.floor(elapsed/msPerMinute), "minute");
+      } else if (elapsed < msPerDay) {
+        return stringize(Math.floor(elapsed/msPerHour), "hour");
+      } else if (elapsed < msPerMonth) {
+        return stringize(Math.floor(elapsed/msPerDay), "day");
+      } else if (elapsed < msPerYear) {
+        return stringize(Math.floor(elapsed/msPerMonth), "month");
+      } else {
+        return stringize(Math.floor(elapsed/msPerYear), "year");
+      }
+    },
     toggleHidden: function(e) {
       const id_list = ['cloud-launchable', 'metal-virt', 'cloud-operator'];
       switch(e.target.innerText) {
@@ -125,13 +155,32 @@ var jumbotron_buttons = new Vue ({
       nav_cloud_operator = h('li', { class: "nav-item col-4" }, [ nav_cloud_operator_btn ]);
 
       navbar = h('ul', { class: "nav nav-tabs" }, [ nav_cloud_launchable, nav_metal_virt, nav_cloud_operator ]);
-      container = h('div', { class: "container" }, [ navbar ]);
-      return container
+      return navbar;
+    },
+    // Add dropdown options of streams
+    getStreamName: function(h) {
+      if (data.streamData === null) return;
+      option_default = h('option', { attrs: { value: "testing", selected: "selected" }}, "testing" );
+      selectOptions = h('select', { class: "mx-1" }, [ option_default ]);
+      streamName = h('p', {}, [
+        "Stream: ",
+        selectOptions,
+        " (",
+        h('span', {}, [
+          h('a', { attrs: { href: this.getObjectUrl(data.streamData.stream + '.json') } }, "JSON")
+        ]),
+        ")",
+        "—",
+        h('span', {}, this.timeSince(data.streamData.metadata['last-modified']))
+      ]);
+      return streamName;
     }
   },
   render: function(h) {
     navbar = this.getNavbar(h);
-    return navbar
+    streamName = this.getStreamName(h);
+    container = h('div', { class: "container" }, [ streamName, navbar ]);
+    return container
   }
 })
 var coreos_download_app = new Vue({
@@ -140,9 +189,6 @@ var coreos_download_app = new Vue({
   data: data,
   watch: { 'data.stream': 'refreshStream' },
   methods: {
-    getObjectUrl: function(path) {
-      return getArtifactUrl(data.streamUrl, path);
-    },
     isAws: function(platform) {
       return platform == "aws";
     },
@@ -262,33 +308,6 @@ var coreos_download_app = new Vue({
         return false;
       }
       return artifact.downloads[contentType].showSignatureAndSha;
-    },
-    // Adapted from https://stackoverflow.com/a/6109105
-    timeSince: function(rfc3339_timestamp) {
-      var current = Date.now();
-      var timestamp = Date.parse(rfc3339_timestamp);
-      var elapsed = current - timestamp;
-      var msPerMinute = 60 * 1000;
-      var msPerHour = msPerMinute * 60;
-      var msPerDay = msPerHour * 24;
-      var msPerMonth = msPerDay * 30;
-      var msPerYear = msPerDay * 365;
-      function stringize(n, s) {
-        return n + ` ${s}` + (n == 1 ? "" : "s") + ' ago';
-      };
-      if (elapsed < msPerMinute) {
-        return stringize(Math.floor(elapsed/1000), "second");
-      } else if (elapsed < msPerHour) {
-        return stringize(Math.floor(elapsed/msPerMinute), "minute");
-      } else if (elapsed < msPerDay) {
-        return stringize(Math.floor(elapsed/msPerHour), "hour");
-      } else if (elapsed < msPerMonth) {
-        return stringize(Math.floor(elapsed/msPerDay), "day");
-      } else if (elapsed < msPerYear) {
-        return stringize(Math.floor(elapsed/msPerMonth), "month");
-      } else {
-        return stringize(Math.floor(elapsed/msPerYear), "year");
-      }
     }
   },
   render: function(h) {
@@ -296,18 +315,6 @@ var coreos_download_app = new Vue({
       return h('div', {}, "Loading...");
     }
     else if (data.streamData) {
-      streamName = h('p', {}, [
-        "Stream: ",
-        h('span', { "class":"font-weight-bold" }, data.streamData.stream),
-        " (",
-        h('span', {}, [
-          h('a', { attrs: { href: this.getObjectUrl(data.streamData.stream + '.json') } }, "JSON")
-        ]),
-        ")",
-        "—",
-        h('span', {}, this.timeSince(data.streamData.metadata['last-modified']))
-      ]);
-
       cloudLaunchableTitle = h('h3', { class:"font-weight-light" }, "Cloud Launchable");
       cloudLaunchableSection = {};
       cloudLaunchable = {};
@@ -480,7 +487,7 @@ var coreos_download_app = new Vue({
       let bare_metal_container = h('div', { class: "col-6" }, [ bareMetalTitle, verifyBlurb, bareMetal ]);
       let virtualized_container = h('div', { class: "col-6" }, [ virtualizedTitle, verifyBlurb, virtualized ]);
 
-      let cloud_launchable_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: "cloud-launchable", hidden: false} }, [ cloudLaunchableTitle, streamName, cloudLaunchable ]);
+      let cloud_launchable_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: "cloud-launchable", hidden: false} }, [ cloudLaunchableTitle, cloudLaunchable ]);
       let metal_virt_container = h('div', { class: "row col-12 py-2 my-2", attrs: { id: "metal-virt", hidden: true } }, [ bare_metal_container, virtualized_container ]);
       let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: "cloud-operator", hidden: true } }, [ cloudTitle, verifyBlurb, cloud ]);
 
