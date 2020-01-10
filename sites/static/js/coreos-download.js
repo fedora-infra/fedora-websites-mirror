@@ -181,11 +181,11 @@ var coreos_download_app = new Vue({
         selectOptions,
         " (",
         h('span', {}, [
-          h('a', { attrs: { href: this.getObjectUrl(this.streamData.stream + '.json') } }, "JSON")
+          h('a', { attrs: { href: this.getObjectUrl(this.stream + '.json') } }, "JSON")
         ]),
         ")",
-        "—",
-        h('span', {}, this.timeSince(this.streamData.metadata['last-modified']))
+        (this.streamData.metadata) ? "—" : null,
+        (this.streamData.metadata) ? h('span', {}, this.timeSince(this.streamData.metadata['last-modified'])) : null
       ]);
       return streamName;
     },
