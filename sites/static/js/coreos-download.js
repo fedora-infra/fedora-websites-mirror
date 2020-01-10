@@ -29,29 +29,11 @@ const prettyPlatforms = {
   "vmware": "VMware",
   "openstack": "OpenStack"
 }
-var data = {
-  // currently selected stream
-  stream: 'testing',
-  // currently selected architecture
-  architecture: 'x86_64',
-  // current url to dir for stream
-  streamUrl: "",
-  // fetched {stream, metadata, architectures, updates} object from stream.json
-  streamData: null,
-  loading: false,
-  // loaded stream data to render
-  streamDisplay: {
-    cloudLaunchable: {},
-    bareMetal: {},
-    virtualized: {},
-    cloud: {}
-  },
-  // innerText of tab button
-  tabInnerText: {
-    cloud_launchable: "Cloud Launchable",
-    metal_virt: "Bare Metal & Virtualized",
-    cloud_operator: "For Cloud Operators"
-  }
+// innerText of tab button
+const tabInnerText = {
+  "cloud_launchable": "Cloud Launchable",
+  "metal_virt": "Bare Metal & Virtualized",
+  "cloud_operator": "For Cloud Operators"
 }
 function getMember(obj, member) {
   return (member in obj) ? obj[member] : null;
@@ -90,12 +72,33 @@ function getDownloadsFromFormat(formatData, downloads) {
     downloads[download] = entry;
   }
 }
-var jumbotron_buttons = new Vue ({
-  el: '#jumbotron-buttons',
-  data: data,
+var coreos_download_app = new Vue({
+  el: '#coreos-download-app',
+  created: function() { this.refreshStream() },
+  data: {
+    // currently selected stream
+    stream: 'testing',
+    // currently selected architecture
+    architecture: 'x86_64',
+    // current url to dir for stream
+    streamUrl: "",
+    // fetched {stream, metadata, architectures, updates} object from stream.json
+    streamData: null,
+    loading: false,
+    // loaded stream data to render
+    streamDisplay: {
+      cloudLaunchable: {},
+      bareMetal: {},
+      virtualized: {},
+      cloud: {}
+    },
+  },
+  watch: { stream: function() {
+    this.refreshStream();
+  } },
   methods: {
     getObjectUrl: function(path) {
-      return getArtifactUrl(data.streamUrl, path);
+      return getArtifactUrl(this.streamUrl, path);
     },
     // Adapted from https://stackoverflow.com/a/6109105
     timeSince: function(rfc3339_timestamp) {
@@ -127,15 +130,15 @@ var jumbotron_buttons = new Vue ({
     toggleHidden: function(e) {
       const id_list = ['cloud-launchable', 'metal-virt', 'cloud-operator'];
       switch(e.target.innerText) {
-        case data.tabInnerText.cloud_launchable:
+        case tabInnerText.cloud_launchable:
           show_id = 'cloud-launchable';
           id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
           break;
-        case data.tabInnerText.metal_virt:
+        case tabInnerText.metal_virt:
           show_id = 'metal-virt';
           id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
           break;
-        case data.tabInnerText.cloud_operator:
+        case tabInnerText.cloud_operator:
           show_id = 'cloud-operator';
           id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
           break;
@@ -143,15 +146,15 @@ var jumbotron_buttons = new Vue ({
     },
     getNavbar: function(h) {
       cloud_icon = h('i', { class: "fas fa-cloud mr-2" })
-      nav_cloud_launchable_btn = h('button', { class: "nav-link active col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_icon, data.tabInnerText.cloud_launchable ]);
+      nav_cloud_launchable_btn = h('button', { class: "nav-link active col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_icon, tabInnerText.cloud_launchable ]);
       nav_cloud_launchable = h('li', { class: "nav-item col-4" }, [ nav_cloud_launchable_btn ]);
 
       server_icon = h('i', { class: "fas fa-server mr-2" })
-      nav_metal_virt_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ server_icon, data.tabInnerText.metal_virt ]);
+      nav_metal_virt_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ server_icon, tabInnerText.metal_virt ]);
       nav_metal_virt = h('li', { class: "nav-item col-4" }, [ nav_metal_virt_btn ]);
 
       cloud_upload_icon = h('i', { class: "fas fa-cloud-upload-alt mr-2" })
-      nav_cloud_operator_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_upload_icon, data.tabInnerText.cloud_operator ]);
+      nav_cloud_operator_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_upload_icon, tabInnerText.cloud_operator ]);
       nav_cloud_operator = h('li', { class: "nav-item col-4" }, [ nav_cloud_operator_btn ]);
 
       navbar = h('ul', { class: "nav nav-tabs" }, [ nav_cloud_launchable, nav_metal_virt, nav_cloud_operator ]);
@@ -159,36 +162,33 @@ var jumbotron_buttons = new Vue ({
     },
     // Add dropdown options of streams
     getStreamName: function(h) {
-      if (data.streamData === null) return;
-      option_default = h('option', { attrs: { value: "testing", selected: "selected" }}, "testing" );
-      selectOptions = h('select', { class: "mx-1" }, [ option_default ]);
+      if (this.streamData === null) return;
+      option_default = h('option', { attrs: { value: "testing", selected: "selected" }}, "testing");
+      option_stable = h('option', { attrs: { value: "stable" }}, "stable");
+      selectOptions = h('select', {
+        class: "mx-1",
+        on: {
+          change: function(e) {
+            coreos_download_app.stream = e.target.value;
+          }
+        }
+      }, [
+        option_default,
+        option_stable
+      ]);
       streamName = h('p', {}, [
         "Stream: ",
         selectOptions,
         " (",
         h('span', {}, [
-          h('a', { attrs: { href: this.getObjectUrl(data.streamData.stream + '.json') } }, "JSON")
+          h('a', { attrs: { href: this.getObjectUrl(this.streamData.stream + '.json') } }, "JSON")
         ]),
         ")",
         "—",
-        h('span', {}, this.timeSince(data.streamData.metadata['last-modified']))
+        h('span', {}, this.timeSince(this.streamData.metadata['last-modified']))
       ]);
       return streamName;
-    }
-  },
-  render: function(h) {
-    navbar = this.getNavbar(h);
-    streamName = this.getStreamName(h);
-    container = h('div', { class: "container" }, [ streamName, navbar ]);
-    return container
-  }
-})
-var coreos_download_app = new Vue({
-  el: '#coreos-download-app',
-  created: function() { this.refreshStream() },
-  data: data,
-  watch: { 'data.stream': 'refreshStream' },
-  methods: {
+    },
     isAws: function(platform) {
       return platform == "aws";
     },
@@ -205,20 +205,20 @@ var coreos_download_app = new Vue({
     // not deep-copy information from `streamData` or elsewhere into
     // `streamDisplay`.
     loadStreamDisplay: function() {
-      data.streamDisplay = {
+      this.streamDisplay = {
         cloudLaunchable: {},
         bareMetal: {},
         virtualized: {},
         cloud: {}
       };
-      if (data.streamData == null) {
+      if (this.streamData == null) {
         return;
       }
-      const architectures = getMember(data.streamData, "architectures");
+      const architectures = getMember(this.streamData, "architectures");
       if (architectures == null) {
         return;
       }
-      const architectureData = getMember(architectures, data.architecture);
+      const architectureData = getMember(architectures, this.architecture);
       if (architectureData == null) {
         return;
       }
@@ -238,11 +238,11 @@ var coreos_download_app = new Vue({
               displayEntries.push({platform: prettyPlatform, region: region, release: release, image: image});
             }
           }
-          Vue.set(data.streamDisplay.cloudLaunchable, platform, {list: displayEntries});
+          Vue.set(this.streamDisplay.cloudLaunchable, platform, {list: displayEntries});
         }
         else {
           const image = getMember(images[platform], "image");
-          Vue.set(data.streamDisplay.cloudLaunchable, platform, {platform: prettyPlatform, image: image});
+          Vue.set(this.streamDisplay.cloudLaunchable, platform, {platform: prettyPlatform, image: image});
         }
       }
       const artifacts = getMember(architectureData, "artifacts");
@@ -267,32 +267,32 @@ var coreos_download_app = new Vue({
               Vue.set(display, platform + "-" + format, displayEntry);
             }
             if (this.isCloudImage(platform)) {
-              addDisplayEntry(data.streamDisplay.cloud, platform, format, formats, release, prettyPlatform, extension);
+              addDisplayEntry(this.streamDisplay.cloud, platform, format, formats, release, prettyPlatform, extension);
             }
             if (this.isVirtualizedImage(platform)) {
-              addDisplayEntry(data.streamDisplay.virtualized, platform, format, formats, release, prettyPlatform, extension);
+              addDisplayEntry(this.streamDisplay.virtualized, platform, format, formats, release, prettyPlatform, extension);
             }
             if (this.isBareMetalImage(platform)) {
-              addDisplayEntry(data.streamDisplay.bareMetal, platform, format, formats, release, prettyPlatform, extension);
+              addDisplayEntry(this.streamDisplay.bareMetal, platform, format, formats, release, prettyPlatform, extension);
             }
           }
         }
       }
     },
     refreshStream: function() {
-      data.loading = true
-      data.streamUrl = baseUrl
-      fetchStreamData(data.streamUrl, data.stream).then(streamData => {
-        data.loading = false;
-        data.streamData = streamData;
+      this.loading = true
+      this.streamUrl = baseUrl
+      fetchStreamData(this.streamUrl, this.stream).then(streamData => {
+        this.loading = false;
+        this.streamData = streamData;
         this.loadStreamDisplay();
       });
     },
     toggleShowSignatureAndSha: function(imageType, platformFormat, contentType) {
-      if (!(platformFormat in data.streamDisplay[imageType])) {
+      if (!(platformFormat in this.streamDisplay[imageType])) {
         return;
       }
-      const artifact = data.streamDisplay[imageType][platformFormat];
+      const artifact = this.streamDisplay[imageType][platformFormat];
       if (!(contentType in artifact.downloads)) {
         return;
       }
@@ -300,10 +300,10 @@ var coreos_download_app = new Vue({
       artifact.downloads[contentType].showSignatureAndSha = !prev;
     },
     showSignatureAndSha: function(imageType, platformFormat, contentType) {
-      if (!(platformFormat in data.streamDisplay[imageType])) {
+      if (!(platformFormat in this.streamDisplay[imageType])) {
         return false;
       }
-      const artifact = data.streamDisplay[imageType][platformFormat];
+      const artifact = this.streamDisplay[imageType][platformFormat];
       if (!(contentType in artifact.downloads)) {
         return false;
       }
@@ -311,10 +311,11 @@ var coreos_download_app = new Vue({
     }
   },
   render: function(h) {
-    if (data.loading) {
-      return h('div', {}, "Loading...");
+    var stream_select_container = h('div', { class: "jumbotron pb-0 pt-3" }, [ h('div', { class: "container" }, [ this.getStreamName(h), this.getNavbar(h) ]) ]);
+    if (this.loading) {
+      return h('div', {}, [ stream_select_container, "Loading..."] );
     }
-    else if (data.streamData) {
+    else if (this.streamData) {
       cloudLaunchableTitle = h('h3', { class:"font-weight-light" }, "Cloud Launchable");
       cloudLaunchableSection = {};
       cloudLaunchable = {};
@@ -328,8 +329,8 @@ var coreos_download_app = new Vue({
       cloudSection = {};
       cloud = {};
 
-      if (data.streamDisplay.cloudLaunchable) {
-        cloudLaunchableSection = h('div', {}, Object.entries(data.streamDisplay.cloudLaunchable).map(function(entry) {
+      if (this.streamDisplay.cloudLaunchable) {
+        cloudLaunchableSection = h('div', {}, Object.entries(this.streamDisplay.cloudLaunchable).map(function(entry) {
           platform = entry[0];
           displayInfo = entry[1];
           if (coreos_download_app.isAws(platform)) {
@@ -340,7 +341,7 @@ var coreos_download_app = new Vue({
                   amiInfo.region ? h('div', {}, [ "(", amiInfo.region, ")" ]) : null,
                   amiInfo.release ? h('div', { class: "ml-2" }, [
                     h('span', {}, [ amiInfo.release, " " ]),
-                    h('span', { class: "text-secondary" }, data.streamData.stream)
+                    h('span', { class: "text-secondary" }, coreos_download_app.streamData.stream)
                   ]) : null,
                   amiInfo.image ? h('div', { class: "ml-2" }, [
                     h('a', {
@@ -442,7 +443,7 @@ var coreos_download_app = new Vue({
             displayInfo.extension ? h('div', {}, [ "(", displayInfo.extension, ")" ]) : null,
             displayInfo.release ? h('div', { class: "ml-2" }, [
               h('span', {}, [ displayInfo.release, " " ]),
-              h('span', { class: "text-secondary" }, data.streamData.stream)
+              h('span', { class: "text-secondary" }, coreos_download_app.streamData.stream)
             ]) : null,
             displayInfo.downloads ? h('div', { class: "ml-2" }, [
               createDownloadsSubSection(displayInfo.downloads.disk, 'disk', false, imageType),
@@ -452,24 +453,24 @@ var coreos_download_app = new Vue({
           ]);
         }));
       }
-      if (data.streamDisplay.bareMetal) {
-        bareMetalSection = createArtifactsSection(data.streamDisplay.bareMetal, 'bareMetal');
+      if (this.streamDisplay.bareMetal) {
+        bareMetalSection = createArtifactsSection(this.streamDisplay.bareMetal, 'bareMetal');
       }
       else {
         bareMetalSection = h('div', {}, "No bare metal images found.");
       }
       bareMetal = h('div', { class: "col-12 py-2 my-2" }, [ bareMetalSection ]);
 
-      if (data.streamDisplay.virtualized) {
-        virtualizedSection = createArtifactsSection(data.streamDisplay.virtualized, 'virtualized');
+      if (this.streamDisplay.virtualized) {
+        virtualizedSection = createArtifactsSection(this.streamDisplay.virtualized, 'virtualized');
       }
       else {
         virtualizedSection = h('div', {}, "No virtualized images found.");
       }
       virtualized = h('div', { class: "col-12 py-2 my-2" }, [ virtualizedSection ]);
 
-      if (data.streamDisplay.cloud) {
-        cloudSection = createArtifactsSection(data.streamDisplay.cloud, 'cloud');
+      if (this.streamDisplay.cloud) {
+        cloudSection = createArtifactsSection(this.streamDisplay.cloud, 'cloud');
       }
       else {
         cloudSection = h('div', {}, "No cloud images found.");
@@ -492,6 +493,7 @@ var coreos_download_app = new Vue({
       let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: "cloud-operator", hidden: true } }, [ cloudTitle, verifyBlurb, cloud ]);
 
       return h('div', {}, [
+        stream_select_container,
         cloud_launchable_container,
         metal_virt_container,
         cloud_operators_container
