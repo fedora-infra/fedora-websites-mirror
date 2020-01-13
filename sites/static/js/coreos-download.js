@@ -311,7 +311,7 @@ var coreos_download_app = new Vue({
     }
   },
   render: function(h) {
-    var stream_select_container = h('div', { class: "jumbotron pb-0 pt-3" }, [ h('div', { class: "container" }, [ this.getStreamName(h), this.getNavbar(h) ]) ]);
+    var stream_select_container = h('div', { class: "pb-0 pt-3" }, [ h('div', { class: "container" }, [ this.getStreamName(h), this.getNavbar(h) ]) ]);
     if (this.loading) {
       return h('div', {}, [ stream_select_container, "Loading..."] );
     }
