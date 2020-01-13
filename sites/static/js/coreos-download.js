@@ -284,7 +284,7 @@ var coreos_download_app = new Vue({
       this.streamUrl = baseUrl
       fetchStreamData(this.streamUrl, this.stream).then(streamData => {
         this.loading = false;
-        this.streamData = streamData;
+        this.streamData = Object.entries(streamData).length === 0 && streamData.constructor === Object ? null : streamData;
         this.loadStreamDisplay();
       });
     },
