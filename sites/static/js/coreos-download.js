@@ -35,6 +35,12 @@ const tabInnerText = {
   "metal_virt": "Bare Metal & Virtualized",
   "cloud_operator": "For Cloud Operators"
 }
+// frequently used IDs
+const IdPool = {
+  "cloud_launchable": "cloud-launchable",
+  "metal_virt": "metal-virt",
+  "cloud_operator": "cloud-operator"
+}
 function getMember(obj, member) {
   return (member in obj) ? obj[member] : null;
 }
@@ -76,6 +82,8 @@ var coreos_download_app = new Vue({
   el: '#coreos-download-app',
   created: function() { this.refreshStream() },
   data: {
+    // currently shown tab
+    shownId: IdPool.cloud_launchable,
     // currently selected stream
     stream: 'testing',
     // currently selected architecture
@@ -128,21 +136,16 @@ var coreos_download_app = new Vue({
       }
     },
     toggleHidden: function(e) {
-      const id_list = ['cloud-launchable', 'metal-virt', 'cloud-operator'];
-      switch(e.target.innerText) {
-        case tabInnerText.cloud_launchable:
-          show_id = 'cloud-launchable';
+      const id_list = Object.values(IdPool);
+      Object.entries(tabInnerText).map(pair => {
+        const key = pair[0];
+        const val = pair[1];
+        if (val === e.target.innerText) {
+          const show_id = IdPool[key];
           id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
-          break;
-        case tabInnerText.metal_virt:
-          show_id = 'metal-virt';
-          id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
-          break;
-        case tabInnerText.cloud_operator:
-          show_id = 'cloud-operator';
-          id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
-          break;
-      }
+          this.shownId = show_id;
+        }
+      });
     },
     getNavbar: function(h) {
       cloud_icon = h('i', { class: "fas fa-cloud mr-2" })
@@ -488,9 +491,9 @@ var coreos_download_app = new Vue({
       let bare_metal_container = h('div', { class: "col-6" }, [ bareMetalTitle, verifyBlurb, bareMetal ]);
       let virtualized_container = h('div', { class: "col-6" }, [ virtualizedTitle, verifyBlurb, virtualized ]);
 
-      let cloud_launchable_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: "cloud-launchable", hidden: false} }, [ cloudLaunchableTitle, cloudLaunchable ]);
-      let metal_virt_container = h('div', { class: "row col-12 py-2 my-2", attrs: { id: "metal-virt", hidden: true } }, [ bare_metal_container, virtualized_container ]);
-      let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: "cloud-operator", hidden: true } }, [ cloudTitle, verifyBlurb, cloud ]);
+      let cloud_launchable_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_launchable, hidden: this.shownId !== IdPool.cloud_launchable } }, [ cloudLaunchableTitle, cloudLaunchable ]);
+      let metal_virt_container = h('div', { class: "row col-12 py-2 my-2", attrs: { id: IdPool.metal_virt, hidden: this.shownId !== IdPool.metal_virt } }, [ bare_metal_container, virtualized_container ]);
+      let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_operator, hidden: this.shownId !== IdPool.cloud_operator } }, [ cloudTitle, verifyBlurb, cloud ]);
 
       return h('div', {}, [
         stream_select_container,
