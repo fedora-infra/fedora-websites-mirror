@@ -85,7 +85,7 @@ var coreos_download_app = new Vue({
     // currently shown tab
     shownId: IdPool.cloud_launchable,
     // currently selected stream
-    stream: 'testing',
+    stream: 'stable',
     // currently selected architecture
     architecture: 'x86_64',
     // current url to dir for stream
@@ -166,8 +166,8 @@ var coreos_download_app = new Vue({
     // Add dropdown options of streams
     getStreamName: function(h) {
       if (this.streamData === null) return;
-      option_default = h('option', { attrs: { value: "testing", selected: "selected" }}, "testing");
-      option_stable = h('option', { attrs: { value: "stable" }}, "stable");
+      option_default = h('option', { attrs: { value: "stable", selected: "selected" }}, "stable");
+      option_testing = h('option', { attrs: { value: "testing" }}, "testing");
       selectOptions = h('select', {
         class: "mx-1",
         on: {
@@ -177,7 +177,7 @@ var coreos_download_app = new Vue({
         }
       }, [
         option_default,
-        option_stable
+        option_testing
       ]);
       streamName = h('p', {}, [
         "Stream: ",
