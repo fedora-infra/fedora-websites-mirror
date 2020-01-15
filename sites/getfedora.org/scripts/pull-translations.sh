@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-zanata pull --transdir translations
-for file in translations/*.po; do
-  mkdir -p $(echo $file | sed 's/\.po//')/LC_MESSAGES
-  mv $file $(echo $file | sed 's/\.po//')/LC_MESSAGES/messages.po
-done
+TRANS_TMP=$(mktemp -d)
+
+git clone ssh://git@pagure.io/fedora-web/translations.git "$TRANS_TMP"
+mkdir -p translations/
+cp -R "$TRANS_TMP"/getfedora.org-redesign/* translations/
+rm -rf "$TRANS_TMP"
+
 pybabel compile -d translations
