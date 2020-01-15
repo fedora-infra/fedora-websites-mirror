@@ -18,8 +18,7 @@ RUN dnf -y install \
     python-dateutil \
     python-dogpile-cache \
     python-requests \
-    python-fedfind \
-    python-zanata-client && \
+    python-fedfind && \
       dnf clean all
 
 ENV FLASK_APP main.py
