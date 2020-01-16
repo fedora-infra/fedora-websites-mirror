@@ -74,7 +74,7 @@ function getPrettyPlatform(platform, extension) {
 function getDownloadsFromFormat(formatData, downloads) {
   for (var download in formatData) {
     downloadData = formatData[download];
-    entry = {location: downloadData.location, signature: downloadData.signature, sha256: downloadData.sha256, showSignatureAndSha: false};
+    entry = {location: downloadData.location, signature: downloadData.signature, sha256: downloadData.sha256};
     downloads[download] = entry;
   }
 }
@@ -266,7 +266,7 @@ var coreos_download_app = new Vue({
             function addDisplayEntry(display, platform, format, formats, release, prettyPlatform, extension) {
               downloads = {};
               getDownloadsFromFormat(formats[format], downloads);
-              displayEntry = {platform: prettyPlatform, release: release, downloads: downloads, extension: extension, showSignatureAndSha: false};
+              displayEntry = {platform: prettyPlatform, release: release, downloads: downloads, extension: extension};
               Vue.set(display, platform + "-" + format, displayEntry);
             }
             if (this.isCloudImage(platform)) {
@@ -291,30 +291,32 @@ var coreos_download_app = new Vue({
         this.loadStreamDisplay();
       });
     },
-    toggleShowSignatureAndSha: function(imageType, platformFormat, contentType) {
-      if (!(platformFormat in this.streamDisplay[imageType])) {
-        return;
-      }
-      const artifact = this.streamDisplay[imageType][platformFormat];
-      if (!(contentType in artifact.downloads)) {
-        return;
-      }
-      var prev = artifact.downloads[contentType].showSignatureAndSha;
-      artifact.downloads[contentType].showSignatureAndSha = !prev;
-    },
-    showSignatureAndSha: function(imageType, platformFormat, contentType) {
-      if (!(platformFormat in this.streamDisplay[imageType])) {
-        return false;
-      }
-      const artifact = this.streamDisplay[imageType][platformFormat];
-      if (!(contentType in artifact.downloads)) {
-        return false;
-      }
-      return artifact.downloads[contentType].showSignatureAndSha;
+    getSignatureAndShaModal: function(h) {
+      return h('div', { class: "modal", attrs: { id: "signatureAndShaModal", tabindex: "-1", role: "dialog", "aria-labelledby": "signatureAndShaModalLabel", "aria-hidden": "true" }}, [
+        h('div', { class: "modal-dialog modal-lg modal-dialog-centered", attrs: { role: "document" }}, [
+          h('div', { class: "modal-content" }, [
+            h('div', { class: "modal-header" }, [
+              h('h5', { class: "modal-title", attrs: { id: "signatureAndShaModalTitle" }}, [
+                "Verify signature & SHA256"
+              ]),
+              h('button', { class: "close", attrs: { type: "button", "data-dismiss": "modal", "aria-label": "Close" }}, [
+                h('span', { attrs: { "aria-hidden": "true" }}, [ "×" ])
+              ])
+            ]),
+            h('div', { class: "modal-body", attrs: { id: "modal-body" }}, [ "Loading..." ]),
+            h('div', { class: "modal-footer" }, [
+              h('button', { class: "btn btn-secondary", attrs: { type: "button", "data-dismiss": "modal" }}, [
+                "Close"
+              ])
+            ])
+          ])
+        ])
+      ])
     }
   },
   render: function(h) {
-    var stream_select_container = h('div', { class: "pb-0 pt-3" }, [ h('div', { class: "container" }, [ this.getStreamName(h), this.getNavbar(h) ]) ]);
+    var signature_sha256_verification_modal = this.getSignatureAndShaModal(h);
+    var stream_select_container = h('div', { class: "pb-0 pt-3 mb-3" }, [ h('div', { class: "container" }, [ this.getStreamName(h), this.getNavbar(h) ]) ]);
     if (this.loading) {
       return h('div', {}, [ stream_select_container, "Loading..."] );
     }
@@ -380,61 +382,84 @@ var coreos_download_app = new Vue({
             h('button', {
               on: {
                 click: function(e) {
+                  // on click edit the content of popup modal
                   if (e.target !== e.currentTarget) {
                     return;
                   }
                   else {
-                    coreos_download_app.toggleShowSignatureAndSha(imageType,e.target.attributes.platformFormat.value, contentType);
-                    e.stopPropagation();
-                    e.preventDefault();
+                    $("#modal-body").empty();
+                    let p = document.createElement('p');
+                    if(displayDownloads.sha256) {
+                      let d = document.createElement('div');
+                      $(d).addClass("overflow-auto")
+                          .html("SHA256: " + displayDownloads.sha256)
+                          .appendTo(p);
+
+                      d = document.createElement('div');
+                      a = document.createElement('a');
+                      $(a).attr("href", "data:text/plain;charset=utf-8," + encodeURIComponent("SHA256 (" + getFilename(displayDownloads.location) + ") = " + displayDownloads.sha256))
+                          .attr("download", getFilename(displayDownloads.location) + "-CHECKSUM")
+                          .html("Checksum file")
+                          .appendTo(d);
+                      $(d).appendTo(p);
+                    }
+                    if(displayDownloads.signature) {
+                      let d = document.createElement('div');
+                      a = document.createElement('a');
+                      $(a).attr("href", displayDownloads.signature)
+                          .html("Signature")
+                          .appendTo(d);
+                      $(d).appendTo(p);
+                    }
+                    $(p).appendTo("#modal-body");
+
+                    let ol = document.createElement('ol');
+                    let li = document.createElement('li');
+                    p = document.createElement('p');
+                    $(p).html("Import Fedora's GPG keys");
+                    let code = document.createElement('code');
+                    let pre = document.createElement('pre');
+                    $(code).html("curl https://getfedora.org/static/fedora.gpg | gpg --import")
+                           .appendTo(pre);
+                    $(p).appendTo(li);
+                    $(pre).appendTo(li);
+                    $(li).appendTo(ol);
+
+                    li = document.createElement('li');
+                    p = document.createElement('p');
+                    $(p).html("Verify the signature is valid");
+                    code = document.createElement('code');
+                    pre = document.createElement('pre');
+                    $(code).html("gpg --verify " + getFilename(displayDownloads.signature) + " " + getFilename(displayDownloads.location))
+                           .appendTo(pre);
+                    $(p).appendTo(li);
+                    $(pre).appendTo(li);
+                    $(li).appendTo(ol);
+
+                    li = document.createElement('li');
+                    p = document.createElement('p');
+                    $(p).html("Verify the checksum matches");
+                    code = document.createElement('code');
+                    pre = document.createElement('pre');
+                    $(code).html("sha256sum -c " + getFilename(displayDownloads.location) + "-CHECKSUM")
+                           .appendTo(pre);
+                    $(p).appendTo(li);
+                    $(pre).appendTo(li);
+                    $(li).appendTo(ol);
+
+                    $(ol).appendTo("#modal-body");
                   }
                 }
               },
               class: "btn btn-sm btn-outline-fedora-magenta mt-2",
               attrs: {
-                platformFormat: platformFormat
+                platformFormat: platformFormat,
+                class: "btn btn-primary",
+                "data-toggle": "modal",
+                "data-target": "#signatureAndShaModal"
               }
             }, "Verify signature & SHA256")
           ]),
-          coreos_download_app.showSignatureAndSha(imageType, platformFormat, contentType) ? h('div', { class: "bg-gray-100 p-2 my-2" }, [ h('p', {}, [
-              displayDownloads.sha256 ? h('div', { class: "overflow-auto" }, [
-                "SHA256: ",
-                displayDownloads.sha256
-              ]) : null,
-              displayDownloads.sha256 ? h('div', {}, [
-                h('a', {
-                  attrs: {
-                    href: "data:text/plain;charset=utf-8," + encodeURIComponent("SHA256 (" + getFilename(displayDownloads.location) + ") = " + displayDownloads.sha256),
-                    download: getFilename(displayDownloads.location) + "-CHECKSUM"
-                  }
-                }, "Checksum file")
-              ]) : null,
-              displayDownloads.signature ? h('div', {}, [
-                h('a', {
-                  attrs: {
-                    href: displayDownloads.signature
-                  }
-                }, "Signature")
-              ]) : null
-            ]),
-            h('div', {}, [
-              h('p', {}, "To verify your download:"),
-              h('ol', {}, [
-                h('li', {}, [
-                  h('p', {}, "Import Fedora's GPG keys"),
-                  h('pre', {}, [ h('code', {}, "curl https://getfedora.org/static/fedora.gpg | gpg --import") ])
-                ]),
-                h('li', {}, [
-                  h('p', {}, "Verify the signature is valid"),
-                  h('pre', {}, [ h('code', {}, "gpg --verify " + getFilename(displayDownloads.signature) + " " + getFilename(displayDownloads.location)) ])
-                ]),
-                h('li', {}, [
-                  h('p', {}, "Verify the checksum matches"),
-                  h('pre', {}, [ h('code', {}, "sha256sum -c " + getFilename(displayDownloads.location) + "-CHECKSUM") ])
-                ])
-              ])
-            ])
-          ]) : null
         ]) : null
       }
       function createArtifactsSection(displayArtifacts, imageType) {
@@ -496,6 +521,7 @@ var coreos_download_app = new Vue({
       let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_operator, hidden: this.shownId !== IdPool.cloud_operator } }, [ cloudTitle, verifyBlurb, cloud ]);
 
       return h('div', {}, [
+        signature_sha256_verification_modal,
         stream_select_container,
         cloud_launchable_container,
         metal_virt_container,
