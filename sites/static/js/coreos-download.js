@@ -389,42 +389,53 @@ var coreos_download_app = new Vue({
                   else {
                     $("#modal-body").empty();
                     let p = document.createElement('p');
+                    let a_checksum = null;
+                    let a_signature = null;
+                    // Show SHA256 and initialize the <a> tags if data is available
                     if(displayDownloads.sha256) {
                       let d = document.createElement('div');
                       $(d).addClass("overflow-auto")
                           .html("SHA256: " + displayDownloads.sha256)
                           .appendTo(p);
 
-                      d = document.createElement('div');
-                      a = document.createElement('a');
-                      $(a).attr("href", "data:text/plain;charset=utf-8," + encodeURIComponent("SHA256 (" + getFilename(displayDownloads.location) + ") = " + displayDownloads.sha256))
-                          .attr("download", getFilename(displayDownloads.location) + "-CHECKSUM")
-                          .html("Checksum file")
-                          .appendTo(d);
-                      $(d).appendTo(p);
+                      a_checksum = document.createElement('a');
+                      $(a_checksum).attr("href", "data:text/plain;charset=utf-8," + encodeURIComponent("SHA256 (" + getFilename(displayDownloads.location) + ") = " + displayDownloads.sha256))
+                                   .attr("download", getFilename(displayDownloads.location) + "-CHECKSUM")
+                                   .html("checksum file");
                     }
                     if(displayDownloads.signature) {
-                      let d = document.createElement('div');
-                      a = document.createElement('a');
-                      $(a).attr("href", displayDownloads.signature)
-                          .html("Signature")
-                          .appendTo(d);
-                      $(d).appendTo(p);
+                      a_signature = document.createElement('a');
+                      $(a_signature).attr("href", displayDownloads.signature)
+                                    .html("signature");
                     }
                     $(p).appendTo("#modal-body");
 
+                    // Download the Checksum file and Signature
                     let ol = document.createElement('ol');
-                    let li = document.createElement('li');
+                    if (a_checksum || a_signature) {
+                      let li = document.createElement('li');
+                      p = document.createElement('p');
+                      $(p).append("Download the ")
+                          .append(a_checksum)
+                          .append(a_checksum && a_signature ? " and " : "")
+                          .append(a_signature);
+                      $(p).appendTo(li);
+                      $(li).appendTo(ol);
+                    }
+
+                    // Import Fedora's GPG keys
+                    li = document.createElement('li');
                     p = document.createElement('p');
                     $(p).html("Import Fedora's GPG keys");
-                    let code = document.createElement('code');
-                    let pre = document.createElement('pre');
+                    code = document.createElement('code');
+                    pre = document.createElement('pre');
                     $(code).html("curl https://getfedora.org/static/fedora.gpg | gpg --import")
                            .appendTo(pre);
                     $(p).appendTo(li);
                     $(pre).appendTo(li);
                     $(li).appendTo(ol);
 
+                    // Verify the signature is valid
                     li = document.createElement('li');
                     p = document.createElement('p');
                     $(p).html("Verify the signature is valid");
@@ -436,6 +447,7 @@ var coreos_download_app = new Vue({
                     $(pre).appendTo(li);
                     $(li).appendTo(ol);
 
+                    // Verify the checksum matches
                     li = document.createElement('li');
                     p = document.createElement('p');
                     $(p).html("Verify the checksum matches");
