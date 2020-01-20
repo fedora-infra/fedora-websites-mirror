@@ -166,7 +166,7 @@ var coreos_download_app = new Vue({
     // Add dropdown options of streams
     getStreamName: function(h) {
       if (this.streamData === null) return;
-      option_default = h('option', { attrs: { value: "stable", selected: this.stream === "stable" ? "selected" : null }}, "stable");
+      option_stable = h('option', { attrs: { value: "stable", selected: this.stream === "stable" ? "selected" : null }}, "stable");
       option_testing = h('option', { attrs: { value: "testing", selected: this.stream === "testing" ? "selected" : null }}, "testing");
       selectOptions = h('select', {
         class: "mx-1",
@@ -176,7 +176,7 @@ var coreos_download_app = new Vue({
           }
         }
       }, [
-        option_default,
+        option_stable,
         option_testing
       ]);
       streamName = h('p', {}, [
