@@ -149,15 +149,15 @@ var coreos_download_app = new Vue({
     },
     getNavbar: function(h) {
       cloud_icon = h('i', { class: "fas fa-cloud mr-2" })
-      nav_cloud_launchable_btn = h('button', { class: "nav-link active col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_icon, tabInnerText.cloud_launchable ]);
+      nav_cloud_launchable_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.cloud_launchable ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_icon, tabInnerText.cloud_launchable ]);
       nav_cloud_launchable = h('li', { class: "nav-item col-4" }, [ nav_cloud_launchable_btn ]);
 
       server_icon = h('i', { class: "fas fa-server mr-2" })
-      nav_metal_virt_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ server_icon, tabInnerText.metal_virt ]);
+      nav_metal_virt_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.metal_virt ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ server_icon, tabInnerText.metal_virt ]);
       nav_metal_virt = h('li', { class: "nav-item col-4" }, [ nav_metal_virt_btn ]);
 
       cloud_upload_icon = h('i', { class: "fas fa-cloud-upload-alt mr-2" })
-      nav_cloud_operator_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden", attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_upload_icon, tabInnerText.cloud_operator ]);
+      nav_cloud_operator_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.cloud_operator ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_upload_icon, tabInnerText.cloud_operator ]);
       nav_cloud_operator = h('li', { class: "nav-item col-4" }, [ nav_cloud_operator_btn ]);
 
       navbar = h('ul', { class: "nav nav-tabs" }, [ nav_cloud_launchable, nav_metal_virt, nav_cloud_operator ]);
@@ -166,8 +166,8 @@ var coreos_download_app = new Vue({
     // Add dropdown options of streams
     getStreamName: function(h) {
       if (this.streamData === null) return;
-      option_default = h('option', { attrs: { value: "stable", selected: "selected" }}, "stable");
-      option_testing = h('option', { attrs: { value: "testing" }}, "testing");
+      option_default = h('option', { attrs: { value: "stable", selected: this.stream === "stable" ? "selected" : null }}, "stable");
+      option_testing = h('option', { attrs: { value: "testing", selected: this.stream === "testing" ? "selected" : null }}, "testing");
       selectOptions = h('select', {
         class: "mx-1",
         on: {
