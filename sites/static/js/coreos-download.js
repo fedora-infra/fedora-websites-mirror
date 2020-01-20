@@ -240,6 +240,22 @@ var coreos_download_app = new Vue({
               const image = getMember(regions[region], "image");
               displayEntries.push({platform: prettyPlatform, region: region, release: release, image: image});
             }
+            // put 'us', 'eu', and 'ap' first since those are the cheapest and
+            // most popular; then everything else
+            const continentOrdering = ["us", "eu", "ap"];
+            displayEntries = displayEntries.sort(function(a, b) {
+                const aIdx = continentOrdering.indexOf(a.region.slice(0, 2));
+                const bIdx = continentOrdering.indexOf(b.region.slice(0, 2));
+                if (aIdx == bIdx) {
+                    return a.region.localeCompare(b.region);
+                } else if (aIdx == -1) {
+                    return 1;
+                } else if (bIdx == -1){
+                    return -1;
+                } else {
+                    return aIdx - bIdx;
+                }
+            });
           }
           Vue.set(this.streamDisplay.cloudLaunchable, platform, {list: displayEntries});
         }
