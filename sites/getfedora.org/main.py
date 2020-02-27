@@ -7,7 +7,6 @@ from flask_frozen import Freezer
 from flask_htmlmin import HTMLMIN
 import jinja2
 import os
-import time
 import yaml
 
 #FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
@@ -200,7 +199,7 @@ if not freezing:
 
 export_route('index', '/')
 
-# export_route(identifier, path)
+# export_route(identifier
 export_route('workstation', '/workstation/')
 export_route('workstation_download', '/workstation/download/')
 export_route('server', '/server/')
@@ -225,21 +224,9 @@ def releases_json():
 def magazine_json():
     return send_from_directory('static', 'magazine.json')
 
-
 @app.route('/static/fedora.gpg')
 def gpgkey():
     return send_from_directory('static', 'fedora.gpg')
-
-
-@app.route('/build.timestamp.txt')
-def build_timestamp():
-    '''
-    Simply outputs the epoch of the latest build.
-    This is used for monitoring in production.
-    '''
-    return str(time.time())
-
-
 
 @freezer.register_generator
 def index():
@@ -247,7 +234,6 @@ def index():
         #yield {'lang_code': lang}
         for name in freeze_indexes:
             yield (name + '_i18n'), {'lang_code': lang}
-
 
 if __name__ == '__main__':
     # Minification is good for production, but not for debugging.
