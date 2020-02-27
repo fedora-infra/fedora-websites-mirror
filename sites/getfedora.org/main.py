@@ -10,9 +10,6 @@ import os
 import time
 import yaml
 
-# TODO: Is there a nicer way to represent the data globalvar has?
-import globalvar
-
 #FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
 
 # List of langs from old getfedora.org
@@ -148,7 +145,6 @@ def inject_globalvars():
     return dict(
         dl=download_link,
         checksum=checksum_link,
-        globalvar=globalvar,
         releaseinfo=r,
         lang_code=g.current_lang if hasattr(g, 'current_lang') else app.config['BABEL_DEFAULT_LOCALE'],
         languages=FEDORA_LANGUAGES,
