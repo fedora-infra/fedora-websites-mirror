@@ -3,6 +3,7 @@ FROM fedora:29
 WORKDIR /opt/sites/getfedora.org/
 
 RUN dnf -y install \
+    git \
     python-flask \
     python-frozen-flask \
     python-flask-assets \
