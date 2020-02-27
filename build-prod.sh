@@ -45,6 +45,9 @@ do
 		fi
 
 		${PYBINARY} main.py
+		# If we're still here (we didn't crash out above and thus exit the script because of bash -e above)
+		# Then toss the current epoch in a timestamp file to use for monitoring the last successful build.
+		date +%s > build/build.timestamp.txt
 		# This intermediate step is to make sure the final mv is atomic.
 		# This means that syncs can happen at any point in time and they have a larger chance to be fine.
 		rm -rf ${OUTDIR}/${site}.new
