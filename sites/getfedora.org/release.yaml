@@ -36,14 +36,14 @@ ga:
 
 beta:
   # Should we show the beta stuff at all?
-  show: false
-  announcement_release_number: 31
+  show: true
+  announcement_release_number: 32
 
   editions:
     workstation:
       pretty_name: Fedora Workstation Beta
-      release_number: 31
-      rc_version: 1.1
+      release_number: 32
+      rc_version: 1.2
       checksum_prefix: Fedora-Workstation
       checksum_arches: [x86_64]
       # set to default for default, false if the media doesn't exist, or
@@ -55,8 +55,8 @@ beta:
 
     server:
       pretty_name: Fedora Server Beta
-      release_number: 31
-      rc_version: 1.1
+      release_number: 32
+      rc_version: 1.2
       checksum_prefix: Fedora-Server
       checksum_arches: [x86_64, aarch64]
       # Same as above goes here.
@@ -74,8 +74,9 @@ fmw:
     version: 4.1.4
   releases_json:
     # milestone can be 'final' or 'beta'. Leaving it out means 'final'.
+    - version: 32
+      milestone: beta
     - version: 31
-      milestone: final
     - version: 30
     - version: 29
 

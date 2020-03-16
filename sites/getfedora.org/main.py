@@ -117,7 +117,7 @@ assets.register('css_all', css)
 
 loader = jinja2.FileSystemLoader(
     [ './site/'
-    , './partials/'      
+    , './partials/'
     , '../partials/templates/'
     , '../templates'
     ])
