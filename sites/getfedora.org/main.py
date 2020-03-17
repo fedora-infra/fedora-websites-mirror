@@ -8,6 +8,7 @@ from flask_htmlmin import HTMLMIN
 import jinja2
 import os
 import yaml
+import re
 
 #FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
 
@@ -177,6 +178,11 @@ def export_route(name, path, template=None):
     global freeze_indexes
     freeze_indexes.add(name)
     def r():
+        # If requested routing under '/coreos/download/', render with '/coreos/download/index.html'
+        # and handle the requested tab view in frontend (sites/static/js/coreos-download.js)
+        # using the request url.
+        if (re.search("^coreos_download_.*$", name)):
+            return render_template(template or '/coreos/download/index.html')
         return render_template(template or path.strip('/') + '/index.html')
     r.__name__ = name
     if freezing:
@@ -206,6 +212,9 @@ export_route('server', '/server/')
 export_route('server_download', '/server/download/')
 export_route('coreos', '/coreos/')
 export_route('coreos_download', '/coreos/download/')
+export_route('coreos_download_cloud_launchable', '/coreos/download/cloud_launchable/')
+export_route('coreos_download_metal_virtualized', '/coreos/download/metal_virtualized/')
+export_route('coreos_download_cloud_operators', '/coreos/download/cloud_operators/')
 export_route('silverblue', '/silverblue/')
 export_route('silverblue_download', '/silverblue/download/')
 export_route('iot', '/iot/')

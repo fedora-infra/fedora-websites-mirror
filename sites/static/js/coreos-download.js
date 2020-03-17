@@ -34,13 +34,13 @@ const prettyPlatforms = {
 const tabInnerText = {
   "cloud_launchable": "Cloud Launchable",
   "metal_virt": "Bare Metal & Virtualized",
-  "cloud_operator": "For Cloud Operators"
+  "cloud_operators": "For Cloud Operators"
 }
 // frequently used IDs
 const IdPool = {
   "cloud_launchable": "cloud-launchable",
   "metal_virt": "metal-virt",
-  "cloud_operator": "cloud-operator"
+  "cloud_operators": "cloud-operator"
 }
 function getMember(obj, member) {
   return (member in obj) ? obj[member] : null;
@@ -158,10 +158,10 @@ var coreos_download_app = new Vue({
       nav_metal_virt = h('li', { class: "nav-item col-4" }, [ nav_metal_virt_btn ]);
 
       cloud_upload_icon = h('i', { class: "fas fa-cloud-upload-alt mr-2" })
-      nav_cloud_operator_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.cloud_operator ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_upload_icon, tabInnerText.cloud_operator ]);
-      nav_cloud_operator = h('li', { class: "nav-item col-4" }, [ nav_cloud_operator_btn ]);
+      nav_cloud_operators_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.cloud_operators ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_upload_icon, tabInnerText.cloud_operators ]);
+      nav_cloud_operators = h('li', { class: "nav-item col-4" }, [ nav_cloud_operators_btn ]);
 
-      navbar = h('ul', { class: "nav nav-tabs" }, [ nav_cloud_launchable, nav_metal_virt, nav_cloud_operator ]);
+      navbar = h('ul', { class: "nav nav-tabs" }, [ nav_cloud_launchable, nav_metal_virt, nav_cloud_operators ]);
       return navbar;
     },
     // Add dropdown options of streams
@@ -332,6 +332,24 @@ var coreos_download_app = new Vue({
     }
   },
   render: function(h) {
+    // Extracts the route under `/coreos/download/`
+    const route = window.location.pathname.replace(/\/.*\/coreos\/download\//, '').replace(/\/+$/, '');
+    if (route !== '') {
+      switch(route) {
+        case 'cloud_launchable':
+          this.shownId = IdPool.cloud_launchable;
+          break;
+        case 'metal_virtualized':
+          this.shownId = IdPool.metal_virt;
+          break;
+        case 'cloud_operators':
+          this.shownId = IdPool.cloud_operators;
+          break;
+        default:
+          // we shouldn't hit this since the routes are safe-guarded by `sites/getfedora.org/main.py`
+          this.shownId = IdPool.cloud_launchable;
+      }
+    }
     var signature_sha256_verification_modal = this.getSignatureAndShaModal(h);
     var stream_select_container = h('div', { class: "pb-0 pt-3 mb-3" }, [ h('div', { class: "container" }, [ this.getStreamName(h), this.getNavbar(h) ]) ]);
     if (this.loading) {
@@ -547,7 +565,7 @@ var coreos_download_app = new Vue({
 
       let cloud_launchable_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_launchable, hidden: this.shownId !== IdPool.cloud_launchable } }, [ cloudLaunchableTitle, cloudLaunchable ]);
       let metal_virt_container = h('div', { class: "row col-12 py-2 my-2", attrs: { id: IdPool.metal_virt, hidden: this.shownId !== IdPool.metal_virt } }, [ bare_metal_container, virtualized_container ]);
-      let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_operator, hidden: this.shownId !== IdPool.cloud_operator } }, [ cloudTitle, verifyBlurb, cloud ]);
+      let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_operators, hidden: this.shownId !== IdPool.cloud_operators } }, [ cloudTitle, verifyBlurb, cloud ]);
 
       return h('div', {}, [
         signature_sha256_verification_modal,
