@@ -33,14 +33,14 @@ const prettyPlatforms = {
 // innerText of tab button
 const tabInnerText = {
   "cloud_launchable": "Cloud Launchable",
-  "metal_virt": "Bare Metal & Virtualized",
+  "metal_virtualized": "Bare Metal & Virtualized",
   "cloud_operators": "For Cloud Operators"
 }
 // frequently used IDs
 const IdPool = {
   "cloud_launchable": "cloud-launchable",
-  "metal_virt": "metal-virt",
-  "cloud_operators": "cloud-operator"
+  "metal_virtualized": "metal-virtualized",
+  "cloud_operators": "cloud-operators"
 }
 function getMember(obj, member) {
   return (member in obj) ? obj[member] : null;
@@ -142,6 +142,8 @@ var coreos_download_app = new Vue({
         const key = pair[0];
         const val = pair[1];
         if (val === e.target.innerText) {
+          const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
+          history.pushState(null, null, `${downloadPageUrl}?tab=${key}`);
           const show_id = IdPool[key];
           id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
           this.shownId = show_id;
@@ -154,7 +156,7 @@ var coreos_download_app = new Vue({
       nav_cloud_launchable = h('li', { class: "nav-item col-4" }, [ nav_cloud_launchable_btn ]);
 
       server_icon = h('i', { class: "fas fa-server mr-2" })
-      nav_metal_virt_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.metal_virt ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ server_icon, tabInnerText.metal_virt ]);
+      nav_metal_virt_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.metal_virtualized ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ server_icon, tabInnerText.metal_virtualized ]);
       nav_metal_virt = h('li', { class: "nav-item col-4" }, [ nav_metal_virt_btn ]);
 
       cloud_upload_icon = h('i', { class: "fas fa-cloud-upload-alt mr-2" })
@@ -332,21 +334,20 @@ var coreos_download_app = new Vue({
     }
   },
   render: function(h) {
-    // Extracts the route under `/coreos/download/`
-    const route = window.location.pathname.replace(/\/.*\/coreos\/download\//, '').replace(/\/+$/, '');
-    if (route !== '') {
-      switch(route) {
+    let searchParams = new URLSearchParams(window.location.search)
+    // switch to specified tab if `tab` parameter is set
+    if (searchParams.has('tab')) {
+      switch(searchParams.get('tab')) {
         case 'cloud_launchable':
           this.shownId = IdPool.cloud_launchable;
           break;
         case 'metal_virtualized':
-          this.shownId = IdPool.metal_virt;
+          this.shownId = IdPool.metal_virtualized;
           break;
         case 'cloud_operators':
           this.shownId = IdPool.cloud_operators;
           break;
         default:
-          // we shouldn't hit this since the routes are safe-guarded by `sites/getfedora.org/main.py`
           this.shownId = IdPool.cloud_launchable;
       }
     }
@@ -564,7 +565,7 @@ var coreos_download_app = new Vue({
       let virtualized_container = h('div', { class: "col-6" }, [ virtualizedTitle, verifyBlurb, virtualized ]);
 
       let cloud_launchable_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_launchable, hidden: this.shownId !== IdPool.cloud_launchable } }, [ cloudLaunchableTitle, cloudLaunchable ]);
-      let metal_virt_container = h('div', { class: "row col-12 py-2 my-2", attrs: { id: IdPool.metal_virt, hidden: this.shownId !== IdPool.metal_virt } }, [ bare_metal_container, virtualized_container ]);
+      let metal_virt_container = h('div', { class: "row col-12 py-2 my-2", attrs: { id: IdPool.metal_virtualized, hidden: this.shownId !== IdPool.metal_virtualized } }, [ bare_metal_container, virtualized_container ]);
       let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_operators, hidden: this.shownId !== IdPool.cloud_operators } }, [ cloudTitle, verifyBlurb, cloud ]);
 
       return h('div', {}, [
