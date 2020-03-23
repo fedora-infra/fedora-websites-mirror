@@ -143,7 +143,7 @@ var coreos_download_app = new Vue({
         const val = pair[1];
         if (val === e.target.innerText) {
           const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
-          history.pushState(null, null, `${downloadPageUrl}?tab=${key}`);
+          history.pushState(null, null, `${downloadPageUrl}?tab=${key}&stream=${coreos_download_app.stream}`);
           const show_id = IdPool[key];
           id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
           this.shownId = show_id;
@@ -168,6 +168,7 @@ var coreos_download_app = new Vue({
     },
     // Add dropdown options of streams
     getStreamName: function(h) {
+      const self = this;
       if (this.streamData === null) return;
       option_stable = h('option', { attrs: { value: "stable", selected: this.stream === "stable" ? "selected" : null }}, "stable");
       option_testing = h('option', { attrs: { value: "testing", selected: this.stream === "testing" ? "selected" : null }}, "testing");
@@ -175,7 +176,10 @@ var coreos_download_app = new Vue({
         class: "mx-1",
         on: {
           change: function(e) {
+            const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
+            const currentShownKey = Object.keys(IdPool).find(key => IdPool[key] === self.shownId);
             coreos_download_app.stream = e.target.value;
+            history.pushState(null, null, `${downloadPageUrl}?tab=${currentShownKey}&stream=${coreos_download_app.stream}`);
           }
         }
       }, [
@@ -334,7 +338,8 @@ var coreos_download_app = new Vue({
     }
   },
   render: function(h) {
-    let searchParams = new URLSearchParams(window.location.search)
+    const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
+    searchParams = new URLSearchParams(window.location.search);
     // switch to specified tab if `tab` parameter is set
     if (searchParams.has('tab')) {
       switch(searchParams.get('tab')) {
@@ -350,7 +355,27 @@ var coreos_download_app = new Vue({
         default:
           this.shownId = IdPool.cloud_launchable;
       }
+    } else {
+      searchParams.set('tab', 'cloud_launchable');
     }
+    // switch to specified stream if `stream` parameter is set
+    if (searchParams.has('stream')) {
+      switch(searchParams.get('stream')) {
+        case 'stable':
+          this.stream = "stable";
+          break;
+        case 'testing':
+          this.stream = "testing";
+          break;
+        default:
+          this.stream = "stable";
+      }
+    } else {
+      searchParams.set('stream', 'stable');
+    }
+    // Update the url with the parameters
+    history.pushState(null, null, `${downloadPageUrl}?${searchParams.toString()}`);
+
     var signature_sha256_verification_modal = this.getSignatureAndShaModal(h);
     var stream_select_container = h('div', { class: "pb-0 pt-3 mb-3" }, [ h('div', { class: "container" }, [ this.getStreamName(h), this.getNavbar(h) ]) ]);
     if (this.loading) {
