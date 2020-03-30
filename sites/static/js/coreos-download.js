@@ -280,8 +280,18 @@ var coreos_download_app = new Vue({
         const release = getMember(artifacts[platform], "release");
         const formats = getMember(artifacts[platform], "formats");
         if (formats) {
+          prettyFormats = [];
+          // in the case where each individual format has a separate pretty
+          // name, we want the artifacts listed in alphabetical order
           for (var format in formats) {
-            const prettyPlatform = getPrettyPlatform(platform, format);
+              pretty = getPrettyPlatform(getPrettyPlatform(platform, format));
+              prettyFormats.push({format: format, pretty: pretty});
+          }
+          prettyFormats.sort(function(a, b) { return a.pretty.localeCompare(b.pretty); });
+          for (i = 0; i < prettyFormats.length; i++) {
+            const format = prettyFormats[i].format;
+            const prettyPlatform = prettyFormats[i].pretty;
+
             // XXX: the conditions to display the extension here are quickly
             // hacked in; if adding any further conditions this should be
             // handled elsewhere in a better organized structure.
