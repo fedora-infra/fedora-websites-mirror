@@ -20,6 +20,7 @@ const prettyPlatforms = {
   "aliyun": "Alibaba Cloud",
   "metal": {
     "raw.xz": "Raw",
+    "4k.raw.xz": "Raw (4k Native)",
     "iso": "ISO",
     "pxe": "PXE",
     "installer.iso": "Installer (ISO)",
