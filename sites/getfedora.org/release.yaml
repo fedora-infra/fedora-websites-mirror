@@ -18,6 +18,7 @@ ga:
         live_i386: false
         netinst_x86_64: false
         netinst_i386: false
+        raw_aarch64: false
 
     server:
       pretty_name: Fedora Server
@@ -52,6 +53,7 @@ beta:
       download_override:
         live_x86_64: default
         netinst_x86_64: default
+        raw_aarch64: https://dl.fedoraproject.org/pub/fedora-secondary/releases/test/32_Beta/Workstation/aarch64/images/Fedora-Workstation-32_Beta-1.2.aarch64.raw.xz
 
     server:
       pretty_name: Fedora Server Beta

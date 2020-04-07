@@ -29,17 +29,17 @@
               Get started by using <strong>Fedora Media Writer</strong>, which makes it super easy to give Fedora a try.
               {% endtrans %}
             </p>
-            <ul class="mt-auto list-group">
+            <ul class="mt-5 list-group">
               <li class="list-group-item d-flex align-items-center p-2">
                 <div class="flex-grow-1">
                   {% trans trimmed %}Fedora Media Writer{% endtrans %}
                 </div>
                 <div class="btn-group">
                   <a class="btn btn-outline-fedora-blue" href="https://getfedora.org/fmw/FedoraMediaWriter-win32-{{releaseinfo.fmw.win.version}}.exe">
-                    <i class="fab fa-windows"></i> 
+                    <i class="fab fa-windows"></i>
                   </a>
                   <a class="btn btn-outline-fedora-blue" href="https://getfedora.org/fmw/FedoraMediaWriter-osx-{{releaseinfo.fmw.osx.version}}.dmg">
-                    <i class="fab fa-apple"></i> 
+                    <i class="fab fa-apple"></i>
                   </a>
                 </div>
               </li>
@@ -54,6 +54,7 @@
               Not sure how to use this file? <a href="{{link}}">Learn here</a>.
               {% endtrans %}
             </p>
+            <div class="mt-3 mb-3 font-weight-light">For x86_64:</div>
             <ul class="mt-auto list-group">
               {% if releaseinfo.ga.editions.workstation.download_override.live_x86_64 %}
               <li class="list-group-item d-flex align-items-center p-2">
@@ -78,6 +79,41 @@
                 </div>
                 <div class="btn-group">
                   <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.workstation.download_override.live_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-%d_Beta-%s.iso' % (releaseinfo.beta.editions.workstation.release_number, releaseinfo.beta.editions.workstation.release_number, releaseinfo.beta.editions.workstation.rc_version))}}">
+                    {% trans trimmed %}Download{% endtrans %}
+                  </a>
+                </div>
+              </li>
+              {% endif %}
+            </ul>
+
+            <div class="mt-3 mb-3 font-weight-light">For ARM<sup>&reg;</sup> aarch64:</div>
+            <ul class="mt-auto list-group">
+
+              {% if releaseinfo.ga.editions.workstation.download_override.raw_aarch64 %}
+              <li class="list-group-item d-flex align-items-center p-2">
+                <div class="flex-grow-1">
+                  {% trans trimmed n=releaseinfo.ga.editions.workstation.release_number %}
+                  Fedora {{n}}: aarch64 raw image
+                  {% endtrans %}
+                </div>
+                <div class="btn-group">
+                  <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.workstation.download_override.raw_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%s/Workstation/aarch64/images/Fedora-Workstation-%s-%s.aarch64.raw.xz' % (releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.rc_version))}}">
+                    {% trans trimmed %}Download{% endtrans %}
+                  </a>
+                </div>
+              </li>
+              {% endif %}
+
+              {% if releaseinfo.beta.show and releaseinfo.beta.editions.workstation.download_override.raw_aarch64 %}
+              <li class="list-group-item d-flex align-items-center p-2">
+                <div class="flex-grow-1">
+                  {% trans trimmed n=releaseinfo.beta.editions.workstation.release_number %}
+                  Fedora {{n}}: aarch64 raw image
+                  {% endtrans %}
+                  <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+                </div>
+                <div class="btn-group">
+                  <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.workstation.download_override.raw_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%s_Beta/Workstation/aarch64/images/Fedora-Workstation-%s_Beta-%s.aarch64.raw.xz' % (releaseinfo.beta.editions.workstation.release_number, releaseinfo.beta.editions.workstation.release_number, releaseinfo.beta.editions.workstation.rc_version))}}">
                     {% trans trimmed %}Download{% endtrans %}
                   </a>
                 </div>
@@ -127,7 +163,7 @@
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 
   <div class="bg-transparent py-5">
     <div class="container">
