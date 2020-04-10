@@ -17,7 +17,13 @@ for i in r.json()[0:3]:
     #['wp:featuredmedia'][0].href:
     image_url = i['_links']['wp:featuredmedia'][0]['href']
     r2 = requests.get(image_url,headers=headers)
-    p['image_url'] = r2.json()['media_details']['sizes']['medium_large']['source_url']
+
+    # Find an image size to use if we can
+    for size in ['medium_large', 'large', 'full', 'medium', 'post-image']:
+        p['image_url'] = r2.json().get('media_details', {}).get('sizes', {}).get(size, {}).get('source_url')
+        if p['image_url']:
+            break
+
     posts.append(p)
 
 f.write(json.dumps(posts))
