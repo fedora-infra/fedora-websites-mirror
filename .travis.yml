@@ -6,6 +6,7 @@ services:
 before_install:
   - docker build -t fedora-websites .
   - docker run -it --rm -v "$(pwd):/opt/:z" fedora-websites ./scripts/pull-translations.sh
+  - docker run -it --rm -v "$(pwd):/opt/:z" fedora-websites python ./scripts/pull-magazine.py
 
 script:
   - docker run -it --rm -v "$(pwd):/opt/:z" fedora-websites python main.py
