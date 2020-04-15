@@ -7,7 +7,10 @@ from flask_frozen import Freezer
 from flask_htmlmin import HTMLMIN
 import jinja2
 import os
+import sys
 import yaml
+
+from util.link_checker import check_download_link, check_checksum_link
 
 #FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
 
@@ -88,6 +91,7 @@ else:
 
 app = Flask(__name__, static_folder='../static/', static_url_path='/static')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['FREEZER_IGNORE_MIMETYPE_WARNINGS'] = True
 
 app.config['BABEL_DEFAULT_LOCALE'] = FEDORA_LANGUAGE_DEFAULT
 app.jinja_options = {'extensions': ['jinja2.ext.with_', 'jinja2.ext.i18n']}
@@ -139,8 +143,9 @@ def inject_globalvars():
         return link
     def checksum_link(link):
         global checksum_links
+        link = url_for('checksums.static', filename=link)
         checksum_links.add(link)
-        return url_for('checksums.static', filename=link)
+        return link
     return dict(
         dl=download_link,
         checksum=checksum_link,
@@ -244,10 +249,12 @@ if __name__ == '__main__':
 
     print("")
     print("Download links:")
-    for link in dl_links:
-        print(link)
+    dl_all = [check_download_link(link) for link in dl_links]
 
     print("")
     print("Checksum links:")
-    for link in checksum_links:
-        print(link)
+    checksum_all = [check_checksum_link(link) for link in checksum_links]
+
+    if not all(dl_all) or not all(checksum_all):
+        print('Failing.')
+        sys.exit(1)
