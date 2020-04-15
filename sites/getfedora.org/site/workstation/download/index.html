@@ -192,19 +192,6 @@
           </p>
           <ul class="list-group">
 
-            {% if releaseinfo.ga.editions.workstation.download_override.live_i386 %}
-            <li class="list-group-item d-flex align-items-center">
-              <div class="flex-grow-1">
-                {% trans trimmed n=releaseinfo.ga.editions.workstation.release_number %}
-                Fedora {{n}}: 32-bit ISO
-                {% endtrans %}
-              </div>
-              <div>
-                <a class="btn btn-outline-primary btn-sm" href="{{dl(releaseinfo.ga.editions.workstation.download_override.live_i386, 'https://download.fedoraproject.org/pub/fedora-secondary/releases/%d/Workstation/i386/iso/Fedora-Workstation-Live-i386-%d-%s.iso' % (releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
-              </div>
-            </li>
-            {% endif %}
-
             {% if releaseinfo.ga.editions.workstation.download_override.netinst_x86_64 %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
@@ -214,19 +201,6 @@
               </div>
               <div>
                 <a class="btn btn-outline-primary btn-sm" href="{{dl(releaseinfo.ga.editions.workstation.download_override.netinst_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-%d-%s.iso' % (releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
-              </div>
-            </li>
-            {% endif %}
-
-            {% if releaseinfo.ga.editions.workstation.download_override.netinst_i386 %}
-            <li class="list-group-item d-flex align-items-center">
-              <div class="flex-grow-1">
-                {% trans trimmed n=releaseinfo.ga.editions.workstation.release_number %}
-                Fedora {{n}}: 32-bit network install image
-                {% endtrans %}
-              </div>
-              <div>
-                <a class="btn btn-outline-primary btn-sm" href="{{dl(releaseinfo.ga.editions.workstation.download_override.netinst_i386, 'https://download.fedoraproject.org/pub/fedora-secondary/releases/%d/Workstation/i386/iso/Fedora-Workstation-netinst-i386-%d-%s.iso' % (releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
             </li>
             {% endif %}

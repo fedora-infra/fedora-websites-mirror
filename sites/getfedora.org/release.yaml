@@ -11,13 +11,9 @@ ga:
       checksum_arches: [x86_64]
       # set to default for default, false if the media doesn't exist, or
       # a link to override the default.
-      # For F31+ set the i386 ones to false (or delete them and the blocks in
-      #   the download page templates)
       download_override:
         live_x86_64: default
-        live_i386: false
         netinst_x86_64: false
-        netinst_i386: false
         raw_aarch64: false
 
     server:
@@ -49,7 +45,6 @@ beta:
       checksum_arches: [x86_64, aarch64]
       # set to default for default, false if the media doesn't exist, or
       # a link to override the default.
-      # NOTE: No i386 here because 31+ doesn't have it
       download_override:
         live_x86_64: default
         netinst_x86_64: default
