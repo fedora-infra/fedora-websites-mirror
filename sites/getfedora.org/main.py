@@ -178,12 +178,14 @@ app.register_blueprint(checksums)
 
 # This is a more manual attempt at still having some automation.
 freeze_indexes = set()
+
 def export_route(name, path, template=None):
     global freeze_indexes
     freeze_indexes.add(name)
     def r():
         return render_template(template or path.strip('/') + '/index.html')
     r.__name__ = name
+    app.route('/<lang_code>' + path, endpoint=name)(r)
     if freezing:
         # This is a bit hacky, but we want to generate index.html.langcode files
         # while tricking url_for into generating links that are prettier than
@@ -191,10 +193,7 @@ def export_route(name, path, template=None):
         # the i18n-specific index.html.langcode URL.
         # We tell the freezer to include the _i18n one, but everything else
         # refers to the pretty one.
-        app.route('/<lang_code>' + path, endpoint=name)(r)
         app.route(path + 'index.html.<lang_code>', endpoint=name+'_i18n')(r)
-    else:
-        app.route('/<lang_code>' + path, endpoint=name)(r)
     return r
 
 if not freezing:
@@ -223,7 +222,6 @@ export_route('sponsors', '/sponsors/')
 @app.route('/releases.json')
 def releases_json():
     return send_from_directory('static', 'releases.json')
-
 
 @app.route('/magazine.json')
 def magazine_json():
