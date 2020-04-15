@@ -54,7 +54,9 @@
               Not sure how to use this file? <a href="{{link}}">Learn here</a>.
               {% endtrans %}
             </p>
-            <div class="mt-3 mb-3 font-weight-light">For x86_64:</div>
+            <div class="mt-3 mb-3 font-weight-light">
+	      {% trans trimmed %}For x86_64:{% endtrans %}
+	    </div>
             <ul class="mt-auto list-group">
               {% if releaseinfo.ga.editions.workstation.download_override.live_x86_64 %}
               <li class="list-group-item d-flex align-items-center p-2">
@@ -86,7 +88,9 @@
               {% endif %}
             </ul>
 
-            <div class="mt-3 mb-3 font-weight-light">For ARM<sup>&reg;</sup> aarch64:</div>
+            <div class="mt-3 mb-3 font-weight-light">
+	      {% trans trimmed %}For ARM<sup>&reg;</sup> aarch64:{% endtrans %}
+	    </div>
             <ul class="mt-auto list-group">
 
               {% if releaseinfo.ga.editions.workstation.download_override.raw_aarch64 %}
