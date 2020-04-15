@@ -46,7 +46,7 @@ beta:
       release_number: 32
       rc_version: 1.2
       checksum_prefix: Fedora-Workstation
-      checksum_arches: [x86_64]
+      checksum_arches: [x86_64, aarch64]
       # set to default for default, false if the media doesn't exist, or
       # a link to override the default.
       # NOTE: No i386 here because 31+ doesn't have it
