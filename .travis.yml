@@ -10,3 +10,11 @@ before_install:
 
 script:
   - docker run -it --rm -v "$(pwd):/opt/:z" fedora-websites python main.py
+
+# Just notify #relrodtest for now, maybe make this #fedora-websites at some
+# point if it works out and isn't too annoying
+notifications:
+  webhooks:
+    if: type != cron
+    urls:
+      - https://sl.da.gd/travisci?channel=%23relrodtest
