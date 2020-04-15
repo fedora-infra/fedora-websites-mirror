@@ -2,9 +2,9 @@
   <div class="container py-4">
     <div class="row footerlinks justify-content-center">
       <div class="col-sm-3 col-4 mt-3">
-      <h5 class="text-uppercase"><small><strong>{% trans %}About{% endtrans %}</strong></small></h5>
         <div>
           <dl>
+	    <dt class="text-uppercase h5"><strong>{% trans %}About{% endtrans %}</strong></dt>
             <dd><a href="https://getfedora.org/">{% trans %}Get Fedora{% endtrans %}</a></dd>
             <dd><a href="{{url_for('sponsors', lang_code=lang_code)}}">{% trans %}Sponsors{% endtrans %}</a></dd>
             <dd><a href="https://fedoramagazine.org">{% trans %}Fedora Magazine{% endtrans %}</a></dd>
@@ -13,9 +13,9 @@
         </div>
       </div>
       <div class="col-sm-3 col-4 mt-3">
-        <h5 class="text-uppercase"><small><strong>{% trans %}Support{% endtrans %}</strong></small></h5>
         <div>
           <dl>
+	    <dt class="text-uppercase h5"><strong>{% trans %}Support{% endtrans %}</strong></dt>
             <dd><a href="https://fedoraproject.org/wiki/Communicating_and_getting_help">{% trans %}Get Help{% endtrans %}</a></dd>
             <dd><a href="https://ask.fedoraproject.org/">{% trans %}Ask Fedora{% endtrans %}</a></dd>
             <dd><a href="https://fedoraproject.org/wiki/Common_F{{releaseinfo.ga.editions.workstation.release_number}}_bugs">{% trans %}Common Bugs{% endtrans %}</a></dd>
@@ -24,9 +24,9 @@
         </div>
       </div>
       <div class="col-sm-3 col-4 mt-3">
-        <h5 class="text-uppercase"><small><strong>{% trans %}Community{% endtrans %}</strong></small></h5>
         <div>
           <dl>
+	    <dt class="text-uppercase h5"><strong>{% trans %}Community{% endtrans %}</strong></dt>
             <dd><a href="https://fedoraproject.org/wiki/Join">{% trans %}Join Fedora{% endtrans %}</a></dd>
             <dd><a href="https://fedoraproject.org/wiki/Overview">{% trans %}About Fedora{% endtrans %}</a></dd>
             <dd><a href="http://fedoraplanet.org">{% trans %}Planet Fedora{% endtrans %}</a></dd>
@@ -48,15 +48,15 @@
           {% trans trimmed link="https://pagure.io/fedora-web/websites/" %}
 	  Direct comments and corrections to the <a href="{{link}}">websites team</a>.
           {% endtrans %}
-          <div>
+	</p>
+        <p>
           {% trans trimmed link="https://www.redhat.com/en/technologies/linux-platforms/articles/relationship-between-fedora-and-rhel" %}
-            Fedora is sponsored by Red Hat. <a href="{{link}}">Learn more about the relationship between Red Hat and Fedora &raquo;</a>
+          Fedora is sponsored by Red Hat. <a href="{{link}}">Learn more about the relationship between Red Hat and Fedora &raquo;</a>
 	  {% endtrans %}
-          </div>      
-          <div class="pt-2">
-            <a href="https://www.redhat.com/"><img class="rh-logo" src="/static/images/redhat.png" alt="Red Hat Logo" /></a>
-          </div>
         </p>
+        <div class="py-3">
+          <a href="https://www.redhat.com/"><img class="rh-logo" src="/static/images/redhat.png" alt="Red Hat Logo" /></a>
+        </div>
         <p>
           &copy; 2020 Red Hat, Inc. and others.
         </p>
@@ -64,7 +64,7 @@
           <a class="dropdown-toggle d-block" href="#" role="button" id="languagechooser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="fa fa-language mr-2 fa-1x"></span> {{languages[lang_code]}}
           </a>
-          
+
           <div class="dropdown-menu w-100 " aria-labelledby="languagechooser">
             <ul class="list-unstyled font-size-80 text-center" id="languagelist">
               {% for l in languages|sort %}
