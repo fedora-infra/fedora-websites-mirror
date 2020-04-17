@@ -173,6 +173,7 @@ var coreos_download_app = new Vue({
       if (this.streamData === null) return;
       option_stable = h('option', { attrs: { value: "stable", selected: this.stream === "stable" ? "selected" : null }}, "stable");
       option_testing = h('option', { attrs: { value: "testing", selected: this.stream === "testing" ? "selected" : null }}, "testing");
+      option_next = h('option', { attrs: { value: "next", selected: this.stream === "next" ? "selected" : null }}, "next");
       selectOptions = h('select', {
         class: "mx-1",
         on: {
@@ -185,7 +186,8 @@ var coreos_download_app = new Vue({
         }
       }, [
         option_stable,
-        option_testing
+        option_testing,
+        option_next
       ]);
       streamName = h('p', {}, [
         "Stream: ",
@@ -377,6 +379,9 @@ var coreos_download_app = new Vue({
           break;
         case 'testing':
           this.stream = "testing";
+          break;
+        case 'next':
+          this.stream = "next";
           break;
         default:
           this.stream = "stable";
