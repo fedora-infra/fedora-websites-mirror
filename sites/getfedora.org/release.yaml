@@ -1,25 +1,25 @@
 ga:
-  announcement_url: https://fedoramagazine.org/announcing-fedora-31
-  announcement_release_number: 31
+  announcement_url: https://fedoramagazine.org/announcing-fedora-32
+  announcement_release_number: 32
 
   editions:
     workstation:
       pretty_name: Fedora Workstation
-      release_number: 31
-      rc_version: 1.9
+      release_number: 32
+      rc_version: 1.6
       checksum_prefix: Fedora-Workstation
-      checksum_arches: [x86_64]
+      checksum_arches: [x86_64, aarch64]
       # set to default for default, false if the media doesn't exist, or
       # a link to override the default.
       download_override:
         live_x86_64: default
         netinst_x86_64: false
-        raw_aarch64: false
+        raw_aarch64: default
 
     server:
       pretty_name: Fedora Server
-      release_number: 31
-      rc_version: 1.9
+      release_number: 32
+      rc_version: 1.6
       checksum_prefix: Fedora-Server
       checksum_arches: [x86_64, aarch64]
       # Same as above goes here.
@@ -33,7 +33,7 @@ ga:
 
 beta:
   # Should we show the beta stuff at all?
-  show: true
+  show: false
   announcement_release_number: 32
 
   editions:
@@ -72,10 +72,8 @@ fmw:
   releases_json:
     # milestone can be 'final' or 'beta'. Leaving it out means 'final'.
     - version: 32
-      milestone: beta
     - version: 31
     - version: 30
-    - version: 29
 
 # These all get listed on the security page
 gpg_keys:
