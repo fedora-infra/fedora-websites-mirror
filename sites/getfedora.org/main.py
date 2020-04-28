@@ -11,6 +11,7 @@ import sys
 import yaml
 
 from util.link_checker import check_download_link, check_checksum_link
+from util.releases_json_checker import check_releases_json
 
 #FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
 
@@ -245,14 +246,16 @@ if __name__ == '__main__':
 
     freezer.freeze()
 
+    print('Running sanity checks.')
     print("")
     print("Download links:")
     dl_all = [check_download_link(link) for link in dl_links]
 
     print("")
-    print("Checksum links:")
+    print("Static files:")
     checksum_all = [check_checksum_link(link) for link in checksum_links]
+    releases_json = check_releases_json()
 
-    if not all(dl_all) or not all(checksum_all):
+    if not all(dl_all) or not all(checksum_all) or not releases_json:
         print('Failing.')
         sys.exit(1)
