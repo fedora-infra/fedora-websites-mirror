@@ -2,7 +2,14 @@ import os
 import os.path
 import requests
 
-def check_download_link(link):
+# By default check dl.fedoraproject.org (master mirrors) because
+# mirrors might not all have content yet and we don't want to block websites
+# releases on that.
+def check_download_link(link, rewrite_dlfpo=True):
+    if rewrite_dlfpo:
+        link = link.replace(
+            'download.fedoraproject.org',
+            'dl.fedoraproject.org')
     r = requests.head(link, allow_redirects=True)
     if r.status_code != 200:
         print('[BROKEN LINK] %s' % link)
