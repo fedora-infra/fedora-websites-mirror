@@ -12,7 +12,7 @@
       <div class="col-12">
         <h1 class="font-weight-light">{% trans trimmed %}Download Fedora CoreOS.{% endtrans %}</h1>
         <h5 class="font-weight-light">{% trans trimmed %}Run your containers today in the latest release of Fedora CoreOS.{% endtrans %}</h5>
-        <p>{% trans trimmed mailing_link_start='<a href="https://lists.fedoraproject.org/archives/list/coreos-status@lists.fedoraproject.org/">'|safe, tracker_link_start='<a href="https://github.com/coreos/fedora-coreos-tracker">'|safe, link_end='</a>'|safe %}Subscribe to the {{ mailing_link_start}}coreos-status mailing list{{ link_end }} to receive important operational notices from the Fedora CoreOS team. Give feedback and follow Fedora CoreOS development in the {{ tracker_link_start }}Fedora CoreOS issue tracker{{ link_end }}.{% endtrans %}</p>
+        <p class="mb-1">{% trans trimmed mailing_link_start='<a href="https://lists.fedoraproject.org/archives/list/coreos-status@lists.fedoraproject.org/">'|safe, tracker_link_start='<a href="https://github.com/coreos/fedora-coreos-tracker">'|safe, link_end='</a>'|safe %}Subscribe to the {{ mailing_link_start}}coreos-status mailing list{{ link_end }} to receive important operational notices from the Fedora CoreOS team. Give feedback and follow Fedora CoreOS development in the {{ tracker_link_start }}Fedora CoreOS issue tracker{{ link_end }}.{% endtrans %}</p>
         <p>
           {% trans trimmed docs_link_start='<a href="https://docs.fedoraproject.org/en-US/fedora-coreos/getting-started/">'|safe, link_end='</a>'|safe %}
           Start running Fedora CoreOS with the {{ docs_link_start }}Getting Started{{ link_end }} guide.

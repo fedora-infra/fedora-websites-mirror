@@ -43,6 +43,9 @@ const IdPool = {
   "metal_virtualized": "metal-virtualized",
   "cloud_operators": "cloud-operators"
 }
+function isEmptyObj(obj) {
+  return Object.entries(obj).length === 0 && obj.constructor === Object;
+}
 function getMember(obj, member) {
   return (member in obj) ? obj[member] : null;
 }
@@ -94,6 +97,8 @@ var coreos_download_app = new Vue({
     streamUrl: "",
     // fetched {stream, metadata, architectures, updates} object from stream.json
     streamData: null,
+    // fetched {stream, metadata, architectures, updates} object from stream.json for all streams
+    streamDataAll: { stable: {}, testing: {}, next: {} },
     loading: false,
     // loaded stream data to render
     streamDisplay: {
@@ -103,9 +108,48 @@ var coreos_download_app = new Vue({
       cloud: {}
     },
   },
-  watch: { stream: function() {
-    this.refreshStream();
-  } },
+  watch: {
+    stream: function() {
+      this.refreshStream();
+    },
+    // watching nested data: https://stackoverflow.com/a/46331968
+    "streamDataAll.stable": function(newVal, oldVal) {
+      if (isEmptyObj(this.streamDataAll.stable)) {
+        return
+      }
+
+      stableReleaseVersion = "v " + this.streamDataAll.stable.architectures.x86_64.artifacts.metal.release;
+      $("#stable-version").text(stableReleaseVersion);
+
+      $("#stable-json").empty();
+      $("#stable-json").append(`<a class="text-gray-600" href="${baseUrl}/stable.json">JSON</a>`);
+      $("#stable-json").append(` — <span>${this.timeSince(this.streamDataAll.stable.metadata['last-modified'])}</span>`);
+    },
+    "streamDataAll.testing": function(newVal, oldVal) {
+      if (isEmptyObj(this.streamDataAll.testing)) {
+        return
+      }
+
+      testingReleaseVersion = isEmptyObj(this.streamDataAll.testing) ? "" : "v " + this.streamDataAll.testing.architectures.x86_64.artifacts.metal.release;
+      $("#testing-version").text(testingReleaseVersion);
+
+      $("#testing-json").empty();
+      $("#testing-json").append(`<a class="text-gray-600" href="${baseUrl}/testing.json">JSON</a>`);
+      $("#testing-json").append(` — <span>${this.timeSince(this.streamDataAll.testing.metadata['last-modified'])}</span>`);
+    },
+    "streamDataAll.next": function(newVal, oldVal) {
+      if (isEmptyObj(this.streamDataAll.next)) {
+        return
+      }
+
+      nextReleaseVersion = isEmptyObj(this.streamDataAll.next) ? "" : "v " + this.streamDataAll.next.architectures.x86_64.artifacts.metal.release;
+      $("#next-version").text(nextReleaseVersion);
+
+      $("#next-json").empty();
+      $("#next-json").append(`<a class="text-gray-600" href="${baseUrl}/next.json">JSON</a>`);
+      $("#next-json").append(` — <span>${this.timeSince(this.streamDataAll.next.metadata['last-modified'])}</span>`);
+    }
+  },
   methods: {
     getObjectUrl: function(path) {
       return getArtifactUrl(this.streamUrl, path);
@@ -154,15 +198,15 @@ var coreos_download_app = new Vue({
     getNavbar: function(h) {
       cloud_icon = h('i', { class: "fas fa-cloud mr-2" })
       nav_cloud_launchable_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.cloud_launchable ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_icon, tabInnerText.cloud_launchable ]);
-      nav_cloud_launchable = h('li', { class: "nav-item col-4" }, [ nav_cloud_launchable_btn ]);
+      nav_cloud_launchable = h('li', { class: "nav-item col-12 col-sm-4" }, [ nav_cloud_launchable_btn ]);
 
       server_icon = h('i', { class: "fas fa-server mr-2" })
       nav_metal_virt_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.metal_virtualized ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ server_icon, tabInnerText.metal_virtualized ]);
-      nav_metal_virt = h('li', { class: "nav-item col-4" }, [ nav_metal_virt_btn ]);
+      nav_metal_virt = h('li', { class: "nav-item col-12 col-sm-4" }, [ nav_metal_virt_btn ]);
 
       cloud_upload_icon = h('i', { class: "fas fa-cloud-upload-alt mr-2" })
       nav_cloud_operators_btn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.cloud_operators ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloud_upload_icon, tabInnerText.cloud_operators ]);
-      nav_cloud_operators = h('li', { class: "nav-item col-4" }, [ nav_cloud_operators_btn ]);
+      nav_cloud_operators = h('li', { class: "nav-item col-12 col-sm-4" }, [ nav_cloud_operators_btn ]);
 
       navbar = h('ul', { class: "nav nav-tabs" }, [ nav_cloud_launchable, nav_metal_virt, nav_cloud_operators ]);
       return navbar;
@@ -171,36 +215,156 @@ var coreos_download_app = new Vue({
     getStreamName: function(h) {
       const self = this;
       if (this.streamData === null) return;
-      option_stable = h('option', { attrs: { value: "stable", selected: this.stream === "stable" ? "selected" : null }}, "stable");
-      option_testing = h('option', { attrs: { value: "testing", selected: this.stream === "testing" ? "selected" : null }}, "testing");
-      option_next = h('option', { attrs: { value: "next", selected: this.stream === "next" ? "selected" : null }}, "next");
-      selectOptions = h('select', {
-        class: "mx-1",
+
+      function onClick(e) {
+        const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
+        const currentShownKey = Object.keys(IdPool).find(key => IdPool[key] === self.shownId);
+        coreos_download_app.stream = e.target.value;
+        history.pushState(null, null, `${downloadPageUrl}?tab=${currentShownKey}&stream=${coreos_download_app.stream}`);
+      }
+
+      btn_dropdown_toggle = h('button', { class: "btn btn-sm bg-gray-200 dropdown-toggle py-0", attrs: { type: "button", id: "dropdownMenuStreams", "data-toggle": "dropdown", "aria-haspopup": true, "aria-expanded": false } }, self.stream );
+      btn_dropdown_stable = h('button', { class: "dropdown-item", attrs: { type: "button", value: "stable" }, on: { click: onClick } }, "stable");
+      btn_dropdown_testing = h('button', { class: "dropdown-item", attrs: { type: "button", value: "testing" }, on: { click: onClick } }, "testing");
+      btn_dropdown_next = h('button', { class: "dropdown-item", attrs: { type: "button", value: "next" }, on: { click: onClick } }, "next");
+      div_dropdown_menu = h('div', { class: "dropdown-menu", attrs: { "aria-labelledby": "dropdownMenuStreams" } }, [ btn_dropdown_stable, btn_dropdown_testing, btn_dropdown_next ]);
+      div_dropdown = h('div', { class: "d-inline dropdown ml-2" }, [ btn_dropdown_toggle, div_dropdown_menu ])
+
+      streamName = h('p', { class: "mt-5 mb-2 ml-3" }, [
+        "Currently Selected Stream:",
+        div_dropdown ]);
+      return streamName;
+    },
+    // Introduction section for streams
+    getStreamIntro: function(h) {
+      title = h('h2', { class: "font-weight-light text-center pb-3" }, "Fedora CoreOS is available across 3 different release streams:");
+
+      if (this.loading) {
+        return title;
+      }
+
+      viewAllStreamsBtn = h('button',
+      {
+        class: "d-block mx-auto mb-5 py-1 btn btn-sm btn-fedora-purple",
         on: {
-          change: function(e) {
-            const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
-            const currentShownKey = Object.keys(IdPool).find(key => IdPool[key] === self.shownId);
-            coreos_download_app.stream = e.target.value;
-            history.pushState(null, null, `${downloadPageUrl}?tab=${currentShownKey}&stream=${coreos_download_app.stream}`);
+          click: function(e) {
+            e.preventDefault();
+            window.open("https://builds.coreos.fedoraproject.org/browser");
           }
         }
-      }, [
-        option_stable,
-        option_testing,
-        option_next
-      ]);
-      streamName = h('p', {}, [
-        "Stream: ",
-        selectOptions,
-        " (",
+      }, "View All Streams");
+
+      // Release info section with three tabs: stable, testing, next
+      // NOTE: in order for the button line up at the same horizontal level, add different mb for <p> elements.
+      stableIcon = h("i", {
+        class: "fas fa-shield-alt fa-2x rounded-circle bg-fedora-blue text-white p-3 ml-4",
+      }, "");
+      stableHeading = h("h3", { class: "font-weight-light" }, "Stable");
+      stableReleaseVersion = h("h6", { class: "text-gray-500 mb-0", attrs: { id: "stable-version" }}, isEmptyObj(this.streamDataAll.stable) ? "" : "v " + this.streamDataAll.stable.architectures.x86_64.artifacts.metal.release);
+      stableJSON = h('p', { class: "text-gray-500", attrs: { id: "stable-json" } }, [
         h('span', {}, [
-          h('a', { attrs: { href: this.getObjectUrl(this.stream + '.json') } }, "JSON")
+          h('a', { class: "font-weight-bold text-gray-500", attrs: { href: `${baseUrl}/stable.json` } }, "JSON")
         ]),
-        ")",
-        (this.streamData.metadata) ? "—" : null,
-        (this.streamData.metadata) ? h('span', {}, this.timeSince(this.streamData.metadata['last-modified'])) : null
+        (isEmptyObj(this.streamDataAll.stable)) ? null : " — ",
+        (isEmptyObj(this.streamDataAll.stable)) ? null : h('span', { class: "font-weight-normal" }, this.timeSince(this.streamDataAll.stable.metadata['last-modified']))
       ]);
-      return streamName;
+      stableIconContainer = h("div", { class: "col-4" }, [ stableIcon ])
+      stableReleaseJSONContainer = h("div", { class: "col-8" }, [ stableHeading, stableReleaseVersion, stableJSON ])
+      stableHeadingContainer = h("div", { class: "row" }, [ stableIconContainer, stableReleaseJSONContainer ])
+
+      stableIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Stable Stream should be used by production clusters. Versions of Fedora CoreOS are battle-tested within the Testing and Next streams before being promoted.");
+      stableReleaseLink = h('button',
+      {
+        class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-blue",
+        on: {
+          click: function(e) {
+            e.preventDefault();
+            window.open("https://builds.coreos.fedoraproject.org/browser?stream=stable");
+          }
+        }
+      }, "View Stable Releases");
+
+      // then Testing stream
+      testingIcon = h("i", {
+        class: "fas fa-flask fa-2x rounded-circle bg-fedora-green text-white p-3 ml-4",
+      }, "");
+      testingHeading = h("h3", { class: "font-weight-light" }, "Testing");
+      testingReleaseVersion = h("h6", { class: "text-gray-500 mb-0", attrs: { id: "testing-version" }}, isEmptyObj(this.streamDataAll.testing) ? "" : "v " + this.streamDataAll.testing.architectures.x86_64.artifacts.metal.release);
+      testingJSON = h('p', { class: "text-gray-500", attrs: { id: "testing-json" } }, [
+        h('span', {}, [
+          h('a', { class: "font-weight-bold text-gray-500", attrs: { href: `${baseUrl}/testing.json` } }, "JSON")
+        ]),
+        (isEmptyObj(this.streamDataAll.testing)) ? null : " — ",
+        (isEmptyObj(this.streamDataAll.testing)) ? null : h('span', { class: "font-weight-normal" }, this.timeSince(this.streamDataAll.testing.metadata['last-modified']))
+      ]);
+      testingIconContainer = h("div", { class: "col-4" }, [ testingIcon ])
+      testingReleaseJSONContainer = h("div", { class: "col-8" }, [ testingHeading, testingReleaseVersion, testingJSON ])
+      testingHeadingContainer = h("div", { class: "row" }, [ testingIconContainer, testingReleaseJSONContainer ])
+
+      testingIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Testing stream consists of promoted Next releases. Mix a few Testing machines into your production clusters to catch any bugs specific to your hardware or configuration.");
+      testingReleaseLink = h('button',
+      {
+        class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-green",
+        on: {
+          click: function(e) {
+            e.preventDefault();
+            window.open("https://builds.coreos.fedoraproject.org/browser?stream=testing");
+          }
+        }
+      }, "View Testing Releases");
+
+      // then Next stream
+      nextIcon = h("i", {
+        class: "fas fa-layer-group fa-2x rounded-circle bg-fedora-orange text-white p-3 ml-4",
+      }, "");
+      nextHeading = h("h3", { class: "font-weight-light" }, "Next");
+      nextReleaseVersion = h("h6", { class: "text-gray-500 mb-0", attrs: { id: "next-version" }}, isEmptyObj(this.streamDataAll.next) ? "" : "v " + this.streamDataAll.next.architectures.x86_64.artifacts.metal.release);
+      nextJSON = h('p', { class: "text-gray-500", attrs: { id: "next-json" } }, [
+        h('span', {}, [
+          h('a', { class: "font-weight-bold text-gray-500", attrs: { href: `${baseUrl}/next.json` } }, "JSON")
+        ]),
+        (isEmptyObj(this.streamDataAll.next)) ? null : " — ",
+        (isEmptyObj(this.streamDataAll.next)) ? null : h('span', { class: "font-weight-normal" }, this.timeSince(this.streamDataAll.next.metadata['last-modified']))
+      ]);
+      nextIconContainer = h("div", { class: "col-4" }, [ nextIcon ])
+      nextReleaseJSONContainer = h("div", { class: "col-8" }, [ nextHeading, nextReleaseVersion, nextJSON ])
+      nextHeadingContainer = h("div", { class: "row" }, [ nextIconContainer, nextReleaseJSONContainer ])
+
+
+      nextIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Next stream closely tracks current development work and is released frequently. The newest versions of the Linux kernel, Systemd, and other components will be available for testing.");
+      nextReleaseLink = h('button',
+      {
+        class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-orange",
+        on: {
+          click: function(e) {
+            e.preventDefault();
+            window.open("https://builds.coreos.fedoraproject.org/browser?stream=next");
+          }
+        }
+      }, "View Next Releases");
+
+      stableDiv = h('div', {
+        class: "col-12 col-lg-4 border-left border-fedora-blue pt-3",
+        style: {
+          "border-width": "10px !important",
+        }
+      }, [stableHeadingContainer, stableIntroText, stableReleaseLink])
+      testingDiv = h('div', {
+        class: "col-12 col-lg-4 border-left border-fedora-green pt-3",
+        style: {
+          "border-width": "10px !important",
+        }
+      }, [testingHeadingContainer, testingIntroText, testingReleaseLink])
+      nextDiv = h('div', {
+        class: "col-12 col-lg-4 border-left border-fedora-orange pt-3",
+        style: {
+          "border-width": "10px !important",
+        }
+      }, [nextHeadingContainer, nextIntroText, nextReleaseLink])
+
+      streamsIntroDiv = h('div', { class: "row my-3" }, [stableDiv, testingDiv, nextDiv]);
+      wrapper_div = h('div', {}, [title, viewAllStreamsBtn, streamsIntroDiv]);
+      return wrapper_div;
     },
     isAws: function(platform) {
       return platform == "aws";
@@ -319,13 +483,28 @@ var coreos_download_app = new Vue({
       }
     },
     refreshStream: function() {
-      this.loading = true
-      this.streamUrl = baseUrl
-      fetchStreamData(this.streamUrl, this.stream).then(streamData => {
-        this.loading = false;
-        this.streamData = Object.entries(streamData).length === 0 && streamData.constructor === Object ? null : streamData;
-        this.loadStreamDisplay();
-      });
+      const self = this;
+      self.loading = true
+      self.streamUrl = baseUrl
+      fetchStreamData(baseUrl, "stable")
+      .then(streamData => {
+        self.streamDataAll.stable = streamData;
+        return fetchStreamData(baseUrl, "testing");
+      })
+      .then(streamData => {
+        self.streamDataAll.testing = streamData;
+        return fetchStreamData(baseUrl, "next");
+      })
+      .then(streamData => {
+        self.streamDataAll.next = streamData;
+        return;
+      })
+      .then(() =>{
+        const streamData = self.streamDataAll[self.stream];
+        self.loading = false;
+        self.streamData = isEmptyObj(streamData) ? null : streamData;
+        self.loadStreamDisplay();
+      })
     },
     getSignatureAndShaModal: function(h) {
       return h('div', { class: "modal", attrs: { id: "signatureAndShaModal", tabindex: "-1", role: "dialog", "aria-labelledby": "signatureAndShaModalLabel", "aria-hidden": "true" }}, [
@@ -393,12 +572,14 @@ var coreos_download_app = new Vue({
     history.pushState(null, null, `${downloadPageUrl}?${searchParams.toString()}`);
 
     var signature_sha256_verification_modal = this.getSignatureAndShaModal(h);
-    var stream_select_container = h('div', { class: "pb-0 pt-3 mb-3" }, [ h('div', { class: "container" }, [ this.getStreamName(h), this.getNavbar(h) ]) ]);
+    h1_title = h('h1', { class: "font-weight-light text-center my-5" }, "Download Fedora CoreOS");
+    stream_select_container = h('div', { class: "pb-0 pt-3 mb-3" }, [ this.getStreamIntro(h), this.getStreamName(h), this.getNavbar(h) ]);
     if (this.loading) {
-      return h('div', {}, [ stream_select_container, "Loading..."] );
+      stream_info_div = h('div', { class: "bg-light pt-3" }, [ h('div', { class: "container font-weight-light" }, [ stream_select_container ]) ]);
+      download_div = h('div', { class: "bg-white pb-5" }, [ h('div', { class: "container font-weight-light" }, "Loading...") ]);
+      return h('div', {}, [ h1_title, stream_info_div, download_div ]);
     }
     else if (this.streamData) {
-      cloudLaunchableTitle = h('h3', { class:"font-weight-light" }, "Cloud Launchable");
       cloudLaunchableSection = {};
       cloudLaunchable = {};
       virtualizedTitle = h('h3', { class:"font-weight-light" }, "Virtualized");
@@ -407,7 +588,6 @@ var coreos_download_app = new Vue({
       bareMetalTitle = h('h3', { class:"font-weight-light" }, "Bare Metal");
       bareMetalSection = {};
       bareMetal = {};
-      cloudTitle = h('h3', { class:"font-weight-light" }, "For Cloud Operators");
       cloudSection = {};
       cloud = {};
 
@@ -450,6 +630,11 @@ var coreos_download_app = new Vue({
       cloudLaunchable = h('div', { class: "col-12 py-2 my-2" }, [ cloudLaunchableSection ]);
 
       function createDownloadsSubSection(displayDownloads, contentType, showTitle, imageType) {
+        verifyBlurb =
+        `<div class="mb-3">
+          Verify your download using the detached signature after importing <a href="https://getfedora.org/security/">Fedora's GPG signing keys</a>.
+          The detached signature is for the released artifact itself. If there is a good signature from one of the Fedora keys, and the SHA256 checksum matches, then the download is valid.
+        </div>`
         return displayDownloads ? h('div', { class: "pb-2" }, [
           showTitle ? h('span', {}, contentType + ": ") : null,
           displayDownloads.location ? h('span', {}, [
@@ -486,6 +671,7 @@ var coreos_download_app = new Vue({
                                     .html("signature");
                     }
                     $(p).appendTo("#modal-body");
+                    $(verifyBlurb).appendTo("#modal-body");
 
                     // Download the Checksum file and Signature
                     let ol = document.createElement('ol');
@@ -594,31 +780,28 @@ var coreos_download_app = new Vue({
       }
       cloud = h('div', { class: "col-12 py-2 my-2" }, [ cloudSection ]);
 
-      verifyBlurb = h('div', {}, [
-        h('div', { class:"font-weight-light" }, [
-          "Verify your download using the detached signature after importing ",
-          h('a', { attrs: { href: "https://getfedora.org/security/" } }, "Fedora's GPG signing keys"),
-          ". The detached signature is for the released artifact itself. If there is a good signature from one of the Fedora keys, and the SHA256 checksum matches, then the download is valid."
-        ])
-      ]);
+      let bare_metal_container = h('div', { class: "col-6" }, [ bareMetalTitle, bareMetal ]);
+      let virtualized_container = h('div', { class: "col-6" }, [ virtualizedTitle, virtualized ]);
 
-      let bare_metal_container = h('div', { class: "col-6" }, [ bareMetalTitle, verifyBlurb, bareMetal ]);
-      let virtualized_container = h('div', { class: "col-6" }, [ virtualizedTitle, verifyBlurb, virtualized ]);
-
-      let cloud_launchable_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_launchable, hidden: this.shownId !== IdPool.cloud_launchable } }, [ cloudLaunchableTitle, cloudLaunchable ]);
+      let cloud_launchable_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_launchable, hidden: this.shownId !== IdPool.cloud_launchable } }, [ cloudLaunchable ]);
       let metal_virt_container = h('div', { class: "row col-12 py-2 my-2", attrs: { id: IdPool.metal_virtualized, hidden: this.shownId !== IdPool.metal_virtualized } }, [ bare_metal_container, virtualized_container ]);
-      let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_operators, hidden: this.shownId !== IdPool.cloud_operators } }, [ cloudTitle, verifyBlurb, cloud ]);
+      let cloud_operators_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_operators, hidden: this.shownId !== IdPool.cloud_operators } }, [ cloud ]);
 
-      return h('div', {}, [
-        signature_sha256_verification_modal,
-        stream_select_container,
-        cloud_launchable_container,
-        metal_virt_container,
-        cloud_operators_container
-      ]);
+      stream_info_div = h('div', { class: "bg-light pt-3" }, [ h('div', { class: "container font-weight-light" }, [ stream_select_container ]) ]);
+      download_div = h('div', { class: "bg-white pb-5" }, [
+        h('div', { class: "container font-weight-light" }, [
+          signature_sha256_verification_modal,
+          cloud_launchable_container,
+          metal_virt_container,
+          cloud_operators_container
+        ])
+      ])
+
+      return h('div', {}, [h1_title, stream_info_div, download_div]);
     }
     else {
-      return h('div', {}, "No stream data found!");
+      error_div = h('div', { class: "bg-transparent py-5" }, [ h('div', { class: "container font-weight-light" }, "No stream data found!") ]);
+      return h('div', {}, [ error_div ]);
     }
   }
 })
