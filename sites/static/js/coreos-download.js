@@ -188,7 +188,7 @@ var coreos_download_app = new Vue({
         const val = pair[1];
         if (val === e.target.innerText) {
           const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
-          history.pushState(null, null, `${downloadPageUrl}?tab=${key}&stream=${coreos_download_app.stream}`);
+          history.replaceState(null, null, `${downloadPageUrl}?tab=${key}&stream=${coreos_download_app.stream}`);
           const show_id = IdPool[key];
           id_list.map(id => document.getElementById(id).hidden = (id !== show_id));
           this.shownId = show_id;
@@ -220,7 +220,7 @@ var coreos_download_app = new Vue({
         const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
         const currentShownKey = Object.keys(IdPool).find(key => IdPool[key] === self.shownId);
         coreos_download_app.stream = e.target.value;
-        history.pushState(null, null, `${downloadPageUrl}?tab=${currentShownKey}&stream=${coreos_download_app.stream}`);
+        history.replaceState(null, null, `${downloadPageUrl}?tab=${currentShownKey}&stream=${coreos_download_app.stream}`);
       }
 
       btn_dropdown_toggle = h('button', { class: "btn btn-sm bg-gray-200 dropdown-toggle py-0", attrs: { type: "button", id: "dropdownMenuStreams", "data-toggle": "dropdown", "aria-haspopup": true, "aria-expanded": false } }, self.stream );
@@ -530,6 +530,9 @@ var coreos_download_app = new Vue({
     }
   },
   render: function(h) {
+    if(window.location.href.match(/^.*\/coreos\/download/) == null) {
+      return
+    }
     const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
     searchParams = new URLSearchParams(window.location.search);
     // switch to specified tab if `tab` parameter is set
@@ -569,7 +572,7 @@ var coreos_download_app = new Vue({
       searchParams.set('stream', 'stable');
     }
     // Update the url with the parameters
-    history.pushState(null, null, `${downloadPageUrl}?${searchParams.toString()}`);
+    history.replaceState(null, null, `${downloadPageUrl}?${searchParams.toString()}`);
 
     var signature_sha256_verification_modal = this.getSignatureAndShaModal(h);
     h1_title = h('h1', { class: "font-weight-light text-center my-5" }, "Download Fedora CoreOS");
@@ -780,8 +783,8 @@ var coreos_download_app = new Vue({
       }
       cloud = h('div', { class: "col-12 py-2 my-2" }, [ cloudSection ]);
 
-      let bare_metal_container = h('div', { class: "col-6" }, [ bareMetalTitle, bareMetal ]);
-      let virtualized_container = h('div', { class: "col-6" }, [ virtualizedTitle, virtualized ]);
+      let bare_metal_container = h('div', { class: "col-lg-6" }, [ bareMetalTitle, bareMetal ]);
+      let virtualized_container = h('div', { class: "col-lg-6" }, [ virtualizedTitle, virtualized ]);
 
       let cloud_launchable_container = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_launchable, hidden: this.shownId !== IdPool.cloud_launchable } }, [ cloudLaunchable ]);
       let metal_virt_container = h('div', { class: "row col-12 py-2 my-2", attrs: { id: IdPool.metal_virtualized, hidden: this.shownId !== IdPool.metal_virtualized } }, [ bare_metal_container, virtualized_container ]);
