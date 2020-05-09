@@ -76,8 +76,8 @@ FEDORA_LANGUAGES_FULL = { 'en' : u'English',
                           'tr': u'Tϋrkçe',
                           'uk': u'українська',
                           'vi': u'Tiếng Việt',
-                          'zh_CN': u'简体中文',
-                          'zh_TW': u'正體中文'}
+                          'zh_Hans_CN': u'简体中文',
+                          'zh_Hant_TW': u'正體中文'}
 
 FEDORA_LANGUAGE_DEFAULT = 'en'
 
