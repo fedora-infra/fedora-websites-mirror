@@ -79,6 +79,18 @@ FEDORA_LANGUAGES_FULL = { 'en' : u'English',
                           'zh_Hans_CN': u'简体中文',
                           'zh_Hant_TW': u'正體中文'}
 
+# For backward compatibility with commonly used shorter names.
+ZH_LANGAGUE_MAP = {
+    'zh_CN': 'zh_Hans_CN',
+    'zh_TW': 'zh_Hant_TW',
+    # Following are approximate mapping from region to written language,
+    # since we don't have dedicated translations for them.
+    'zh_SG': 'zh_Hans_CN',
+    'zh_MY': 'zh_Hans_CN',
+    'zh_HK': 'zh_Hant_TW',
+    'zh_MO': 'zh_Hant_TW',
+}
+
 FEDORA_LANGUAGE_DEFAULT = 'en'
 
 # Only include translations which actually have a translations file
@@ -159,6 +171,10 @@ def inject_globalvars():
 def handle_language_code():
     if request.view_args and 'lang_code' in request.view_args:
         g.current_lang = request.view_args.get('lang_code')
+        # Try to accommodate commonly used shorter Chinese lang_code.
+        if (g.current_lang.startswith('zh')
+            and g.current_lang not in FEDORA_LANGUAGES):
+            g.current_lang = ZH_LANGAGUE_MAP.get(g.current_lang)
         if g.current_lang not in FEDORA_LANGUAGES:
             return abort(404)
         else:
