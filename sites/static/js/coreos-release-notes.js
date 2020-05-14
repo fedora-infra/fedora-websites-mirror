@@ -1,21 +1,16 @@
-// There are three layers of async fetch calls
+// There are four layers of async fetch calls
+//  - releases.json
 //  - builds.json
 //  - meta.json
 //  - commitmeta.json
 
-// Originally the `loading` variable is set to false after builds.json
-// has been fetched, but since we are using runtime only build and not using
-// Vue templates, watching the builds list and re-render each time a metadata
-// has been fetched seems to be a large overhead.
-// Therefore, in this implementation, only render the page after fetching all
-// of the three json files in the first place, and re-render if the user changes
+// In this implementation, only render the page after fetching all
+// of the four json files in the first place, and re-render if the user changes
 // stream.
+// NOTE: set the `initialBuildsShown` to 5 means only 5 releases will be rendered,
+// which means the overhead for waiting for fetching 5 releases might not be large
+// (~600ms for fetching all jsons and ~300ms for consecutive reloads).
 
-// NOTE: set the `initialBuildsShown` to 5 means only 5 builds will be rendered,
-// which means the overhead for waiting for fetching 5 builds might not be large
-// (~40ms for fetching all jsons).
-
-const baseUrl = 'https://builds.coreos.fedoraproject.org/streams'
 const baseProdUrl = 'https://builds.coreos.fedoraproject.org/prod/streams'
 const baseDevelUrl = 'https://builds.coreos.fedoraproject.org/devel/streams'
 
@@ -40,15 +35,6 @@ function getBaseUrl(stream, developer) {
         : `${baseDevelUrl}/${developer}`;
 }
 
-// function fetchStreamData(base, stream) {
-//     return fetch(`${base}/${stream}.json`)
-//       .then(response => response.ok ? response.json() : {});
-// }
-
-// function isEmptyObj(obj) {
-//     return Object.entries(obj).length === 0 && obj.constructor === Object;
-// }
-
 function sortPkgDiff(meta) {
   if ("pkgdiff" in meta) {
       var newdiff = {};
@@ -68,6 +54,16 @@ function findImportantPkgs(commitmeta) {
   return r;
 }
 
+// The actual fetch function for `releases.json`
+function fetchReleases(base) {
+  return fetch(`${base}/releases.json`)
+      .then(response => response.ok ? response.json() : {"releases": []})
+      .then(data => {
+          return data.releases.map(release => release.version);
+      });
+}
+
+// The actual fetch function for `builds.json`
 function fetchBuilds(base) {
     return fetch(`${base}/builds.json`)
         .then(response => response.ok ? response.json() : {"builds": []})
@@ -81,21 +77,201 @@ function fetchBuilds(base) {
         });
 }
 
-function fetchBuild(base, build, legacy) {
-    return fetchBuildMeta(base, build, legacy).then(result => {
-        [basearch, meta] = result;
-        sortPkgDiff(meta);
-        // show the build metadata
-        build.meta = meta;
-        // and fetch extra commit metadata in async
-        return fetchBuildCommitMeta(base, build, basearch, legacy).then(commitmeta => {
-            commitmeta["importantPkgs"] = findImportantPkgs(commitmeta);
-            commitmeta["showImportantPkgsOnly"] = true;
-            build.commitmeta = commitmeta;
-        });
-    });
+// Gather a metadata list of builds between releases
+// Pre-condition: currentReleaseIdx <= targetReleaseIdx
+function gatherMetadataBtwReleases(currentReleaseIdx, targetReleaseIdx, config) {
+  ({ builds, base, legacy } = config);
+  let metaPromiseList = [];
+
+  // no need to fetch the older release each time, since pkgdiff's are accumulated among
+  // changes after and not including older release.
+  // in the case of oldest release, however, we need to fetch the metadata for current / older / oldest
+  // release, since they are pointing to the same release.
+  if (currentReleaseIdx == targetReleaseIdx) {
+    let metaPromise = fetchBuildMeta(base, builds[currentReleaseIdx], legacy);
+    metaPromiseList.push(metaPromise);
+    return Promise.all(metaPromiseList);
+  }
+
+  for (let i = currentReleaseIdx; i < targetReleaseIdx; i++) {
+    let metaPromise = fetchBuildMeta(base, builds[i], legacy);
+    metaPromiseList.push(metaPromise);
+  }
+  return Promise.all(metaPromiseList);
 }
 
+// Get an accumulated pkgdiff given a list of metadata
+// e.g. given a list of build metadata fetched between two consecutive releases
+// we can compute the overall accumulated pkgdiff between two releases
+function getPkgDiffFromMetaList (metaList) {
+  function getPkgDiffReducer(pkgDiffAcc, currentMeta) {
+    // NOTE: pkgDiffAcc is the most recent diff accumulated, and currentMeta has the older pkgdiff
+    if (! ("pkgdiff" in currentMeta[1])) {
+      return pkgDiffAcc;
+    }
+    currentMeta[1].pkgdiff.map(d => {
+      const pkgName = d[0];
+      const diffType = d[1];
+      const pkgInfo = d[2];
+      let pkgNamesAcc = pkgDiffAcc.map(dAcc => dAcc[0]);
+      // if the pkgdiff is first encountered, add it to accumulator
+      if (pkgNamesAcc.indexOf(pkgName) < 0) {
+        pkgDiffAcc.push(d);
+        return;
+      }
+
+      // added pkgdiff type
+      if (diffType == 0) {
+        let pkgDiffAccCpy = [...pkgDiffAcc];
+        for (let i = 0; i < pkgDiffAccCpy.length; i++) {
+          const dAcc = pkgDiffAccCpy[i];
+          // added first then later removed
+          if (dAcc[0] == pkgName && dAcc[1] == 1) {
+            // replace with empty list and remove later
+            pkgDiffAccCpy[i] = [];
+            break;
+          }
+          // added first then later upgraded
+          if (dAcc[0] == pkgName && dAcc[1] == 2) {
+            pkgDiffAccCpy[i] = d;
+            pkgDiffAccCpy[i][2].NewPackage[1] = dAcc[2].NewPackage[1];
+            break;
+          }
+          // added first then later downgraded
+          if (dAcc[0] == pkgName && dAcc[1] == 3) {
+            pkgDiffAccCpy[i] = d;
+            pkgDiffAccCpy[i][2].NewPackage[1] = dAcc[2].NewPackage[1];
+            break;
+          }
+        }
+        pkgDiffAccCpy = pkgDiffAccCpy.filter(dAcc => dAcc.length != 0);
+        pkgDiffAcc = [...pkgDiffAccCpy];
+      }
+
+      // removed pkgdiff type
+      if (diffType == 1) {
+        let pkgDiffAccCpy = [...pkgDiffAcc];
+        for (let i = 0; i < pkgDiffAccCpy.length; i++) {
+          const dAcc = pkgDiffAccCpy[i];
+          // removed first then later added
+          if (dAcc[0] == pkgName && dAcc[1] == 0) {
+            // replace with empty list and remove later
+            pkgDiffAccCpy[i] = [];
+            break;
+          }
+        }
+        pkgDiffAccCpy = pkgDiffAccCpy.filter(dAcc => dAcc.length != 0);
+        pkgDiffAcc = [...pkgDiffAccCpy];
+      }
+
+      // upgraded pkgdiff type
+      if (diffType == 2) {
+        let pkgDiffAccCpy = [...pkgDiffAcc];
+        for (let i = 0; i < pkgDiffAccCpy.length; i++) {
+          const dAcc = pkgDiffAccCpy[i];
+          // upgraded first then later removed
+          if (dAcc[0] == pkgName && dAcc[1] == 1) {
+            // should be removing the previous version
+            pkgDiffAccCpy[i][2].PreviousPackage[1] = pkgInfo.PreviousPackage[1];
+            break;
+          }
+          // upgraded first then later upgraded again
+          if (dAcc[0] == pkgName && dAcc[1] == 2) {
+            pkgDiffAccCpy[i] = d;
+            pkgDiffAccCpy[i][2].NewPackage[1] = dAcc[2].NewPackage[1];
+            break;
+          }
+          // upgraded first then later downgraded
+          if (dAcc[0] == pkgName && dAcc[1] == 3) {
+            // checks if versions have changed
+            let strcmp = (s1, s2) => s1.localeCompare(s2);
+            if (strcmp(pkgDiffAccCpy[i][2].NewPackage[1], pkgInfo.PreviousPackage[1]) == 0) {
+              pkgDiffAccCpy[i] = [];
+            } else if (strcmp(pkgDiffAccCpy[i][2].NewPackage[1], pkgInfo.PreviousPackage[1]) > 0) {
+              // overall, an upgrade
+              pkgDiffAccCpyp[i] = d;
+              pkgDiffAccCpy[i].NewPackage[1] = dAcc[2].NewPackage[1];
+            } else {
+              // overall, a downgrade
+              pkgDiffAccCpy[i].PreviousPackage[1] = pkgInfo.PreviousPackage[1];
+            }
+            break;
+          }
+        }
+        pkgDiffAccCpy = pkgDiffAccCpy.filter(dAcc => dAcc.length != 0);
+        pkgDiffAcc = [...pkgDiffAccCpy];
+      }
+
+      // downgraded pkgdiff type
+      if (diffType == 3) {
+        let pkgDiffAccCpy = [...pkgDiffAcc];
+        for (let i = 0; i < pkgDiffAccCpy.length; i++) {
+          const dAcc = pkgDiffAccCpy[i];
+          // downgraded first then later removed
+          if (dAcc[0] == pkgName && dAcc[1] == 1) {
+            // should be removing the previous version
+            pkgDiffAccCpy[i][2].PreviousPackage[1] = pkgInfo.PreviousPackage[1];
+            break;
+          }
+          // downgraded first then later upgraded
+          if (dAcc[0] == pkgName && dAcc[1] == 2) {
+            // checks if versions have changed
+            let strcmp = (s1, s2) => s1.localeCompare(s2);
+            if (strcmp(pkgDiffAccCpy[i][2].NewPackage[1], pkgInfo.PreviousPackage[1]) == 0) {
+              pkgDiffAccCpy[i] = [];
+            } else if (strcmp(pkgDiffAccCpy[i][2].NewPackage[1], pkgInfo.PreviousPackage[1]) > 0) {
+              // overall, an upgrade
+              pkgDiffAccCpy[i].PreviousPackage[1] = pkgInfo.PreviousPackage[1];
+            } else {
+              // overall, a downgrade
+              pkgDiffAccCpyp[i] = d;
+              pkgDiffAccCpy[i].NewPackage[1] = dAcc[2].NewPackage[1];
+            }
+            break;
+          }
+          // upgraded first then later downgraded
+          if (dAcc[0] == pkgName && dAcc[1] == 3) {
+            pkgDiffAccCpy[i] = d;
+            pkgDiffAccCpy[i][2].NewPackage[1] = dAcc[2].NewPackage[1];
+            break;
+          }
+        }
+        pkgDiffAccCpy = pkgDiffAccCpy.filter(dAcc => dAcc.length != 0);
+        pkgDiffAcc = [...pkgDiffAccCpy];
+      }
+
+    })
+
+    return pkgDiffAcc;
+
+  }
+
+  let pkgdiff = metaList.reduce(getPkgDiffReducer, []);
+  return pkgdiff;
+}
+
+// Fetch the metadata of the release `builds[fromIdx]`
+// and also calculate the accumulated pkgdiff between the last release `builds[toIdx]`
+// Note: meta.json is used for pkgdiff and commitmeta.json contains pkglist
+function fetchBuild(base, legacy, builds, fromIdx, toIdx) {
+  let config = { builds, base, legacy };
+  return gatherMetadataBtwReleases(fromIdx, toIdx, config).then(metaList => {
+    let build = builds[fromIdx];
+    let [basearch, meta] = metaList[0];
+    meta.pkgdiff = getPkgDiffFromMetaList(metaList);
+    sortPkgDiff(meta);
+    build.meta = meta;
+    // and fetch extra commit metadata in async
+    return fetchBuildCommitMeta(base, build, basearch, legacy).then(commitmeta => {
+      commitmeta["importantPkgs"] = findImportantPkgs(commitmeta);
+      commitmeta["showImportantPkgsOnly"] = true;
+      build.commitmeta = commitmeta;
+      builds[fromIdx] = build;
+    });
+  });
+}
+
+// The actual fetch function for `meta.json`
 function fetchBuildMeta(base, build, legacy) {
   if (legacy) {
       return fetch(`${base}/${build.id}/meta.json`)
@@ -111,6 +287,7 @@ function fetchBuildMeta(base, build, legacy) {
   // }));
 }
 
+// The actual fetch function for `commitmeta.json`
 function fetchBuildCommitMeta(base, build, basearch, legacy) {
   if (legacy) {
       return fetch(`${base}/${build.id}/commitmeta.json`)
@@ -139,7 +316,7 @@ var coreos_release_notes = new Vue({
     // XXX: in non-legacy mode, meta and commitmeta are those
     // of the first arch, but in the future these would be e.g.
     // meta[arch] and commitmeta[arch]
-    builds: [],
+    releases: [],
     // list of unshown {id, arches, meta, commitmeta} build objects
     unshown_builds: [],
     // toggles "Loading..."
@@ -193,13 +370,13 @@ var coreos_release_notes = new Vue({
     },
     getReleaseNoteCards: function(h) {
       const self = this;
-      // check if all build metadata has been fetched
+      // check if all release metadata has been fetched
       if (self.loading) {
         return
       }
 
       rows = [];
-      self.builds.forEach((build, idx) => {
+      self.releases.forEach((build, idx) => {
         // Left pane consists of Build ID and Arch info
         let headingListArches = [];
         let headingBuildId = h('h5', { class: "font-weight-bold" }, build.id);
@@ -269,36 +446,51 @@ var coreos_release_notes = new Vue({
     },
     refreshBuilds: function() {
         this.loading = true
-        this.buildsUrl = getBaseUrl(this.stream, this.developer) + "/builds"
-        fetchBuilds(this.buildsUrl).then(result => {
+        this.releasesUrl = getBaseUrl(this.stream, this.developer);
+        this.buildsUrl = getBaseUrl(this.stream, this.developer) + "/builds";
+        fetchReleases(this.releasesUrl).then(releaseVersions => {
+          fetchBuilds(this.buildsUrl).then(result => {
             [legacy, builds] = result;
             // first populate and show the build list
             this.legacy = legacy;
-            this.builds = [];
+            this.releases = [];
             this.unshown_builds = [];
+            // counter for the number of release metadata fetched since fetch is asnyc operation
             let counter = 0;
 
-            // and now fetch each build info async
-            builds.forEach((build, idx) => {
-                if (idx < initialBuildsShown) {
-                    this.builds.push(build);
-                    fetchBuild(this.buildsUrl, build, this.legacy)
-                    .then(() => {
-                      counter++;
-                      if (counter === builds.length) {
-                        // fetched all metadata
-                        this.loading = false;
-                      }
-                    })
-                } else {
-                    this.unshown_builds.push(build);
-                    counter++;
-                    if (counter === builds.length) {
-                      // fetched all metadata
-                      this.loading = false;
-                    }
+            // get the index list of release builds in the build list
+            const releaseIdxList = builds.map((build, idx) => releaseVersions.includes(build.id) ? idx : -1).filter(idx => idx != -1);
+            const numReleases = releaseIdxList.length;
+
+            // fetch the metadata and compute the pkgdiff for subsequent releases
+            // since the oldest release does not have a pkgdiff, the pkgdiff for oldest release is an empty array
+            for (let i = 0; i < numReleases; i++) {
+              const releaseIdx = releaseIdxList[i];
+              // in case of oldest release, there's no older release
+              const nextReleaseIdx = releaseIdxList[i + 1] == null ? releaseIdxList[i] : releaseIdxList[i + 1];
+              if (i < initialBuildsShown) {
+                // NOTE: here only the `builds` array have the actual values, all other variables are pointers to the elements of this array
+                this.releases.push(builds[releaseIdx]);
+                // fetchBuild mutates the `builds` array
+                fetchBuild(this.buildsUrl, this.legacy, builds, releaseIdx, nextReleaseIdx)
+                .then(() => {
+                  counter++;
+                  if (counter === numReleases) {
+                    // fetched all metadata
+                    this.loading = false;
+                  }
+                });
+              } else {
+                // XXX: unshown/unprocessed releases, could be handled later according to needs
+                this.unshown_builds.push(builds[releaseIdx]);
+                counter++;
+                if (counter === numReleases) {
+                  // fetched all metadata
+                  this.loading = false;
                 }
-            })
+              }
+            }
+          });
         });
     }
   },
