@@ -242,22 +242,23 @@ var coreos_download_app = new Vue({
     },
     // Introduction section for streams, the section above the navigation bar for platforms
     getStreamIntro: function(h) {
-      title = h('h2', { class: "font-weight-light text-center pb-3" }, "Fedora CoreOS is available across 3 different release streams:");
+      title = h('h2', { class: "font-weight-light text-center pb-3 mb-5" }, "Fedora CoreOS is available across 3 different release streams:");
 
       if (this.loading) {
         return title;
       }
 
-      viewAllStreamsBtn = h('button',
-      {
-        class: "d-block mx-auto mb-5 py-1 btn btn-sm btn-fedora-purple",
-        on: {
-          click: function(e) {
-            e.preventDefault();
-            window.open("https://builds.coreos.fedoraproject.org/browser");
-          }
-        }
-      }, "View All Streams");
+      // XXX: the button is hided for now since we do not want to expose the release browser, which are subject to changes at any time
+      // viewAllStreamsBtn = h('button',
+      // {
+      //   class: "d-block mx-auto mb-5 py-1 btn btn-sm btn-fedora-purple",
+      //   on: {
+      //     click: function(e) {
+      //       e.preventDefault();
+      //       window.open("https://builds.coreos.fedoraproject.org/browser");
+      //     }
+      //   }
+      // }, "View All Streams");
 
       // Release info section with three tabs: stable, testing, next
       // NOTE: in order for the button line up at the same horizontal level, use a fixed height `9em` for <p> elements of stream summaries.
@@ -372,7 +373,8 @@ var coreos_download_app = new Vue({
       }, [nextHeadingContainer, nextIntroText])
 
       streamsIntroDiv = h('div', { class: "row my-3" }, [stableDiv, testingDiv, nextDiv]);
-      wrapperDiv = h('div', {}, [title, viewAllStreamsBtn, streamsIntroDiv]);
+      // XXX: Add the buttons here if in the future buttons for release browser are needed
+      wrapperDiv = h('div', {}, [title, streamsIntroDiv]);
       return wrapperDiv;
     },
     isAws: function(platform) {
