@@ -242,23 +242,23 @@ var coreos_download_app = new Vue({
     },
     // Introduction section for streams, the section above the navigation bar for platforms
     getStreamIntro: function(h) {
-      title = h('h2', { class: "font-weight-light text-center pb-3 mb-5" }, "Fedora CoreOS is available across 3 different release streams:");
+      const overviewPageUrl = window.location.href.match(/^.*\/coreos/)[0];
+      title = h('h2', { class: "font-weight-light text-center pb-3 mb-3" }, "Fedora CoreOS is available across 3 different release streams:");
 
       if (this.loading) {
         return title;
       }
 
-      // XXX: the button is hided for now since we do not want to expose the release browser, which are subject to changes at any time
-      // viewAllStreamsBtn = h('button',
-      // {
-      //   class: "d-block mx-auto mb-5 py-1 btn btn-sm btn-fedora-purple",
-      //   on: {
-      //     click: function(e) {
-      //       e.preventDefault();
-      //       window.open("https://builds.coreos.fedoraproject.org/browser");
-      //     }
-      //   }
-      // }, "View All Streams");
+      viewAllStreamsBtn = h('button',
+      {
+        class: "d-block mx-auto mb-5 py-1 btn btn-sm btn-fedora-purple",
+        on: {
+          click: function(e) {
+            e.preventDefault();
+            window.open(`${overviewPageUrl}`);
+          }
+        }
+      }, "View All Streams");
 
       // Release info section with three tabs: stable, testing, next
       // NOTE: in order for the button line up at the same horizontal level, use a fixed height `9em` for <p> elements of stream summaries.
@@ -279,17 +279,16 @@ var coreos_download_app = new Vue({
       stableHeadingContainer = h("div", { class: "row" }, [ stableIconContainer, stableReleaseJSONContainer ])
 
       stableIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Stable Stream should be used by production clusters. Versions of Fedora CoreOS are battle-tested within the Testing and Next streams before being promoted.");
-      // XXX: the button is hided for now since we do not want to expose the release browser, which are subject to changes at any time
-      // stableReleaseLink = h('button',
-      // {
-      //   class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-blue",
-      //   on: {
-      //     click: function(e) {
-      //       e.preventDefault();
-      //       window.open("https://builds.coreos.fedoraproject.org/browser?stream=stable");
-      //     }
-      //   }
-      // }, "View Stable Releases");
+      stableReleaseLink = h('button',
+      {
+        class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-blue",
+        on: {
+          click: function(e) {
+            e.preventDefault();
+            window.open(`${overviewPageUrl}?stream=stable`);
+          }
+        }
+      }, "View Stable Releases");
 
       // then Testing stream
       testingIcon = h("i", {
@@ -309,17 +308,16 @@ var coreos_download_app = new Vue({
       testingHeadingContainer = h("div", { class: "row" }, [ testingIconContainer, testingReleaseJSONContainer ])
 
       testingIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Testing stream consists of promoted Next releases. Mix a few Testing machines into your production clusters to catch any bugs specific to your hardware or configuration.");
-      // XXX: the button is hided for now since we do not want to expose the release browser, which are subject to changes at any time
-      // testingReleaseLink = h('button',
-      // {
-      //   class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-green",
-      //   on: {
-      //     click: function(e) {
-      //       e.preventDefault();
-      //       window.open("https://builds.coreos.fedoraproject.org/browser?stream=testing");
-      //     }
-      //   }
-      // }, "View Testing Releases");
+      testingReleaseLink = h('button',
+      {
+        class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-green",
+        on: {
+          click: function(e) {
+            e.preventDefault();
+            window.open(`${overviewPageUrl}?stream=testing`);
+          }
+        }
+      }, "View Testing Releases");
 
       // then Next stream
       nextIcon = h("i", {
@@ -340,41 +338,38 @@ var coreos_download_app = new Vue({
 
 
       nextIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Next stream closely tracks current development work and is released frequently. The newest versions of the Linux kernel, Systemd, and other components will be available for testing.");
-      // XXX: the button is hided for now since we do not want to expose the release browser, which are subject to changes at any time
-      // nextReleaseLink = h('button',
-      // {
-      //   class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-orange",
-      //   on: {
-      //     click: function(e) {
-      //       e.preventDefault();
-      //       window.open("https://builds.coreos.fedoraproject.org/browser?stream=next");
-      //     }
-      //   }
-      // }, "View Next Releases");
+      nextReleaseLink = h('button',
+      {
+        class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-orange",
+        on: {
+          click: function(e) {
+            e.preventDefault();
+            window.open(`${overviewPageUrl}?stream=next`);
+          }
+        }
+      }, "View Next Releases");
 
-      // XXX: Add the buttons here if in the future buttons for release browser are needed
       stableDiv = h('div', {
         class: "col-12 col-lg-4 border-left border-fedora-blue pt-3",
         style: {
           "border-width": "10px !important",
         }
-      }, [stableHeadingContainer, stableIntroText])
+      }, [stableHeadingContainer, stableIntroText, stableReleaseLink])
       testingDiv = h('div', {
         class: "col-12 col-lg-4 border-left border-fedora-green pt-3",
         style: {
           "border-width": "10px !important",
         }
-      }, [testingHeadingContainer, testingIntroText])
+      }, [testingHeadingContainer, testingIntroText, testingReleaseLink])
       nextDiv = h('div', {
         class: "col-12 col-lg-4 border-left border-fedora-orange pt-3",
         style: {
           "border-width": "10px !important",
         }
-      }, [nextHeadingContainer, nextIntroText])
+      }, [nextHeadingContainer, nextIntroText, nextReleaseLink])
 
       streamsIntroDiv = h('div', { class: "row my-3" }, [stableDiv, testingDiv, nextDiv]);
-      // XXX: Add the buttons here if in the future buttons for release browser are needed
-      wrapperDiv = h('div', {}, [title, streamsIntroDiv]);
+      wrapperDiv = h('div', {}, [title, viewAllStreamsBtn, streamsIntroDiv]);
       return wrapperDiv;
     },
     isAws: function(platform) {

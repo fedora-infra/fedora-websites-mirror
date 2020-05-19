@@ -352,6 +352,8 @@ var coreos_release_notes = new Vue({
         if (e.target.innerText === "Next Stream") {
             self.stream = "next"
         }
+        const overviewPageUrl = window.location.href.match(/^.*\/coreos/)[0];
+        history.replaceState(null, null, `${overviewPageUrl}?stream=${self.stream}`);
       }
       let shieldIcon = h('i', { class: "fas fa-shield-alt mr-2" })
       let navStableBtn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.stream === "stable" ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: changeStream } }, [ shieldIcon, "Stable Stream" ]);
@@ -664,6 +666,34 @@ var coreos_release_notes = new Vue({
     }
   },
   render: function(h) {
+    // Duplicate logic from coreos-download.js
+    // URL paramters checking and setting default values
+    if(window.location.href.match(/^.*\/coreos/) == null) {
+      return
+    }
+    const overviewPageUrl = window.location.href.match(/^.*\/coreos/)[0];
+    searchParams = new URLSearchParams(window.location.search);
+    // switch to specified stream if `stream` parameter is set
+    if (searchParams.has('stream')) {
+      switch(searchParams.get('stream')) {
+        case 'stable':
+          this.stream = "stable";
+          break;
+        case 'testing':
+          this.stream = "testing";
+          break;
+        case 'next':
+          this.stream = "next";
+          break;
+        default:
+          this.stream = "stable";
+      }
+    } else {
+      searchParams.set('stream', 'stable');
+    }
+    // Update the url with the parameters
+    history.replaceState(null, null, `${overviewPageUrl}?${searchParams.toString()}`);
+
     let navBar = this.getNavbar(h);
 
     if (this.loading) {
