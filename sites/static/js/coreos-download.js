@@ -112,6 +112,18 @@ var coreos_download_app = new Vue({
     stream: function() {
       this.refreshStream();
     },
+    loading: function() {
+      // Scrolls the view to navigation bar after user has clicked one of the download button
+      // This needs to watch loading variable since the whole page is re-rendered
+      Vue.nextTick(function () {
+        // Code that will run only after the
+        // entire view has been re-rendered
+        let navPlatforms = document.getElementById("stream-title");
+        if (coreos_download_app.loading || navPlatforms == null || coreos_download_app.scrollToNavbar != true) return;
+        navPlatforms.scrollIntoView();
+        coreos_download_app.scrollToNavbar = false;
+      });
+    },
     // watching nested data: https://stackoverflow.com/a/46331968
     "streamDataAll.stable": function(newVal, oldVal) {
       if (isEmptyObj(this.streamDataAll.stable)) {
@@ -213,52 +225,34 @@ var coreos_download_app = new Vue({
       navCloudOperatorsBtn = h('button', { class: "nav-link col-12 h-100 overflow-hidden".concat(this.shownId === IdPool.cloud_operators ? " active" : ""), attrs: { "data-toggle": "tab" }, on: { click: this.toggleHidden } }, [ cloudUploadIcon, tabInnerText.cloud_operators ]);
       navCloudOperators = h('li', { class: "nav-item col-12 col-sm-4" }, [ navCloudOperatorsBtn ]);
 
-      navbar = h('ul', { class: "nav nav-tabs" }, [ navCloudLaunchable, navMetalVirt, navCloudOperators ]);
+      navbar = h('ul', { class: "nav nav-tabs mt-3" }, [ navCloudLaunchable, navMetalVirt, navCloudOperators ]);
       return navbar;
-    },
-    // Render a dropdown list with options of streams
-    getStreamName: function(h) {
-      const self = this;
-      if (this.streamData === null) return;
-
-      function onClick(e) {
-        const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
-        const currentShownKey = Object.keys(IdPool).find(key => IdPool[key] === self.shownId);
-        coreos_download_app.stream = e.target.value;
-        history.replaceState(null, null, `${downloadPageUrl}?tab=${currentShownKey}&stream=${coreos_download_app.stream}`);
-      }
-
-      btnDropdownToggle = h('button', { class: "btn btn-sm bg-gray-200 dropdown-toggle py-0", attrs: { type: "button", id: "dropdownMenuStreams", "data-toggle": "dropdown", "aria-haspopup": true, "aria-expanded": false } }, self.stream );
-      btnDropdownStable = h('button', { class: "dropdown-item", attrs: { type: "button", value: "stable" }, on: { click: onClick } }, "stable");
-      btnDropdownTesting = h('button', { class: "dropdown-item", attrs: { type: "button", value: "testing" }, on: { click: onClick } }, "testing");
-      btnDropdownNext = h('button', { class: "dropdown-item", attrs: { type: "button", value: "next" }, on: { click: onClick } }, "next");
-      divDropdownMenu = h('div', { class: "dropdown-menu", attrs: { "aria-labelledby": "dropdownMenuStreams" } }, [ btnDropdownStable, btnDropdownTesting, btnDropdownNext ]);
-      divDropdown = h('div', { class: "d-inline dropdown ml-2" }, [ btnDropdownToggle, divDropdownMenu ])
-
-      streamName = h('p', { class: "mt-5 mb-2 ml-3" }, [
-        "Currently Selected Stream:",
-        divDropdown ]);
-      return streamName;
     },
     // Introduction section for streams, the section above the navigation bar for platforms
     getStreamIntro: function(h) {
+
+      function onClick(e) {
+        e.preventDefault();
+
+        if (coreos_download_app.stream == e.target.id) {
+          let navPlatforms = document.getElementById("stream-title");
+          navPlatforms.scrollIntoView();
+          return;
+        }
+
+        coreos_download_app.scrollToNavbar = true;
+        const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
+        const currentShownKey = Object.keys(IdPool).find(key => IdPool[key] === coreos_download_app.shownId);
+        coreos_download_app.stream = e.target.id;
+        history.replaceState(null, null, `${downloadPageUrl}?tab=${currentShownKey}&stream=${coreos_download_app.stream}`);
+      }
+
       const overviewPageUrl = window.location.href.match(/^.*\/coreos/)[0];
-      title = h('h2', { class: "font-weight-light text-center pb-3 mb-3" }, "Fedora CoreOS is available across 3 different release streams:");
+      title = h('h2', { class: "font-weight-light text-center mb-5 pt-5" }, "Fedora CoreOS is available across 3 different release streams:");
 
       if (this.loading) {
         return title;
       }
-
-      viewAllStreamsBtn = h('button',
-      {
-        class: "d-block mx-auto mb-5 py-1 btn btn-sm btn-fedora-purple",
-        on: {
-          click: function(e) {
-            e.preventDefault();
-            window.open(`${overviewPageUrl}`);
-          }
-        }
-      }, "View All Streams");
 
       // Release info section with three tabs: stable, testing, next
       // NOTE: in order for the button line up at the same horizontal level, use a fixed height `9em` for <p> elements of stream summaries.
@@ -278,17 +272,15 @@ var coreos_download_app = new Vue({
       stableReleaseJSONContainer = h("div", { class: "col-8" }, [ stableHeading, stableReleaseVersion, stableJSON ])
       stableHeadingContainer = h("div", { class: "row" }, [ stableIconContainer, stableReleaseJSONContainer ])
 
-      stableIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Stable Stream should be used by production clusters. Versions of Fedora CoreOS are battle-tested within the Testing and Next streams before being promoted.");
+      stableIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Stable stream should be used by production clusters. Versions of Fedora CoreOS are battle-tested within the Testing and Next streams before being promoted.");
       stableReleaseLink = h('button',
       {
-        class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-blue",
+        class: "d-block mx-auto mb-4 py-1 px-3 btn btn-sm btn-fedora-blue",
+        attrs: { id: "stable" },
         on: {
-          click: function(e) {
-            e.preventDefault();
-            window.open(`${overviewPageUrl}?stream=stable`);
-          }
+          click: onClick
         }
-      }, "View Stable Releases");
+      }, "Show Downloads");
 
       // then Testing stream
       testingIcon = h("i", {
@@ -310,14 +302,12 @@ var coreos_download_app = new Vue({
       testingIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Testing stream consists of promoted Next releases. Mix a few Testing machines into your production clusters to catch any bugs specific to your hardware or configuration.");
       testingReleaseLink = h('button',
       {
-        class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-green",
+        class: "d-block mx-auto mb-4 py-1 px-3 btn btn-sm btn-fedora-green",
+        attrs: { id: "testing" },
         on: {
-          click: function(e) {
-            e.preventDefault();
-            window.open(`${overviewPageUrl}?stream=testing`);
-          }
+          click: onClick
         }
-      }, "View Testing Releases");
+      }, "Show Downloads");
 
       // then Next stream
       nextIcon = h("i", {
@@ -340,14 +330,12 @@ var coreos_download_app = new Vue({
       nextIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Next stream closely tracks current development work and is released frequently. The newest versions of the Linux kernel, Systemd, and other components will be available for testing.");
       nextReleaseLink = h('button',
       {
-        class: "d-block mx-auto mb-4 py-1 btn btn-sm btn-fedora-orange",
+        class: "d-block mx-auto mb-4 py-1 px-3 btn btn-sm btn-fedora-orange",
+        attrs: { id: "next" },
         on: {
-          click: function(e) {
-            e.preventDefault();
-            window.open(`${overviewPageUrl}?stream=next`);
-          }
+          click: onClick
         }
-      }, "View Next Releases");
+      }, "Show Downloads");
 
       stableDiv = h('div', {
         class: "col-12 col-lg-4 border-left border-fedora-blue pt-3",
@@ -369,7 +357,29 @@ var coreos_download_app = new Vue({
       }, [nextHeadingContainer, nextIntroText, nextReleaseLink])
 
       streamsIntroDiv = h('div', { class: "row my-3" }, [stableDiv, testingDiv, nextDiv]);
-      wrapperDiv = h('div', {}, [title, viewAllStreamsBtn, streamsIntroDiv]);
+
+      // Text color map for the streams for easy access
+      const textColorMap = {
+        "stable": "text-fedora-blue",
+        "testing": "text-fedora-green",
+        "next": "text-fedora-orange"
+      };
+
+      displayedStreamTitle = h('div', { class: "font-weight-light text-left pt-5", attrs: { id: "stream-title" } }, [
+        `Currently displayed stream:`,
+        // https://stackoverflow.com/a/1026087 for making the first letter uppercase
+        h('span', { class: `${textColorMap[this.stream]} mx-2` }, this.stream.charAt(0).toUpperCase() + this.stream.slice(1)),
+        `(`,
+        h('a', {
+          class: "font-weight-bold text-gray-500",
+          attrs: {
+            href: overviewPageUrl
+          }
+        }, `View Releases`),
+        `)`
+      ]);
+
+      wrapperDiv = h('div', {}, [title, streamsIntroDiv, displayedStreamTitle]);
       return wrapperDiv;
     },
     isAws: function(platform) {
@@ -538,7 +548,7 @@ var coreos_download_app = new Vue({
     }
   },
   render: function(h) {
-    if(window.location.href.match(/^.*\/coreos\/download/) == null) {
+    if (window.location.href.match(/^.*\/coreos\/download/) == null) {
       return
     }
     const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
@@ -584,9 +594,9 @@ var coreos_download_app = new Vue({
 
     var signatureSha256VerificationModal = this.getSignatureAndShaModal(h);
     h1Title = h('h1', { class: "font-weight-light text-center my-5" }, "Download Fedora CoreOS");
-    streamSelectContainer = h('div', { class: "pb-0 pt-3 mb-3" }, [ this.getStreamIntro(h), this.getStreamName(h), this.getNavbar(h) ]);
+    streamSelectContainer = h('div', { class: "pb-0 mb-3" }, [ this.getStreamIntro(h), this.getNavbar(h) ]);
     if (this.loading) {
-      streamInfoDiv = h('div', { class: "bg-light pt-3" }, [ h('div', { class: "container font-weight-light" }, [ streamSelectContainer ]) ]);
+      streamInfoDiv = h('div', { class: "bg-light" }, [ h('div', { class: "container font-weight-light" }, [ streamSelectContainer ]) ]);
       downloadDiv = h('div', { class: "bg-white pb-5" }, [ h('div', { class: "container font-weight-light" }, "Loading...") ]);
       return h('div', {}, [ h1Title, streamInfoDiv, downloadDiv ]);
     }
@@ -798,7 +808,7 @@ var coreos_download_app = new Vue({
       let metalVirtContainer = h('div', { class: "row col-12 py-2 my-2", attrs: { id: IdPool.metal_virtualized, hidden: this.shownId !== IdPool.metal_virtualized } }, [ bareMetalContainer, virtualizedContainer ]);
       let cloudOperatorsContainer = h('div', { class: "col-12 py-2 my-2", attrs: { id: IdPool.cloud_operators, hidden: this.shownId !== IdPool.cloud_operators } }, [ cloud ]);
 
-      streamInfoDiv = h('div', { class: "bg-light pt-3" }, [ h('div', { class: "container font-weight-light" }, [ streamSelectContainer ]) ]);
+      streamInfoDiv = h('div', { class: "bg-light" }, [ h('div', { class: "container font-weight-light" }, [ streamSelectContainer ]) ]);
       downloadDiv = h('div', { class: "bg-white pb-5" }, [
         h('div', { class: "container font-weight-light" }, [
           signatureSha256VerificationModal,
