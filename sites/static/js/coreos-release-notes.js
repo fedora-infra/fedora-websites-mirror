@@ -18,7 +18,7 @@ const initialBuildsShown = 5;
 
 // pkgdiff enum to str
 const diffType = ["added", "removed", "upgraded", "downgraded"];
-const importantPkgs = ["kernel", "systemd", "rpm-ostree", "ignition", "podman"];
+const importantPkgs = ["kernel", "systemd", "rpm-ostree", "ignition", "podman", "moby-engine"];
 
 function timestampToPrettyString(date) {
   date = new Date(date);
