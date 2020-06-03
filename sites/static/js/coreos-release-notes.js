@@ -190,10 +190,10 @@ function getPkgDiffFromMetaList (metaList) {
             } else if (strcmp(pkgDiffAccCpy[i][2].NewPackage[1], pkgInfo.PreviousPackage[1]) > 0) {
               // overall, an upgrade
               pkgDiffAccCpyp[i] = d;
-              pkgDiffAccCpy[i].NewPackage[1] = dAcc[2].NewPackage[1];
+              pkgDiffAccCpy[i][2].NewPackage[1] = dAcc[2].NewPackage[1];
             } else {
               // overall, a downgrade
-              pkgDiffAccCpy[i].PreviousPackage[1] = pkgInfo.PreviousPackage[1];
+              pkgDiffAccCpy[i][2].PreviousPackage[1] = pkgInfo.PreviousPackage[1];
             }
             break;
           }
@@ -221,11 +221,11 @@ function getPkgDiffFromMetaList (metaList) {
               pkgDiffAccCpy[i] = [];
             } else if (strcmp(pkgDiffAccCpy[i][2].NewPackage[1], pkgInfo.PreviousPackage[1]) > 0) {
               // overall, an upgrade
-              pkgDiffAccCpy[i].PreviousPackage[1] = pkgInfo.PreviousPackage[1];
+              pkgDiffAccCpy[i][2].PreviousPackage[1] = pkgInfo.PreviousPackage[1];
             } else {
               // overall, a downgrade
               pkgDiffAccCpyp[i] = d;
-              pkgDiffAccCpy[i].NewPackage[1] = dAcc[2].NewPackage[1];
+              pkgDiffAccCpy[i][2].NewPackage[1] = dAcc[2].NewPackage[1];
             }
             break;
           }
