@@ -93,11 +93,21 @@ function gatherMetadataBtwReleases(currentReleaseIdx, targetReleaseIdx, config) 
     return Promise.all(metaPromiseList);
   }
 
-  for (let i = currentReleaseIdx; i < targetReleaseIdx; i++) {
-    let metaPromise = fetchBuildMeta(base, builds[i], legacy);
-    metaPromiseList.push(metaPromise);
-  }
-  return Promise.all(metaPromiseList);
+  // check if `parent-pkgdiff` field is present, if present there's no need to manually
+  // calculate pkgdiff here, use the field directly
+  // xref: https://github.com/coreos/fedora-coreos-pipeline/pull/247#event-3413080221
+  let metaPromise = fetchBuildMeta(base, builds[currentReleaseIdx], legacy);
+  metaPromiseList.push(metaPromise);
+  return Promise.all(metaPromiseList)
+    .then(metaList => {
+      if (metaList[0][1]['parent-pkgdiff'] == null) {
+        for (let i = currentReleaseIdx + 1; i < targetReleaseIdx; i++) {
+          let metaPromise = fetchBuildMeta(base, builds[i], legacy);
+          metaPromiseList.push(metaPromise);
+        }
+      }
+      return Promise.all(metaPromiseList);
+    });
 }
 
 // Get an accumulated pkgdiff given a list of metadata
@@ -258,7 +268,10 @@ function fetchBuild(base, legacy, builds, fromIdx, toIdx) {
   return gatherMetadataBtwReleases(fromIdx, toIdx, config).then(metaList => {
     let build = builds[fromIdx];
     let [basearch, meta] = metaList[0];
-    meta.pkgdiff = getPkgDiffFromMetaList(metaList);
+    // check if `parent-pkgdiff` field is present, if present there's no need to manually
+    // calculate pkgdiff here, use the field directly
+    // xref: https://github.com/coreos/fedora-coreos-pipeline/pull/247#event-3413080221
+    meta.pkgdiff = meta['parent-pkgdiff'] == null ? getPkgDiffFromMetaList(metaList) : meta['parent-pkgdiff'];
     sortPkgDiff(meta);
     build.meta = meta;
     // and fetch extra commit metadata in async
