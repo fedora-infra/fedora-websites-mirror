@@ -66,9 +66,9 @@ beta:
 
 fmw:
   osx:
-    version: 4.1.4
+    version: 4.1.5
   win:
-    version: 4.1.4
+    version: 4.1.5
   releases_json:
     # milestone can be 'final' or 'beta'. Leaving it out means 'final'.
     - version: 32
