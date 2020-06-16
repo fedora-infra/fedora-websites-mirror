@@ -385,6 +385,9 @@ var coreos_download_app = new Vue({
     isAws: function(platform) {
       return platform == "aws";
     },
+    isGcp: function(platform) {
+      return platform == "gcp";
+    },
     isVirtualizedImage: function(platform) {
       return virtualizedImages.includes(platform);
     },
@@ -448,6 +451,12 @@ var coreos_download_app = new Vue({
             });
           }
           Vue.set(this.streamDisplay.cloudLaunchable, platform, {list: displayEntries});
+        }
+        else if (this.isGcp(platform)) {
+          const name = getMember(images[platform], "name");
+          const family = getMember(images[platform], "family");
+          const project = getMember(images[platform], "project");
+          Vue.set(this.streamDisplay.cloudLaunchable, platform, {platform: prettyPlatform, name, family, project});
         }
         else {
           const image = getMember(images[platform], "image");
@@ -636,6 +645,44 @@ var coreos_download_app = new Vue({
                 ])
               }));
             }
+          }
+          if (coreos_download_app.isGcp(platform)) {
+            return h('div', { class: "p-2 m-2" }, [
+              displayInfo.platform ? h('div', { class: "font-weight-bold" }, displayInfo.platform) : null,
+              coreos_download_app.streamData.stream ? h('span', { class: "text-secondary" }, coreos_download_app.streamData.stream) : null,
+              displayInfo.project ? h('div', { class: "ml-2" }, [ "Project: ", displayInfo.project ]) : null,
+              displayInfo.family ? h('div', { class: "ml-2" }, [
+                "Family: ",
+                h('a', {
+                  attrs: {
+                    href: `https://console.cloud.google.com/marketplace/details/fedora-coreos-cloud/fedora-coreos-${coreos_download_app.streamData.stream}`
+                  }
+                }, displayInfo.family),
+                " (",
+                h('a', {
+                  attrs: {
+                    href: "#"
+                  },
+                  on: {
+                    click: function(e) {
+                      e.preventDefault();
+                      let gcpNameElement = e.target.parentElement.nextSibling;
+                      gcpNameElement.hidden = !gcpNameElement.hidden;
+                    }
+                  }
+                }, 'details'),
+                ")"]
+              ) : null,
+              displayInfo.name ? h('div', { class: "ml-2", attrs: { hidden: true } }, [
+                h('span', {}, [
+                  `- The current latest image in the`,
+                  h('span', { class: "font-weight-normal font-italic" }, ` ${displayInfo.family}`),
+                  " image family is ",
+                  h('span', { class: "font-weight-normal font-italic" }, displayInfo.name),
+                  "."
+                ])
+              ]) : null
+            ]);
           }
           else {
             return h('div', {}, [
