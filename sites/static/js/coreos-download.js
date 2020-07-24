@@ -22,9 +22,7 @@ const prettyPlatforms = {
     "raw.xz": "Raw",
     "4k.raw.xz": "Raw (4k Native)",
     "iso": "ISO",
-    "pxe": "PXE",
-    "installer.iso": "Installer (ISO)",
-    "installer-pxe": "Installer (PXE)"
+    "pxe": "PXE"
   },
   "qemu": "QEMU",
   "virtualbox": "VirtualBox",
