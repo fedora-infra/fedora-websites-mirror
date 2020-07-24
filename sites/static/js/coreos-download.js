@@ -894,7 +894,8 @@ var coreos_download_app = new Vue({
             displayInfo.downloads ? h('div', { class: "ml-2" }, [
               createDownloadsSubSection(displayInfo.downloads.disk, 'disk', false, imageType),
               createDownloadsSubSection(displayInfo.downloads.kernel, 'kernel', true, imageType),
-              createDownloadsSubSection(displayInfo.downloads.initramfs, 'initramfs', true, imageType)
+              createDownloadsSubSection(displayInfo.downloads.initramfs, 'initramfs', true, imageType),
+              createDownloadsSubSection(displayInfo.downloads.rootfs, 'rootfs', true, imageType)
             ]) : null
           ]);
         }));
