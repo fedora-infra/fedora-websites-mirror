@@ -12,6 +12,8 @@ import yaml
 
 from util.link_checker import check_download_link, check_checksum_link
 from util.releases_json_checker import check_releases_json
+from util.iot_compose import iot_compose_links
+from util.checksum_links import checksum_links_iot
 
 #FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
 
@@ -148,6 +150,8 @@ def inject_globalvars():
     r = {}
     with open('release.yaml') as data:
         r = yaml.safe_load(data)
+    iot_links = iot_compose_links(r['ga']['announcement_release_number'])
+    iot_checksum = checksum_links_iot(r['ga']['announcement_release_number'])
     def download_link(override, link):
         global dl_links
         if override != 'default':
@@ -160,8 +164,10 @@ def inject_globalvars():
         checksum_links.add(link)
         return link
     return dict(
+        iot_links=iot_links,
         dl=download_link,
         checksum=checksum_link,
+        iot_checksum=iot_checksum,
         releaseinfo=r,
         lang_code=g.current_lang if hasattr(g, 'current_lang') else app.config['BABEL_DEFAULT_LOCALE'],
         languages=FEDORA_LANGUAGES,

@@ -80,6 +80,22 @@
           </ul>
           {% endfor %}
           {% endif %}
+          <hr />
+          <h6>Fedora IoT</h6>
+          <ul>
+            {% for arch, value in iot_checksum.items() %}
+            <li>
+              For {{arch}} :
+              <ul>
+                {% for type, link in value.items() %}
+                <li>
+                  <a href={{link}}>Fedora {{releaseinfo.ga.announcement_release_number}} IoT {{arch}} {{type}} CHECKSUM</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+          </ul>
         </div>
       </div>
     </div> <!--contatiner-->
