@@ -10,7 +10,7 @@
     <div class="row align-items-center">
       <div class="col-6 ">
         <h1 class="font-weight-light">Fedora IoT.</h1>
-        <h5 class="font-weight-light">{% trans trimmed %}This is the thing you've been waiting for.{% endtrans %}</h5>
+        <h5 class="font-weight-light">{% trans trimmed %}A foundation for Internet of Things and Device Edge ecosystems.{% endtrans %}</h5>
         <a class="btn btn-lg btn-outline-fedora-blue mt-2" href="{{url_for('iot_download', lang_code=lang_code)}}">{% trans trimmed %}Download Now{% endtrans %}</a>
       </div>
       <div class="col-6">
@@ -19,32 +19,97 @@
     </div>
   </div>
 </div>
-<div class="bg-white pt-5">
-</div>
-<div class="bg-light border py-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        {% trans trimmed %}
-        We need some text about Fedora IoT to go here; it should give users a good idea of what they can use Fedora Iot for.
-        {% endtrans %}
+  <div class="bg-light border py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-lg-6 col-md-7 col-sm-9 px-5">
+          <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-containers.png" />
+        </div>
+        <div class="col-12 col-lg-6">
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Containerized applications{% endtrans %}</h3>
+          <h5 class="font-weight-light">
+            {% trans trimmed %}
+            Build, deploy, and manage your own applications with built-in Open Container Initiative (OCI) image support using podman or deploy containerized applications from popular public registries.
+            {% endtrans %}
+          </h5>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
 
-<div class="bg-gray-200 py-5">
-  <div class="container">
-      
-  </div>
-</div>
+  <div class="bg-gray-200 py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-lg-6 order-12 order-lg-1">
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Reliable operating system{% endtrans %}</h3>
+          <h5 class="font-weight-light">
+            {% trans trimmed %}
+            Fedora IoT uses <a href="https://ostree.readthedocs.io/en/latest/">OSTree technology</a> to provide an immutable operating system with atomic updates. With the greenboot health check framework for systemd, administrators can ensure the system boots into the expected state. 
+            {% endtrans %}
+          </h5>
+        </div>
+        <div class="col-12 col-lg-6 col-md-7 col-sm-9 px-5 order-1 order-lg-12">
+          <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-monitor-overview.png" />
+        </div>
+      </div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
 
-<div class="bg-light py-5">
-  <div class="container">
-    <div class="row">
-                
-    </div>
-  </div> 
+  <div class="bg-light border py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-lg-5 col-md-7 col-sm-9 px-5">
+          <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-toolbox.png" />
+        </div>
+        <div class="col-12 col-lg-7">
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Security in mind{% endtrans %}</h3>
+          <h5 class="font-weight-light">
+            {% trans trimmed %}
+            Security is important for IoT devices especially since they likely don’t have the security of a data center. With support for TPM2, SecureBoot, and automated storage decryption with Clevis, Fedora IoT is built with a focus on security.
+            {% endtrans %}
+          </h5>
+        </div>
+      </div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
+
+  <div class="bg-gray-200 py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        
+        <div class="col-12 col-lg-6 order-12 order-lg-1">
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Web-based provisioning{% endtrans %}</h3>
+          <h5 class="font-weight-light">
+            {% trans trimmed %}
+            With the Ignition provisioning utility and Zezere web service, administrators can deploy and configure Fedora IoT in a scalable manner without needing a physical console.
+            {% endtrans %}
+          </h5>
+        </div>
+        <div class="col-12 col-lg-6 col-md-9 col-sm-10 px-5 order-1 order-lg-12">
+          <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-laptop-boxes.png" />
+        </div>
+      </div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
+
+  <div class="bg-light border py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-lg-5 col-md-7 col-sm-9 px-5">
+          <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-containers.png" />
+        </div>
+        <div class="col-12 col-lg-7">
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Multiple architecture support{% endtrans %}</h3>
+          <h5 class="font-weight-light">
+            {% trans trimmed %}
+            IoT devices use a wide range of hardware and with Fedora IoT your software runs on any device without major changes. Fedora IoT is built for x86_64, aarch64, and armhfp processors in the same way with the same versions across all architectures.
+            {% endtrans %}
+          </h5>
+        </div>
+      </div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
+ 
 </div>  
 {% endblock %}
 
