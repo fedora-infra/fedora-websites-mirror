@@ -22,9 +22,7 @@ const prettyPlatforms = {
     "raw.xz": "Raw",
     "4k.raw.xz": "Raw (4k Native)",
     "iso": "ISO",
-    "pxe": "PXE",
-    "installer.iso": "Installer (ISO)",
-    "installer-pxe": "Installer (PXE)"
+    "pxe": "PXE"
   },
   "qemu": "QEMU",
   "virtualbox": "VirtualBox",
@@ -896,7 +894,8 @@ var coreos_download_app = new Vue({
             displayInfo.downloads ? h('div', { class: "ml-2" }, [
               createDownloadsSubSection(displayInfo.downloads.disk, 'disk', false, imageType),
               createDownloadsSubSection(displayInfo.downloads.kernel, 'kernel', true, imageType),
-              createDownloadsSubSection(displayInfo.downloads.initramfs, 'initramfs', true, imageType)
+              createDownloadsSubSection(displayInfo.downloads.initramfs, 'initramfs', true, imageType),
+              createDownloadsSubSection(displayInfo.downloads.rootfs, 'rootfs', true, imageType)
             ]) : null
           ]);
         }));

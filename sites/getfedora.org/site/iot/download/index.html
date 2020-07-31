@@ -18,75 +18,45 @@
   <div class="bg-light border py-5">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 col-md-12 d-flex flex-column h-100">
+        <div class="col-12 col-lg-6 mt-lg-0 mt-4">
+          <h3 class="font-weight-light">Raw Images :</h3>&nbsp;
           <ul class="list-group">
-            <h3 class="font-weight-light">Raw Images :</h3>&nbsp;
-            {% for key, value in iot_links['type']['raw-xz'].items() %}
-              <li class="list-group-item d-flex align-items-center">
-                <div class="flex-grow-1">
-                  {% trans trimmed n=releaseinfo.ga.announcement_release_number %}
-                  Fedora {{n}}: Raw Image for <b>{{key}}</b>
-                  {% endtrans %}
-                </div>
-                <div>
-                  <a class="btn btn-outline-fedora-blue" href={{value}}>
-                    {% trans trimmed %}Download{% endtrans %}
-                  </a>
-                </div>
+          {% for key, value in iot_links['type']['raw-xz'].items() %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.announcement_release_number %}
+                Fedora {{n}}: Raw Image for <b>{{key}}</b>
+                {% endtrans %}
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href={{value}}>
+                  {% trans trimmed %}Download{% endtrans %}
+                </a>
+              </div>
             </li>
           {% endfor %}
-          <p class="font-weight-light text-secondary"><em><small>Latest release: {{iot_links['date']}}</small></em></p>
           </ul>
+          <p class="font-weight-light text-secondary"><em><small>Latest release: {{iot_links['date']}}</small></em></p>
         </div>
-        <div class="col-lg-6 col-md-12 d-flex flex-column h-100 pt-5 pt-lg-0">
+        <div class="col-12 col-lg-6 mt-lg-0 mt-4">
+          <h3 class="font-weight-light">Installer ISOs :</h3>&nbsp;
           <ul class="list-group">
-            <h3 class="font-weight-light">Installer ISOs :</h3>&nbsp;
-            {% for key, value in iot_links['type']['dvd-ostree'].items() %}
-              <li class="list-group-item d-flex align-items-center">
-                <div class="flex-grow-1">
-                  {% trans trimmed n=releaseinfo.ga.announcement_release_number %}
-                  Fedora {{n}}: Installer ISO for <b>{{key}}</b>
-                  {% endtrans %}
-                </div>
-                <div>
-                  <a class="btn btn-outline-fedora-blue" href={{value}}>
-                    {% trans trimmed %}Download{% endtrans %}
-                  </a>
-                </div>
+          {% for key, value in iot_links['type']['dvd-ostree'].items() %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.announcement_release_number %}
+                Fedora {{n}}: Installer ISO for <b>{{key}}</b>
+                {% endtrans %}
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href={{value}}>
+                  {% trans trimmed %}Download{% endtrans %}
+                </a>
+              </div>
             </li>
           {% endfor %}
-          <p class="font-weight-light text-secondary"><em><small>Latest release: {{iot_links['date']}}</small></em></p>
           </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="py-5 main-head bg-gray-200 border">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h2 class="font-weight-light text-center">{% trans trimmed %}Support Resources.{% endtrans %}</h2>
-        </div>
-      </div><br><br>
-      <div class="row top-margin">
-        <div class="col-md-4 py-4 col-xs-12">
-          <div class="col-12">
-            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-book"></i>{% trans trimmed %}&nbsp; Documentation{% endtrans %}</h3><br>
-            <p class="font-weight-light">{% trans trimmed %}Specific documentation is available at the <a href="https://docs.fedoraproject.org/en-US/iot/">Fedora IoT documentation page.{% endtrans %}</a></p><br>
-          </div>
-        </div>
-        <div class="col-md-4 py-4 col-xs-12">
-          <div class="col-12">
-            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-envelope"></i>{% trans trimmed %}&nbsp; Email{% endtrans %}</h3><br>
-            <p class="font-weight-light">{% trans trimmed %}Users and developers are also available on the mailing list at{% endtrans %} <a href="https://admin.fedoraproject.org/mailman/listinfo/iot">iot@lists.fedoraproject.org.</a></p>
-          </div>
-        </div>
-        <div class="col-md-4 py-4 col-xs-12">
-          <div class="col-12">
-            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-comments"></i>&nbsp; Chat</h3><br>
-            <p class="font-weight-light">{% trans trimmed %}Users and developers are available in the <a href="http://webchat.freenode.net/?channels=fedora-iot">#fedora-iot</a> IRC channel on <strong>irc.freenode.org</strong> for real-time chat.{% endtrans %}</p>
-          </div>
+          <p class="font-weight-light text-secondary"><em><small>Latest release: {{iot_links['date']}}</small></em></p>
         </div>
       </div>
     </div>
