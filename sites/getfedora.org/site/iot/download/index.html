@@ -9,7 +9,7 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-12">
-          <h1 class="font-weight-light">Download Fedora IoT.</h1>
+          <h1 class="font-weight-light">{% trans trimmed %}Download Fedora IoT.{% endtrans %}</h1>
           <h5 class="font-weight-light">{% trans trimmed %}Download the latest version of Fedora IoT Edition for your architecture here.{% endtrans %}</h5>
         </div>
       </div>
@@ -19,17 +19,17 @@
     <div class="container">
       <div class="row">
         <div class="col-12 col-lg-6 mt-lg-0 mt-4">
-          <h3 class="font-weight-light">Raw Images :</h3>&nbsp;
+          <h3 class="font-weight-light">Raw Images:</h3>&nbsp;
           <ul class="list-group">
           {% for key, value in iot_links['type']['raw-xz'].items() %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans trimmed n=releaseinfo.ga.announcement_release_number %}
+                {% trans trimmed n=releaseinfo.ga.editions.iot.release_number %}
                 Fedora {{n}}: Raw Image for <b>{{key}}</b>
                 {% endtrans %}
               </div>
               <div>
-                <a class="btn btn-outline-fedora-blue" href={{value}}>
+                <a class="btn btn-outline-fedora-blue" href="{{dl('default', value)}}">
                   {% trans trimmed %}Download{% endtrans %}
                 </a>
               </div>
@@ -39,17 +39,17 @@
           <p class="font-weight-light text-secondary"><em><small>Latest release: {{iot_links['date']}}</small></em></p>
         </div>
         <div class="col-12 col-lg-6 mt-lg-0 mt-4">
-          <h3 class="font-weight-light">Installer ISOs :</h3>&nbsp;
+          <h3 class="font-weight-light">Installer ISOs:</h3>&nbsp;
           <ul class="list-group">
           {% for key, value in iot_links['type']['dvd-ostree'].items() %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans trimmed n=releaseinfo.ga.announcement_release_number %}
+                {% trans trimmed n=releaseinfo.ga.editions.iot.release_number %}
                 Fedora {{n}}: Installer ISO for <b>{{key}}</b>
                 {% endtrans %}
               </div>
               <div>
-                <a class="btn btn-outline-fedora-blue" href={{value}}>
+                <a class="btn btn-outline-fedora-blue" href="{{dl('default', value)}}">
                   {% trans trimmed %}Download{% endtrans %}
                 </a>
               </div>

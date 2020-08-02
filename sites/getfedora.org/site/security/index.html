@@ -56,7 +56,7 @@
 
         </div>
         <div class="col-6">
-          {% for edition in releaseinfo.ga.editions %}
+          {% for edition, data in releaseinfo.ga.editions.items() if data.get('checksum_arches', []) %}
           <h6>{{releaseinfo.ga.editions[edition].pretty_name}}</h6>
           <ul>
             {% for arch in releaseinfo.ga.editions[edition].checksum_arches %}
@@ -83,13 +83,13 @@
           <hr />
           <h6>Fedora IoT</h6>
           <ul>
-            {% for arch, value in iot_checksum.items() %}
+            {% for arch, value in iot_checksums.items() %}
             <li>
-              For {{arch}} :
+              For {{arch}}:
               <ul>
                 {% for type, link in value.items() %}
                 <li>
-                  <a href={{link}}>Fedora {{releaseinfo.ga.announcement_release_number}} IoT {{arch}} {{type}} CHECKSUM</a>
+                  <a href="{{checksum(link, False)}}">Fedora {{releaseinfo.ga.announcement_release_number}} IoT {{arch}} {{type}} CHECKSUM</a>
                 </li>
                 {% endfor %}
               </ul>

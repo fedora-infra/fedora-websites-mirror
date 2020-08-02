@@ -13,7 +13,6 @@ import yaml
 from util.link_checker import check_download_link, check_checksum_link
 from util.releases_json_checker import check_releases_json
 from util.iot_compose import iot_compose_links
-from util.checksum_links import checksum_links_iot
 
 #FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
 
@@ -145,29 +144,31 @@ app.jinja_loader = loader
 dl_links = set()
 checksum_links = set()
 
+with open('release.yaml') as data:
+    r = yaml.safe_load(data)
+
 @app.context_processor
 def inject_globalvars():
-    r = {}
-    with open('release.yaml') as data:
-        r = yaml.safe_load(data)
-    iot_links = iot_compose_links(r['ga']['announcement_release_number'])
-    iot_checksum = checksum_links_iot(r['ga']['announcement_release_number'])
     def download_link(override, link):
         global dl_links
         if override != 'default':
             link = override
         dl_links.add(link)
         return link
-    def checksum_link(link):
-        global checksum_links
-        link = url_for('checksums.static', filename=link)
-        checksum_links.add(link)
+
+    def checksum_link(link, local=True):
+        if local:
+            global checksum_links
+            link = url_for('checksums.static', filename=link)
+            checksum_links.add(link)
+        else:
+            global dl_links
+            dl_links.add(link)
         return link
+
     return dict(
-        iot_links=iot_links,
         dl=download_link,
         checksum=checksum_link,
-        iot_checksum=iot_checksum,
         releaseinfo=r,
         lang_code=g.current_lang if hasattr(g, 'current_lang') else app.config['BABEL_DEFAULT_LOCALE'],
         languages=FEDORA_LANGUAGES,
@@ -202,11 +203,13 @@ app.register_blueprint(checksums)
 # This is a more manual attempt at still having some automation.
 freeze_indexes = set()
 
-def export_route(name, path, template=None):
+def export_route(name, path, template=None, context={}):
     global freeze_indexes
     freeze_indexes.add(name)
     def r():
-        return render_template(template or path.strip('/') + '/index.html')
+        return render_template(
+            template or path.strip('/') + '/index.html',
+            **context)
     r.__name__ = name
     app.route('/<lang_code>' + path, endpoint=name)(r)
     if freezing:
@@ -226,7 +229,7 @@ if not freezing:
 
 export_route('index', '/')
 
-# export_route(identifier
+# export_route(function name, path)
 export_route('workstation', '/workstation/')
 export_route('workstation_download', '/workstation/download/')
 export_route('server', '/server/')
@@ -236,9 +239,16 @@ export_route('coreos_download', '/coreos/download/')
 export_route('silverblue', '/silverblue/')
 export_route('silverblue_download', '/silverblue/download/')
 export_route('iot', '/iot/')
-export_route('iot_download', '/iot/download/')
-export_route('security', '/security/')
+
+# Handle this route specially because of how it does links, but still use
+# export_route so i18n magic works.
+iot_links = iot_compose_links(r['ga']['editions']['iot']['release_number'])
+export_route('iot_download', '/iot/download/', context={'iot_links': iot_links})
+iot_checksums = iot_links['checksums']
+export_route('security', '/security/', context={'iot_checksums': iot_checksums})
 export_route('sponsors', '/sponsors/')
+
+
 
 # This is manually updated for now by calling:
 # python scripts/releases-json.py > static/releases.json

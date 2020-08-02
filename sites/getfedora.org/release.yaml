@@ -30,6 +30,9 @@ ga:
         netinst_aarch64: default
         raw_aarch64: default
 
+    iot:
+      pretty_name: Fedora IoT
+      release_number: 32
 
 beta:
   # Should we show the beta stuff at all?
