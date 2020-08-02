@@ -1,0 +1,277 @@
+{% extends "master_getfedora.html" %}
+
+{% from "export_regulations.html" import export_regulations %}
+
+{% block title %}Fedora {% trans trimmed %}Alternative Downloads{% endtrans %}{% endblock %}
+
+{% block content %}
+
+{# Header #}
+<div class="bg-white py-5 text-center">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+	<h1 class="font-weight-bold py-5">
+	  {% trans trimmed %}
+	    Alternative Downloads
+	  {% endtrans %}
+	</h1>
+
+	<p class="font-weight-light lead">
+          {% trans trimmed %}
+            Find special-purpose Fedora downloads and alternative
+            formats such as network installers and cloud images.
+          {% endtrans %}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{# /Header #}
+
+{# Network Installers #}
+<div class="bg-light border py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-3">
+        <h3 class="font-weight-light mb-3">
+          {% trans trimmed %}Install Fedora over the network.{% endtrans %}
+        </h3>
+      </div>
+      <div class="col-12 col-lg-5">
+        <p class="justify-content-left font-weight-light">
+          {% trans trimmed %}
+            This smaller download contains only the components required to
+            install Fedora over a network connection.
+          {% endtrans %}
+        </p>
+        <p class="justify-content-left font-weight-light">
+          {% trans trimmed %}
+            Note: Defaults to Fedora Server. Other Fedora editions can be chosen
+            in the installer options.
+          {% endtrans %}
+        </p>
+      </div>
+      <div class="col-12 col-lg-7">
+        <ul class="list-group">
+
+	  {% if releaseinfo.ga.alt.server.download_override.netinst_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.alt.server.release_number %}
+                  Fedora Server {{n}}: Compressed image for x86_64
+                {% endtrans %}
+              </div>
+              <div>
+	        <a class="btn btn-outline-fedora-orange" href="{{dl(releaseinfo.ga.alt.server.download_override.netinst_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%s/Server/x86_64/iso/Fedora-Server-netinst-x86_64-%s-%s.iso' % (releaseinfo.ga.alt.server.release_number, releaseinfo.ga.alt.server.release_number, releaseinfo.ga.alt.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+
+	  {% if releaseinfo.beta.show and releaseinfo.beta.alt.server.download_override.netinst_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.alt.server.release_number %}
+                  Fedora Server {{n}}: Compressed image for x86_64
+                {% endtrans %}
+                <span class="small badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+	        <a class="btn btn-outline-fedora-orange" href="{{dl(releaseinfo.beta.alt.server.download_override.netinst_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%s_Beta/Server/x86_64/iso/Fedora-Server-netinst-x86_64-%s_Beta-%s.iso' % (releaseinfo.beta.alt.server.release_number, releaseinfo.beta.alt.server.release_number, releaseinfo.beta.alt.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{# /Network Installers #}
+
+{# Tri section #}
+<div class="bg-white py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-4 mb-3">
+        <h3 class="font-weight-light mb-3">
+          {% trans trimmed %}Alternate Architectures.{% endtrans %}
+        </h3>
+        <p class="font-weight-light">
+          {% trans trimmed %}
+            Additional architectures supported by Fedora beyond the standard
+            set.
+          {% endtrans %}
+        </p>
+        <a class="font-weight-light btn btn-lg btn-outline-fedora-blue" href="{{url_for('alt_altarch', lang_code=lang_code)}}" role="button">
+          {% trans trimmed %}Learn more{% endtrans %}
+        </a>
+      </div>
+
+      <div class="col-12 col-lg-4 mb-3">
+        <h3 class="font-weight-light mb-3">
+          {% trans trimmed %}Cloud Base Images.{% endtrans %}
+        </h3>
+        <p class="font-weight-light">
+          {% trans trimmed %}
+            Images for cloud environments like OpenStack, Amazon EC2, and Vagrant.
+          {% endtrans %}
+        </p>
+        <a class="font-weight-light btn btn-lg btn-outline-fedora-blue" href="{{url_for('alt_cloud', lang_code=lang_code)}}" role="button">
+          {% trans trimmed %}Learn more{% endtrans %}
+        </a>
+      </div>
+
+      <div class="col-12 col-lg-4 mb-3">
+        <h3 class="font-weight-light mb-3">
+          {% trans trimmed %}Testing Images.{% endtrans %}
+        </h3>
+        <p class="font-weight-light">
+          {% trans trimmed %}
+            Unreleased, development versions of Fedora for testing the next
+            official Fedora release.
+          {% endtrans %}
+        </p>
+
+        <a class="btn btn-outline-fedora-blue" href="https://www.happyassassin.net/nightlies.html">
+          {% trans trimmed %}
+            Nightly Builds
+          {% endtrans %}
+        </a>
+
+        <a class="btn btn-outline-fedora-blue" href="https://dl.fedoraproject.org/pub/alt/stage">
+          {% trans trimmed %}
+            Other Composes
+          {% endtrans %}
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+{# /Tri section #}
+
+{# Torrents #}
+<div class="bg-light border py-5 text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-3">
+        <h3 class="font-weight-light mb-3">
+          {% trans trimmed %}Download Fedora with torrents.{% endtrans %}
+        </h3>
+        <p class="font-weight-light">
+	  {% trans trimmed %}
+            Fedora offers many torrent downloads. Explore our directory of
+            them here.
+          {% endtrans %}
+        </p>
+        <a class="btn btn-outline-fedora-blue btn-lg" href="//torrent.fedoraproject.org" role="button">
+          torrent.fedoraproject.org
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{# /Torrents #}
+
+{# Expert #}
+<div class="bg-gray-200 py-5">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-12 mb-3">
+        <h1 class="font-weight-light mb-3">
+          {% trans trimmed %}Expert's Corner.{% endtrans %}
+        </h1>
+        <p class="font-weight-light">
+	  {% trans trimmed %}
+            This section contains downloads targeted toward advanced users and
+            contributors.
+          {% endtrans %}
+        </p>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="col-12 col-lg-6 mb-3">
+        <h3 class="font-weight-light mb-3">
+          {% trans trimmed %}Fedora Rawhide{% endtrans %}
+        </h3>
+        <p class="font-weight-light">
+	  {% trans trimmed %}
+            Fedora Rawhide is a constantly moving development version of Fedora.
+            It is targeted at advanced users, testers, and package maintainers.
+          {% endtrans %}
+        </p>
+        <a class="btn btn-outline-fedora-blue btn-lg" href="https://fedoraproject.org/wiki/Releases/Rawhide" role="button">
+          {% trans trimmed %}Learn more{% endtrans %}
+        </a>
+      </div>
+
+      <div class="col-12 col-lg-6 mb-3">
+        <h3 class="font-weight-light mb-3">
+          {% trans trimmed %}Fedora Everything{% endtrans %}
+        </h3>
+        <p class="font-weight-light">
+	  {% trans trimmed %}
+            Fedora Everything is a highly customizable network installer. Pick
+            and choose from thousands of packages to get exactly what you need.
+            Requires a fast internet connection.
+          {% endtrans %}
+        </p>
+
+        <ul class="list-group">
+	  {% if releaseinfo.ga.alt.everything.download_override.netinst_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.alt.server.release_number %}
+                  Fedora Everything {{n}} for x86_64
+                {% endtrans %}
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.alt.everything.download_override.netinst_x86_64,'https://download.fedoraproject.org/pub/fedora/linux/releases/%s/Everything/x86_64/iso/Fedora-Everything-netinst-x86_64-%s-%s.iso' % (releaseinfo.ga.alt.everything.release_number, releaseinfo.ga.alt.everything.release_number, releaseinfo.ga.alt.everything.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+
+	  {% if releaseinfo.beta.show and releaseinfo.beta.alt.everything.download_override.netinst_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.alt.server.release_number %}
+                  Fedora Everything {{n}} for x86_64
+                {% endtrans %}
+                <span class="small badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.alt.everything.download_override.netinst_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%s_Beta/Everything/x86_64/iso/Fedora-Everything-netinst-x86_64-%s_Beta-%s.iso' % (releaseinfo.beta.alt.everything.release_number, releaseinfo.beta.alt.everything.release_number, releaseinfo.beta.alt.everything.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+{# /Expert #}
+
+<!-- Resources -->
+<div class="py-5 border bg-white main-head">
+  <div class="container using">
+    <div class="row">
+      <h1 class="text-center font-weight-light">{% trans trimmed %}Support Resources.{% endtrans %}</h1>
+    </div><br>
+    <div class="row top-margin">
+      <div class="col-xs-12 text-center help">
+        <p class="text-center font-weight-light">{% trans trimmed %}Need some help with Fedora? Check out {% endtrans %}<a href="https://ask.fedoraproject.org/"> <strong>{% trans trimmed %}Ask Fedora{% endtrans %}</strong></a>, {% trans trimmed %}where you can read archives of questions from other users, or ask your own question.{% endtrans %}</p><br><br>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{export_regulations()}}
+
+{% endblock %}

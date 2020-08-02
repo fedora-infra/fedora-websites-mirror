@@ -2,11 +2,14 @@ ga:
   announcement_url: https://fedoramagazine.org/announcing-fedora-32
   announcement_release_number: 32
 
+  versions: &ga_versions
+    release_number: 32
+    rc_version: 1.6
+
   editions:
-    workstation:
+    workstation: &ga_workstation
       pretty_name: Fedora Workstation
-      release_number: 32
-      rc_version: 1.6
+      <<: *ga_versions
       checksum_prefix: Fedora-Workstation
       checksum_arches: [x86_64, aarch64]
       # set to default for default, false if the media doesn't exist, or
@@ -16,10 +19,9 @@ ga:
         netinst_x86_64: false
         raw_aarch64: default
 
-    server:
+    server: &ga_server
       pretty_name: Fedora Server
-      release_number: 32
-      rc_version: 1.6
+      <<: *ga_versions
       checksum_prefix: Fedora-Server
       checksum_arches: [x86_64, aarch64]
       # Same as above goes here.
@@ -34,16 +36,95 @@ ga:
       pretty_name: Fedora IoT
       release_number: 32
 
+  alt:
+    workstation:
+      <<: *ga_workstation
+      pretty_name: Fedora Workstation
+      checksum_arches: [aarch64, armhfp]
+      download_override:
+        raw_aarch64 : default
+
+    server:
+      <<: *ga_server
+      checksum_arches: [aarch64, ppc64le, s390x, armhfp]
+      download_override:
+        netinst_x86_64: default
+        #aarch64
+        dvd_aarch64 : default
+        netinst_aarch64 : default
+        #ppc64le
+        dvd_ppc64le : default
+        netinst_ppc64le : default
+        #s390x
+        dvd_s390x : default
+        netinst_s390x : default
+
+    everything:
+      pretty_name: Fedora Everything
+      <<: *ga_versions
+      checksum_prefix: Fedora-Everything
+      checksum_arches: [aarch64, ppc64le, s390x]
+      download_override:
+        netinst_x86_64 : default
+        netinst_aarch64 : default
+        netinst_ppc64le : default
+        netinst_s390x : default
+
+    spin_minimal:
+      pretty_name: Fedora Minimal
+      <<: *ga_versions
+      checksum_prefix: Fedora-Spins
+      checksum_arches: [aarch64]
+      download_override:
+        raw_aarch64 : default
+
+    container:
+      pretty_name: Fedora Container
+      <<: *ga_versions
+      checksum_prefix: Fedora-Container
+      checksum_arches: [aarch64, ppc64le, s390x]
+      download_override:
+        aarch64 : default
+        ppc64le : default
+        s390x : default
+
+    cloud:
+      pretty_name: Fedora Cloud
+      <<: *ga_versions
+      checksum_prefix: Fedora-Cloud
+      checksum_arches: [x86_64, aarch64, ppc64le, s390x]
+      # This is used by the AMI->json script
+      ec2_arches: [x86_64, aarch64]
+      download_override:
+        #x86_64
+        raw_x86_64 : default
+        qcow2_x86_64 : default
+        vagrant_x86_64 : default
+        vagrant_vb_x86_64 : default
+        vagrant_libvirt_x86_64 : default
+        #aarch64
+        qcow2_aarch64 : default
+        raw_aarch64 : default
+        #ppc64le
+        raw_ppc64le : default
+        qcow2_ppc64le : default
+        #s390x
+        raw_s390x : default
+        qcow2_s390x : default
+
 beta:
   # Should we show the beta stuff at all?
-  show: false
-  announcement_release_number: 32
+  show: true
+  announcement_release_number: 33
+
+  versions: &beta_versions
+    release_number: 33
+    rc_version: 1.1
 
   editions:
-    workstation:
+    workstation: &beta_workstation
       pretty_name: Fedora Workstation Beta
-      release_number: 32
-      rc_version: 1.2
+      <<: *beta_versions
       checksum_prefix: Fedora-Workstation
       checksum_arches: [x86_64, aarch64]
       # set to default for default, false if the media doesn't exist, or
@@ -53,10 +134,9 @@ beta:
         netinst_x86_64: default
         raw_aarch64: https://dl.fedoraproject.org/pub/fedora-secondary/releases/test/32_Beta/Workstation/aarch64/images/Fedora-Workstation-32_Beta-1.2.aarch64.raw.xz
 
-    server:
+    server: &beta_server
       pretty_name: Fedora Server Beta
-      release_number: 32
-      rc_version: 1.2
+      <<: *beta_versions
       checksum_prefix: Fedora-Server
       checksum_arches: [x86_64, aarch64]
       # Same as above goes here.
@@ -66,6 +146,82 @@ beta:
         netinst_x86_64: default
         netinst_aarch64: default
         raw_aarch64: default
+
+  alt:
+    workstation:
+      <<: *beta_workstation
+      pretty_name: Fedora Workstation
+      checksum_arches: [aarch64, armhfp]
+      download_override:
+        raw_aarch64 : default
+
+    server:
+      <<: *beta_server
+      checksum_arches: [aarch64, ppc64le, s390x, armhfp]
+      download_override:
+        netinst_x86_64: default
+        #aarch64
+        dvd_aarch64 : default
+        netinst_aarch64 : default
+        #ppc64le
+        dvd_ppc64le : default
+        netinst_ppc64le : default
+        #s390x
+        dvd_s390x : default
+        netinst_s390x : default
+
+    everything:
+      pretty_name: Fedora Everything
+      <<: *beta_versions
+      checksum_prefix: Fedora-Everything
+      checksum_arches: [aarch64, ppc64le, s390x]
+      download_override:
+        netinst_x86_64 : default
+        netinst_aarch64 : default
+        netinst_ppc64le : default
+        netinst_s390x : default
+
+    spin_minimal:
+      pretty_name: Fedora Minimal
+      <<: *beta_versions
+      checksum_prefix: Fedora-Spins
+      checksum_arches: [aarch64]
+      download_override:
+        raw_aarch64 : default
+
+    container:
+      pretty_name: Fedora Container
+      <<: *beta_versions
+      checksum_prefix: Fedora-Container
+      checksum_arches: [aarch64, ppc64le, s390x]
+      download_override:
+        aarch64 : default
+        ppc64le : default
+        s390x : default
+
+    cloud:
+      pretty_name: Fedora Cloud
+      <<: *beta_versions
+      checksum_prefix: Fedora-Cloud
+      checksum_arches: [x86_64, aarch64, ppc64le, s390x]
+      # This is used by the AMI->json script
+      ec2_arches: [x86_64, aarch64]
+      download_override:
+        #x86_64
+        raw_x86_64 : default
+        qcow2_x86_64 : default
+        vagrant_x86_64 : default
+        vagrant_vb_x86_64 : default
+        vagrant_libvirt_x86_64 : default
+        #aarch64
+        qcow2_aarch64 : default
+        raw_aarch64 : default
+        #ppc64le
+        raw_ppc64le : default
+        qcow2_ppc64le : default
+        #s390x
+        raw_s390x : default
+        qcow2_s390x : default
 
 fmw:
   osx:

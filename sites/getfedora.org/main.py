@@ -6,9 +6,12 @@ from flask_assets import Environment, Bundle
 from flask_frozen import Freezer
 from flask_htmlmin import HTMLMIN
 import jinja2
+import json
 import os
 import sys
 import yaml
+
+cloud_ami = {}
 
 from util.link_checker import check_download_link, check_checksum_link
 from util.releases_json_checker import check_releases_json
@@ -167,6 +170,7 @@ def inject_globalvars():
         return link
 
     return dict(
+        cloud_ami=cloud_ami,
         dl=download_link,
         checksum=checksum_link,
         releaseinfo=r,
@@ -229,7 +233,7 @@ if not freezing:
 
 export_route('index', '/')
 
-# export_route(function name, path)
+# export_route(get_url_identifier, relative_path_to_dir)
 export_route('workstation', '/workstation/')
 export_route('workstation_download', '/workstation/download/')
 export_route('server', '/server/')
@@ -248,7 +252,17 @@ iot_checksums = iot_links['checksums']
 export_route('security', '/security/', context={'iot_checksums': iot_checksums})
 export_route('sponsors', '/sponsors/')
 
+# alt routes
+export_route('alt', '/alt/')
+export_route('alt_altarch', '/alt/altarch/')
 
+# The alt cloud page needs some extra data too
+alt_cloud_ctx = {}
+with open('aws_regions.yaml') as data:
+    alt_cloud_ctx['aws_regions'] = yaml.safe_load(data)['aws_regions']
+with open('static/current-ec2-amis.json') as data:
+    alt_cloud_ctx['amis'] = json.load(data)
+export_route('alt_cloud', '/alt/cloud/', context=alt_cloud_ctx)
 
 # This is manually updated for now by calling:
 # python scripts/releases-json.py > static/releases.json
@@ -263,6 +277,10 @@ def magazine_json():
 @app.route('/static/fedora.gpg')
 def gpgkey():
     return send_from_directory('static', 'fedora.gpg')
+
+@app.route('/current-ec2-amis.json')
+def current_ec2_amis():
+    return send_from_directory('static', 'current-ec2-amis.json')
 
 @freezer.register_generator
 def index():

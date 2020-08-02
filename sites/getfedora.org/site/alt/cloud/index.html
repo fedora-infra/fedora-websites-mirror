@@ -1,0 +1,383 @@
+{% extends "master_getfedora.html" %}
+
+{% from "export_regulations.html" import export_regulations %}
+{% from "alt/cloud/ec2-modal.html" import ec2_modal %}
+
+{% block title %}{% trans trimmed %}Fedora Cloud{% endtrans %}{% endblock %}
+
+{% block content %}
+
+{# Preload ec2 launch modals #}
+{{ ec2_modal('ga-x86-modal', aws_regions, 'x86_64', amis[releaseinfo.ga.alt.cloud.release_number|string]) }}
+{{ ec2_modal('ga-aarch64-modal', aws_regions, 'aarch64', amis[releaseinfo.ga.alt.cloud.release_number|string]) }}
+
+{% if releaseinfo.beta.show and releaseinfo.beta.alt.cloud.release_number|string in amis %}
+{{ ec2_modal('beta-x86-modal', aws_regions, 'x86_64', amis[releaseinfo.beta.alt.cloud.release_number|string]) }}
+{{ ec2_modal('beta-aarch64-modal', aws_regions, 'aarch64', amis[releaseinfo.beta.alt.cloud.release_number|string]) }}
+{% endif %}
+
+{# Header #}
+<div class="bg-white py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12">
+	<h1 class="font-weight-light">
+	  {% trans trimmed n=releaseinfo.ga.alt.cloud.release_number %}
+	    Download Fedora {{n}} Cloud images.
+	  {% endtrans %}
+	</h1>
+
+        <p class="font-weight-light lead">
+	  {% trans trimmed %}
+	    Lightweight images for use in cloud environments such as OpenStack
+	    and Amazon EC2.
+	  {% endtrans %}
+	</p>
+      </div>
+    </div>
+  </div>
+</div>
+{# /Header #}
+
+<div class="bg-light border py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-3">
+        <h3 class="font-weight-light mb-3">
+          {% trans trimmed %}Cloud Base Images{% endtrans %}
+        </h3>
+      </div>
+      <div class="col-12 col-lg-5">
+        <p class="justify-content-left font-weight-light">
+          {% trans trimmed %}
+            Fedora Cloud Base images are for creating general purpose virtual
+            machines (VMs). You can use the Qcow 2 image for use with Openstack
+            or the compressed raw image. If you are not sure what to use, try
+            the raw image.
+          {% endtrans %}
+        </p>
+      </div>
+      <div class="col-12 col-lg-7">
+        <ul class="list-group">
+
+          {# ------------------ raw ------------------ #}
+
+	  {% if releaseinfo.ga.alt.cloud.download_override.raw_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.alt.cloud.release_number %}
+                  Fedora Cloud {{n}}: Compressed image for x86_64
+                {% endtrans %}
+              </div>
+              <div>
+	        <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.alt.cloud.download_override.raw_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%s/Cloud/x86_64/images/Fedora-Cloud-Base-%s-%s.x86_64.raw.xz' % (releaseinfo.ga.alt.cloud.release_number, releaseinfo.ga.alt.cloud.release_number, releaseinfo.ga.alt.cloud.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+
+	  {% if releaseinfo.beta.show and releaseinfo.beta.alt.cloud.download_override.raw_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.alt.cloud.release_number %}
+                  Fedora Cloud {{n}}: Compressed image for x86_64
+                {% endtrans %}
+                <span class="small badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.alt.cloud.download_override.raw_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%s_Beta/Cloud/x86_64/images/Fedora-Cloud-Base-%s_Beta-%s.x86_64.raw.xz' % (releaseinfo.beta.alt.cloud.release_number, releaseinfo.beta.alt.cloud.release_number, releaseinfo.beta.alt.cloud.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+
+          {# ------------------ qcow2 ------------------ #}
+
+	  {% if releaseinfo.ga.alt.cloud.download_override.qcow2_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.alt.cloud.release_number %}
+                  Fedora Cloud {{n}}: qcow2 image for x86_64 (OpenStack)
+                {% endtrans %}
+              </div>
+              <div>
+	        <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.alt.cloud.download_override.qcow2_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%s/Cloud/x86_64/images/Fedora-Cloud-Base-%s-%s.x86_64.qcow2' % (releaseinfo.ga.alt.cloud.release_number, releaseinfo.ga.alt.cloud.release_number, releaseinfo.ga.alt.cloud.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+
+	  {% if releaseinfo.beta.show and releaseinfo.beta.alt.cloud.download_override.qcow2_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.alt.cloud.release_number %}
+                  Fedora Cloud {{n}}: qcow2 image for x86_64 (OpenStack)
+                {% endtrans %}
+                <span class="small badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.alt.cloud.download_override.qcow2_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%s_Beta/Cloud/x86_64/images/Fedora-Cloud-Base-%s_Beta-%s.x86_64.qcow2' % (releaseinfo.beta.alt.cloud.release_number, releaseinfo.beta.alt.cloud.release_number, releaseinfo.beta.alt.cloud.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div> <!-- ./row -->
+
+    <hr />
+
+    {# Vagrant #}
+
+    <div class="row">
+      <div class="col-12 mb-3">
+        <h3 class="font-weight-light my-3">
+          {% trans trimmed %}Images for Vagrant{% endtrans %}
+        </h3>
+      </div>
+      <div class="col-12 col-lg-5">
+        <p class="justify-content-left font-weight-light">
+          {% trans trimmed %}
+            Fedora offers two images specifically for Vagrant.
+          {% endtrans %}
+        </p>
+        <p class="justify-content-left font-weight-light">
+          {% trans trimmed %}
+            If you are on <strong>macOS or Windows</strong>, we suggest using
+            the VirtualBox image.
+          {% endtrans %}
+        </p>
+        <p class="justify-content-left font-weight-light">
+          {% trans trimmed %}
+            If you are on <strong>Fedora</strong>, use the libvirt/KVM image
+            instead.
+          {% endtrans %}
+        </p>
+      </div>
+      <div class="col-12 col-lg-7">
+        <ul class="list-group">
+
+          {# ------------------ vagrant/virtualbox ------------------ #}
+
+	  {% if releaseinfo.ga.alt.cloud.download_override.vagrant_vb_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.alt.cloud.release_number %}
+                  Fedora Cloud {{n}} for Vagrant: VirtualBox
+                {% endtrans %}
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.alt.cloud.download_override.vagrant_vb_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%s/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-%s-%s.x86_64.vagrant-virtualbox.box' % (releaseinfo.ga.alt.cloud.release_number, releaseinfo.ga.alt.cloud.release_number, releaseinfo.ga.alt.cloud.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+
+	  {% if releaseinfo.beta.show and releaseinfo.beta.alt.cloud.download_override.vagrant_vb_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.alt.cloud.release_number %}
+                  Fedora Cloud {{n}} for Vagrant: VirtualBox
+                {% endtrans %}
+                <span class="small badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.alt.cloud.download_override.vagrant_vb_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%s_Beta/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-%s_Beta-%s.x86_64.vagrant-virtualbox.box' % (releaseinfo.beta.alt.cloud.release_number, releaseinfo.beta.alt.cloud.release_number, releaseinfo.beta.alt.cloud.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+
+          {# ------------------ vagrant/libvirt ------------------ #}
+
+	  {% if releaseinfo.ga.alt.cloud.download_override.vagrant_libvirt_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.alt.cloud.release_number %}
+                  Fedora Cloud {{n}} for Vagrant: libvirt/KVM
+                {% endtrans %}
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.alt.cloud.download_override.vagrant_libvirt_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%s/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-%s-%s.x86_64.vagrant-libvirt.box' % (releaseinfo.ga.alt.cloud.release_number, releaseinfo.ga.alt.cloud.release_number, releaseinfo.ga.alt.cloud.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+
+	  {% if releaseinfo.beta.show and releaseinfo.beta.alt.cloud.download_override.vagrant_libvirt_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.alt.cloud.release_number %}
+                  Fedora Cloud {{n}} for Vagrant: libvirt/KVM
+                {% endtrans %}
+                <span class="small badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.alt.cloud.download_override.vagrant_vb_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%s_Beta/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-%s_Beta-%s.x86_64.vagrant-libvirt.box' % (releaseinfo.beta.alt.cloud.release_number, releaseinfo.beta.alt.cloud.release_number, releaseinfo.beta.alt.cloud.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div> <!-- ./row -->
+
+    <div class="row">
+      <div class="col-12 mt-4 text-center text-lg-right">
+        <a href="{{url_for('security', lang_code=lang_code)}}">
+          {% trans trimmed %}
+            Verify your download.
+          {% endtrans %}
+        </a>
+      </div>
+    </div> <!-- ./row -->
+
+  </div>
+</div>
+
+{# EC2 AMI IDs #}
+
+<div class="py-5 text-light" style="background-color: #232f3e">
+  <div class="container py-5">
+    <div class="row py-5">
+      <div class="col-12 mb-3">
+        <h3 class="font-weight-light mb-3">
+          {% trans trimmed %}Fedora Cloud on Amazon EC2{% endtrans %}
+        </h3>
+      </div>
+      <div class="col-12 col-lg-5">
+        <p class="justify-content-left font-weight-light">
+          {% trans trimmed %}
+            The links here will provide you listings of available AMIs by region
+            with buttons to launch them in your Amazon Web Services account. AMI
+            IDs for usage with the AWS Console or command-line tools are also
+            provided.
+          {% endtrans %}
+        </p>
+
+        <p class="justify-content-left font-weight-light">
+          {% trans trimmed %}
+            All images are available in two formats: a <strong>GP2</strong>
+            format which uses faster SSD storage, and a
+            <strong>standard</strong> format which is more suitable if you have
+            infrequently accessed data and you want to keep storage cost low.
+          {% endtrans %}
+        </p>
+      </div>
+      <div class="col-12 col-lg-7">
+        <ul class="list-group text-dark">
+
+          {# ------------------ GA ------------------ #}
+          <li class="list-group-item d-flex align-items-center">
+            <div class="flex-grow-1">
+              {% trans trimmed n=releaseinfo.ga.alt.cloud.release_number %}
+                Fedora Cloud {{n}} on Amazon EC2: x86_64
+              {% endtrans %}
+            </div>
+            <div>
+              <button class="btn btn-outline-fedora-blue mt-1 mb-1 flex-grow-1" data-toggle="modal" data-target=".ga-x86-modal">{% trans trimmed %}Click to Launch{% endtrans %}</button>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-center">
+            <div class="flex-grow-1">
+              {% trans trimmed n=releaseinfo.ga.alt.cloud.release_number %}
+                Fedora Cloud {{n}} on Amazon EC2: aarch64
+              {% endtrans %}
+            </div>
+            <div>
+              <button class="btn btn-outline-fedora-blue mt-1 mb-1 flex-grow-1" data-toggle="modal" data-target=".ga-aarch64-modal">{% trans trimmed %}Click to Launch{% endtrans %}</button>
+            </div>
+          </li>
+
+	  {% if releaseinfo.beta.show and releaseinfo.beta.alt.cloud.release_number|string in amis %}
+          <li class="list-group-item d-flex align-items-center">
+            <div class="flex-grow-1">
+              {% trans trimmed n=releaseinfo.beta.alt.cloud.release_number %}
+                Fedora Cloud {{n}} on Amazon EC2: x86_64
+              {% endtrans %}
+              <span class="small badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+            </div>
+            <div>
+              <button class="btn btn-outline-fedora-blue mt-1 mb-1 flex-grow-1" data-toggle="modal" data-target=".beta-x86-modal">{% trans trimmed %}Click to Launch{% endtrans %}</button>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-center">
+            <div class="flex-grow-1">
+              {% trans trimmed n=releaseinfo.beta.alt.cloud.release_number %}
+                Fedora Cloud {{n}} on Amazon EC2: aarch64
+              {% endtrans %}
+              <span class="small badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+            </div>
+            <div>
+              <button class="btn btn-outline-fedora-blue mt-1 mb-1 flex-grow-1" data-toggle="modal" data-target=".beta-aarch64-modal">{% trans trimmed %}Click to Launch{% endtrans %}</button>
+            </div>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div> <!-- ./row -->
+  </div>
+</div>
+{# /EC2 AMI IDs #}
+
+{# Resources #}
+
+<div class="bg-white py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 text-center">
+	<h1 class="font-weight-light">
+          {% trans trimmed %}
+            Support Resources
+          {% endtrans %}
+	</h1>
+        <p class="font-weight-light lead">
+	  {% trans trimmed %}
+            Need help? Our documentation and community are here to lend a hand.
+	  {% endtrans %}
+	</p>
+      </div>
+    </div>
+    <div class="row align-items-center mt-5">
+      <div class="col-md-4 col-xs-12">
+	<h3 class="font-weight-light mb-4">
+          <i class="fa fa-fw fa-lg header-icon fa-book"></i>
+          {% trans trimmed %}Documentation{% endtrans %}
+        </h3>
+        <p>
+          {% trans trimmed link="https://fedoracloud.readthedocs.io/en/latest/whatis.html" %}
+            Read the documentation <a href="{{ link }}">here</a> to learn more
+            about the available Fedora Cloud downloads, how to get started, and
+            how to debug issues.
+          {% endtrans %}
+        </p>
+      </div>
+
+      <div class="col-md-4 col-xs-12">
+	<h3 class="font-weight-light mb-4">
+          <i class="fa fa-fw fa-lg header-icon fa-envelope"></i>
+          {% trans trimmed %}Mailing Lists{% endtrans %}
+        </h3>
+        <p>
+          {% trans trimmed link="https://admin.fedoraproject.org/mailman/listinfo/cloud" %}
+            Users and developers are also available on the mailing list at
+            <a href="{{ link }}">cloud@lists.fedoraproject.org</a>.
+          {% endtrans %}
+        </p>
+      </div>
+
+
+      <div class="col-md-4 col-xs-12">
+	<h3 class="font-weight-light mb-4">
+          <i class="fa fa-fw fa-lg header-icon fa-book"></i>
+          {% trans trimmed %}Chat{% endtrans %}
+        </h3>
+        <p>
+          {% trans trimmed link="https://webchat.freenode.net/?channels=fedora-cloud" %}
+            Users and developers are available in the
+            <a href="{{ link }}">#fedora-cloud</a> IRC channel on
+            <strong>irc.freenode.org</strong> for real-time chat.
+          {% endtrans %}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{export_regulations()}}
+
+{% endblock %}
