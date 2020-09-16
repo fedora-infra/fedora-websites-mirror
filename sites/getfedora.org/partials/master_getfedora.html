@@ -23,6 +23,7 @@
 
 {% block js %}
 {% assets "js_all" %}
+<noscript>{% trans %}Please enable Javascript if you have trouble seeing part of the website. All our code is under a free license and is available on{% endtrans %}<a href="https://pagure.io/fedora-web/websites.git">{% trans %}our forge{% endtrans %}</a>.</noscript> 
 <script type="text/javascript" src="{{ ASSET_URL }}"></script>
 {% endassets %}
 {% endblock %}
