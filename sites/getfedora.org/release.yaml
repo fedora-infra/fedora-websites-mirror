@@ -36,14 +36,14 @@ ga:
 
 beta:
   # Should we show the beta stuff at all?
-  show: false
-  announcement_release_number: 32
+  show: true
+  announcement_release_number: 33
 
   editions:
     workstation:
       pretty_name: Fedora Workstation Beta
-      release_number: 32
-      rc_version: 1.2
+      release_number: 33
+      rc_version: 1.3
       checksum_prefix: Fedora-Workstation
       checksum_arches: [x86_64, aarch64]
       # set to default for default, false if the media doesn't exist, or
@@ -51,12 +51,12 @@ beta:
       download_override:
         live_x86_64: default
         netinst_x86_64: default
-        raw_aarch64: https://dl.fedoraproject.org/pub/fedora-secondary/releases/test/32_Beta/Workstation/aarch64/images/Fedora-Workstation-32_Beta-1.2.aarch64.raw.xz
+        raw_aarch64: default
 
     server:
       pretty_name: Fedora Server Beta
-      release_number: 32
-      rc_version: 1.2
+      release_number: 33
+      rc_version: 1.3
       checksum_prefix: Fedora-Server
       checksum_arches: [x86_64, aarch64]
       # Same as above goes here.
@@ -74,6 +74,8 @@ fmw:
     version: 4.1.5
   releases_json:
     # milestone can be 'final' or 'beta'. Leaving it out means 'final'.
+    - version: 33
+      milestone: beta
     - version: 32
     - version: 31
     - version: 30
@@ -81,6 +83,9 @@ fmw:
 # These all get listed on the security page
 gpg_keys:
   current:
+    - name: Fedora 33
+      id: 4096R/9570FF31 2020-01-28
+      fingerprint: 963A 2BEB 0200 9608 FE67 EA42 49FD 7749 9570 FF31
     - name: Fedora 32
       id: 4096R/12C944D0 2019-08-12
       fingerprint: 97A1 AE57 C3A2 372C CA3A 4ABA 6C13 026D 12C9 44D0
