@@ -15,9 +15,15 @@ def _iot_checksum_link(media_format, arch, date, version):
             date)
     return url
 
-def iot_compose_links(version):
-    BASEURL = 'https://dl.fedoraproject.org/pub/alt/iot/' + str(version) + '/'
-    json = requests.get(BASEURL + '/metadata/images.json').json()
+def iot_compose_links(version, beta=False):
+    beta_path = 'test/' if beta else ''
+    BASEURL = 'https://dl.fedoraproject.org/pub/alt/iot/' + beta_path + \
+        str(version) + '/'
+    try:
+        json = requests.get(BASEURL + '/metadata/images.json').json()
+    except Exception as e:
+        print(e)
+        return {}
     date = json['payload']['compose']['date']
     links = {}
     links['date'] = date[0:4] + '-' + date[4:6] + '-' + date[6:8]

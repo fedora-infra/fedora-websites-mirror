@@ -242,12 +242,19 @@ export_route('iot', '/iot/')
 
 # Handle this route specially because of how it does links, but still use
 # export_route so i18n magic works.
-iot_links = iot_compose_links(r['ga']['editions']['iot']['release_number'])
-export_route('iot_download', '/iot/download/', context={'iot_links': iot_links})
-iot_checksums = iot_links['checksums']
-export_route('security', '/security/', context={'iot_checksums': iot_checksums})
+iot_ctx = {}
+iot_ctx['ga'] = iot_compose_links(r['ga']['editions']['iot']['release_number'])
+if r['beta']['show']:
+    # Best-effort attempt to show beta links. If beta.show and the metadata file
+    # was able to be decoded, we add it. Otherwise we don't.
+    iot_beta = iot_compose_links(
+        r['beta']['editions']['iot']['release_number'],
+        beta=True)
+    if iot_beta:
+        iot_ctx['beta'] = iot_beta
+export_route('iot_download', '/iot/download/', context={'iot': iot_ctx})
+export_route('security', '/security/', context={'iot': iot_ctx})
 export_route('sponsors', '/sponsors/')
-
 
 
 # This is manually updated for now by calling:

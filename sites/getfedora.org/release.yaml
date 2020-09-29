@@ -33,6 +33,10 @@ ga:
     iot:
       pretty_name: Fedora IoT
       release_number: 32
+      # These can change, so we have to generate them dynamically at build time.
+      # We do this in util.iot_compose, and use [] here to not show them on the
+      # security page.
+      checksum_arches: []
 
 beta:
   # Should we show the beta stuff at all?
@@ -66,6 +70,14 @@ beta:
         netinst_x86_64: default
         netinst_aarch64: default
         raw_aarch64: default
+
+    iot:
+      pretty_name: Fedora IoT
+      release_number: 33
+      # These can change, so we have to generate them dynamically at build time.
+      # We do this in util.iot_compose, and use [] here to not show them on the
+      # security page.
+      checksum_arches: []
 
 fmw:
   osx:

@@ -68,7 +68,7 @@
           {% endfor %}
           {% if releaseinfo.beta.show %}
           <hr />
-          {% for edition in releaseinfo.beta.editions %}
+          {% for edition, data in releaseinfo.beta.editions.items() if data.get('checksum_arches', []) %}
           <h6>{{releaseinfo.beta.editions[edition].pretty_name}}</h6>
           <ul>
             {% for arch in releaseinfo.beta.editions[edition].checksum_arches %}
@@ -81,20 +81,53 @@
           {% endfor %}
           {% endif %}
           <hr />
+
+          {# This is epically hacky, it will be fixed up in a future revision of this page. #}
+          {# We should *really* work to treat IoT as a regular edition even though it does #}
+          {# links super weirdly. This probably means we need to make the checksum link logic #}
+          {# a bit more abstract. Injecting the checksum links earlier would at least take the #}
+          {# horribleness out of the template layer. #}
+
           <h6>Fedora IoT</h6>
           <ul>
-            {% for arch, value in iot_checksums.items() %}
-            <li>
-              For {{arch}}:
-              <ul>
-                {% for type, link in value.items() %}
-                <li>
-                  <a href="{{checksum(link, False)}}">Fedora {{releaseinfo.ga.announcement_release_number}} IoT {{arch}} {{type}} CHECKSUM</a>
-                </li>
-                {% endfor %}
-              </ul>
-            </li>
+
+            {# IoT GA #}
+            {% for arch, value in iot['ga']['checksums'].items() %}
+              <li>
+                For {{arch}}:
+                <ul>
+                  {% for type, link in value.items() %}
+                    <li>
+                      <a href="{{checksum(link, False)}}">
+                        Fedora {{ releaseinfo.ga.announcement_release_number }} IoT
+                        {{arch}} {{type}} CHECKSUM
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
             {% endfor %}
+
+            {# IoT Beta #}
+            {% if releaseinfo.beta.show and 'beta' in iot %}
+              {% for arch, value in iot['beta']['checksums'].items() %}
+                <li>
+                  For {{arch}}:
+                  <ul>
+                    {% for type, link in value.items() %}
+                      <li>
+                        <a href="{{checksum(link, False)}}">
+                          Fedora {{ releaseinfo.beta.announcement_release_number }} IoT
+                          {{arch}} {{type}} CHECKSUM
+                          <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% endfor %}
+            {% endif %}
+
           </ul>
         </div>
       </div>
