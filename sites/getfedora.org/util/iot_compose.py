@@ -1,12 +1,15 @@
 import requests
 
-def _iot_checksum_link(media_format, arch, date, version):
+def _iot_checksum_link(media_format, arch, date, version, beta=False):
     path = u'iso'
     if media_format == u'raw.xz':
         path = u'images'
 
-    url = u'https://dl.fedoraproject.org/pub/alt/iot/{0}/IoT/{1}/{2}/' \
-        'Fedora-IoT-IoT-{3}-{4}-{5}.0-CHECKSUM'.format(
+    beta_path = 'test/' if beta else ''
+
+    url = u'https://dl.fedoraproject.org/pub/alt/iot/{0}{1}/IoT/{2}/{3}/' \
+        'Fedora-IoT-IoT-{4}-{5}-{6}.0-CHECKSUM'.format(
+            beta_path,
             version,
             arch,
             path,
@@ -42,5 +45,6 @@ def iot_compose_links(version, beta=False):
                 img['format'],
                 img['arch'],
                 date,
-                version)
+                version,
+                beta=beta)
     return links
