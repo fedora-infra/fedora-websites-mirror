@@ -11,25 +11,25 @@ const cloudImages = ['aws', 'azure', 'aliyun', 'digitalocean', 'exoscale', 'gcp'
 const virtualizedImages = ['openstack', 'qemu', 'virtualbox', 'vmware']
 // dict of pretty names for platforms, indexed by platform.extension
 const prettyPlatforms = {
+  "aliyun": "Alibaba Cloud",
   "aws": "AWS",
   "azure": "Azure",
-  "gcp": "GCP",
   "digitalocean": "DigitalOcean",
   "exoscale": "Exoscale",
-  "packet": "Packet",
-  "aliyun": "Alibaba Cloud",
+  "gcp": "GCP",
+  "ibmcloud": "IBM Cloud",
   "metal": {
     "raw.xz": "Raw",
     "4k.raw.xz": "Raw (4k Native)",
     "iso": "ISO",
     "pxe": "PXE"
   },
+  "openstack": "OpenStack",
+  "packet": "Packet",
   "qemu": "QEMU",
   "virtualbox": "VirtualBox",
   "vmware": "VMware",
-  "openstack": "OpenStack",
-  "vultr": "Vultr",
-  "ibmcloud": "IBM Cloud"
+  "vultr": "Vultr"
 }
 // innerText of tab button
 const tabInnerText = {
