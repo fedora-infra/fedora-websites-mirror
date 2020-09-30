@@ -10,6 +10,7 @@ import os
 import sys
 import yaml
 
+from util.gpg_checker import check_gpg_keys, generate_gpg_bundle
 from util.link_checker import check_download_link, check_checksum_link
 from util.releases_json_checker import check_releases_json
 from util.iot_compose import iot_compose_links
@@ -269,7 +270,13 @@ def magazine_json():
 
 @app.route('/static/fedora.gpg')
 def gpgkey():
-    return send_from_directory('static', 'fedora.gpg')
+    # This will generate the fedora.gpg bundle or error if a file is missing
+    # from static/keys (used to generate the bundle) and cause the build to
+    # fail (which is what we want).
+    bundle = generate_gpg_bundle()
+    # We need to specify text/plain or the minification will think it's html and
+    # strip out important newlines.
+    return bundle, 200, {'Content-Type': 'text/plain; charset=utf-8'}
 
 @freezer.register_generator
 def index():
@@ -295,6 +302,10 @@ if __name__ == '__main__':
     checksum_all = [check_checksum_link(link) for link in checksum_links]
     releases_json = check_releases_json()
 
-    if not all(dl_all) or not all(checksum_all) or not releases_json:
+    print("")
+    print("GPG keys:")
+    gpg_key_check = check_gpg_keys()
+
+    if not all(dl_all) or not all(checksum_all + [releases_json, gpg_key_check]):
         print('Failing.')
         sys.exit(1)

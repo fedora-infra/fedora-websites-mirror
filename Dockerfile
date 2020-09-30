@@ -19,6 +19,7 @@ RUN dnf -y install \
     python-dateutil \
     python-dogpile-cache \
     python-requests \
+    python-gnupg \
     python-fedfind && \
       dnf clean all
 
