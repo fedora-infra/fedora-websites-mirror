@@ -107,5 +107,25 @@
       </div>
     </div>
   </div>
+  
+  <div class="bg-transparent py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+            <h3 class="font-weight-light pb-4">{% trans trimmed %}We take security seriously.{% endtrans %}</h3>
+            <p class="font-weight-light">
+                {% trans trimmed %}
+                Once you have downloaded an image, be sure to verify it for both security and integrity.
+                {% endtrans %}
+            </p>
+            <a href="{{url_for('security', lang_code=lang_code)}}">
+              {% trans trimmed %}
+              Verify your download.
+              {% endtrans %}
+            </a>
+        </div>
+      </div>
+    </div>
+  </div>
 {{export_regulations()}}
 {% endblock %}
