@@ -1,12 +1,12 @@
 ga:
-  announcement_url: https://fedoramagazine.org/announcing-fedora-32
-  announcement_release_number: 32
+  announcement_url: https://fedoramagazine.org/announcing-fedora-33
+  announcement_release_number: 33
 
   editions:
     workstation:
       pretty_name: Fedora Workstation
-      release_number: 32
-      rc_version: 1.6
+      release_number: 33
+      rc_version: 1.2
       checksum_prefix: Fedora-Workstation
       checksum_arches: [x86_64, aarch64]
       # set to default for default, false if the media doesn't exist, or
@@ -18,8 +18,8 @@ ga:
 
     server:
       pretty_name: Fedora Server
-      release_number: 32
-      rc_version: 1.6
+      release_number: 33
+      rc_version: 1.2
       checksum_prefix: Fedora-Server
       checksum_arches: [x86_64, aarch64]
       # Same as above goes here.
@@ -32,7 +32,7 @@ ga:
 
     iot:
       pretty_name: Fedora IoT
-      release_number: 32
+      release_number: 33
       # These can change, so we have to generate them dynamically at build time.
       # We do this in util.iot_compose, and use [] here to not show them on the
       # security page.
@@ -40,7 +40,7 @@ ga:
 
 beta:
   # Should we show the beta stuff at all?
-  show: true
+  show: false
   announcement_release_number: 33
 
   editions:
@@ -87,10 +87,8 @@ fmw:
   releases_json:
     # milestone can be 'final' or 'beta'. Leaving it out means 'final'.
     - version: 33
-      milestone: beta
     - version: 32
     - version: 31
-    - version: 30
 
 # These all get listed on the security page
 gpg_keys:
