@@ -22,6 +22,20 @@
     </div>
   </div>
 
+  <div class="bg-dark text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="font-weight-light text-center my-3">
+            {% trans trimmed link="https://fedoraproject.org/wiki/Common_F" + releaseinfo.ga.editions.server.release_number|string + "_bugs" %}
+            On ARM and having trouble booting? See <a href="{{link}}">Common Bugs</a>.
+            {% endtrans %}
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="bg-light border py-5">
     <div class="container">
       <div class="row">

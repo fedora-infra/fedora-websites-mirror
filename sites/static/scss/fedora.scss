@@ -93,7 +93,7 @@ $fedora-colors: (
     font-size:90%!important;
 }
 
-/*.bg-dark a{ 
+/*.bg-dark a{
     color: $gray-400;
 }*/
 
@@ -101,7 +101,7 @@ code, pre {
     color: $fedora-blue;
 }
 
-.footer {
+.footer, .bg-dark {
     a {
         color: $footer-gray;
     }
@@ -115,19 +115,19 @@ code, pre {
     column-count: 2;
 }
 
-@include media-breakpoint-up(sm) { 
+@include media-breakpoint-up(sm) {
     #languagelist{
         column-count: 3;
     }
  }
 
-@include media-breakpoint-up(md) { 
+@include media-breakpoint-up(md) {
     #languagelist{
         column-count: 4;
     }
  }
 
- @include media-breakpoint-up(lg) { 
+ @include media-breakpoint-up(lg) {
     #languagelist{
         column-count: 5;
     }
