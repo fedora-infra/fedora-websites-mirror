@@ -157,7 +157,10 @@ def inject_globalvars():
         dl_links.add(link)
         return link
 
-    def checksum_link(link, local=True):
+    def checksum_link(override, link, local=True):
+        if override != 'default':
+            link = override
+            local = not override.startswith('http')
         if local:
             global checksum_links
             link = url_for('checksums.static', filename=link)

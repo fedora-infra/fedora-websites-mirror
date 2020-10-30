@@ -59,9 +59,9 @@
           {% for edition, data in releaseinfo.ga.editions.items() if data.get('checksum_arches', []) %}
           <h6>{{releaseinfo.ga.editions[edition].pretty_name}}</h6>
           <ul>
-            {% for arch in releaseinfo.ga.editions[edition].checksum_arches %}
+            {% for arch, link in releaseinfo.ga.editions[edition].checksum_arches.items()|sort %}
             <li>
-              <a href="{{checksum('%s-%d-%s-%s-CHECKSUM' % (releaseinfo.ga.editions[edition].checksum_prefix, releaseinfo.ga.editions[edition].release_number, releaseinfo.ga.editions[edition].rc_version, arch))}}">Fedora {{releaseinfo.ga.editions[edition].release_number}} {{arch}} CHECKSUM</a>
+              <a href="{{checksum(link, '%s-%d-%s-%s-CHECKSUM' % (releaseinfo.ga.editions[edition].checksum_prefix, releaseinfo.ga.editions[edition].release_number, releaseinfo.ga.editions[edition].rc_version, arch))}}">Fedora {{releaseinfo.ga.editions[edition].release_number}} {{arch}} CHECKSUM</a>
             </li>
             {% endfor %}
           </ul>
@@ -71,9 +71,9 @@
           {% for edition, data in releaseinfo.beta.editions.items() if data.get('checksum_arches', []) %}
           <h6>{{releaseinfo.beta.editions[edition].pretty_name}}</h6>
           <ul>
-            {% for arch in releaseinfo.beta.editions[edition].checksum_arches %}
+            {% for arch, link in releaseinfo.beta.editions[edition].checksum_arches.items()|sort %}
             <li>
-              <a href="{{checksum('%s-%d_Beta-%s-%s-CHECKSUM' % (releaseinfo.beta.editions[edition].checksum_prefix, releaseinfo.beta.editions[edition].release_number, releaseinfo.beta.editions[edition].rc_version, arch))}}">Fedora {{releaseinfo.beta.editions[edition].release_number}} {{arch}} CHECKSUM</a>
+              <a href="{{checksum(link, '%s-%d_Beta-%s-%s-CHECKSUM' % (releaseinfo.beta.editions[edition].checksum_prefix, releaseinfo.beta.editions[edition].release_number, releaseinfo.beta.editions[edition].rc_version, arch))}}">Fedora {{releaseinfo.beta.editions[edition].release_number}} {{arch}} CHECKSUM</a>
               <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
             </li>
             {% endfor %}
@@ -98,7 +98,7 @@
                 <ul>
                   {% for type, link in value.items() %}
                     <li>
-                      <a href="{{checksum(link, False)}}">
+                      <a href="{{checksum('default', link, False)}}">
                         Fedora {{ releaseinfo.ga.announcement_release_number }} IoT
                         {{arch}} {{type}} CHECKSUM
                       </a>
@@ -116,7 +116,7 @@
                   <ul>
                     {% for type, link in value.items() %}
                       <li>
-                        <a href="{{checksum(link, False)}}">
+                        <a href="{{checksum('default', link, False)}}">
                           Fedora {{ releaseinfo.beta.announcement_release_number }} IoT
                           {{arch}} {{type}} CHECKSUM
                           <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
