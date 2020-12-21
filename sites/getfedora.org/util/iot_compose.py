@@ -7,7 +7,7 @@ def _iot_checksum_link(media_format, arch, date, version, beta=False):
 
     beta_path = 'test/' if beta else ''
 
-    url = u'https://dl.fedoraproject.org/pub/alt/iot/{0}{1}/IoT/{2}/{3}/' \
+    url = u'https://download.fedoraproject.org/pub/alt/iot/{0}{1}/IoT/{2}/{3}/' \
         'Fedora-IoT-IoT-{4}-{5}-{6}.0-CHECKSUM'.format(
             beta_path,
             version,
@@ -20,7 +20,7 @@ def _iot_checksum_link(media_format, arch, date, version, beta=False):
 
 def iot_compose_links(version, beta=False):
     beta_path = 'test/' if beta else ''
-    BASEURL = 'https://dl.fedoraproject.org/pub/alt/iot/' + beta_path + \
+    BASEURL = 'https://download.fedoraproject.org/pub/alt/iot/' + beta_path + \
         str(version) + '/'
     try:
         json = requests.get(BASEURL + '/metadata/images.json').json()
