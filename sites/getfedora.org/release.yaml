@@ -122,30 +122,39 @@ gpg_keys:
     - name: Fedora 37
       id: 4096R/5323552A 2021-08-10
       fingerprint: ACB5 EE4E 831C 74BB 7C16 8D27 F55A D3FB 5323 552A
+      openpgpkey: 5dde64bce74cf052cba5361957e81b0fe47a044c63d2a7315cdac7cd._openpgpkey.fedoraproject.org
     - name: Fedora 36
       id: 4096R/38AB71F4 2021-02-10
       fingerprint: 53DE D2CB 922D 8B8D 9E63 FD18 999F 7CBF 38AB 71F4
+      openpgpkey: 6e5f831105b72f261abfc06974c08b4ed718c650447d0b309b8658dd._openpgpkey.fedoraproject.org
     - name: Fedora 35
       id: 4096R/9867C58F 2021-02-04
       fingerprint: 787E A6AE 1147 EEE5 6C40 B30C DB46 3971 9867 C58F
+      openpgpkey: e27f1efe21ae589b7796e61af3ac4a4c1c2428615daca70d8f1c9e96._openpgpkey.fedoraproject.org
     - name: Fedora 34
       id: 4096R/45719A39 2020-08-06
       fingerprint: 8C5B A699 0BDB 26E1 9F2A 1A80 1161 AE69 4571 9A39
+      openpgpkey: 32ad6615edafd4beed53d0bd1ce26a32c38ef7192197ce96507ba1f1._openpgpkey.fedoraproject.org
     - name: Fedora 33
       id: 4096R/9570FF31 2020-01-28
       fingerprint: 963A 2BEB 0200 9608 FE67 EA42 49FD 7749 9570 FF31
+      openpgpkey: c57a03fcb0ce3e355f68629319df46b263c794e6fe17aed3b112d19c._openpgpkey.fedoraproject.org
     - name: Fedora IOT
       id: 4096R/DBBDCF7C 2018-11-13
       fingerprint: C2A3 FA9D C67F 68B9 8BB5 43F4 7BB9 0722 DBBD CF7C
+      openpgpkey: 8b6135462c1d8c1a927b1a9eb1f47c2c1cde3429ae60ccd630d057ac._openpgpkey.fedoraproject.org
     - name: EPEL 9
       id: 4096R/3228467C 2021-09-07
       fingerprint: FF8A D134 4597 106E CE81 3B91 8A38 72BF 3228 467C
+      openpgpkey: 1a355c3f6ac5389917041321fdddee2c0ffc4a38f78adec159a015ec._openpgpkey.fedoraproject.org
     - name: EPEL 8
       id: 4096R/2F86D6A1 2019-06-05
       fingerprint: 94E2 79EB 8D8F 25B2 1810 ADF1 21EA 45AB 2F86 D6A1
+      openpgpkey: 1a355c3f6ac5389917041321fdddee2c0ffc4a38f78adec159a015ec._openpgpkey.fedoraproject.org
     - name: EPEL 7
       id: 4096R/352C64E5 2013-12-16
       fingerprint: 91E9 7D7C 4A5E 96F1 7F3E 888F 6A2F AEA2 352C 64E5
+      openpgpkey: 1a355c3f6ac5389917041321fdddee2c0ffc4a38f78adec159a015ec._openpgpkey.fedoraproject.org
   obsolete:
     - name: Fedora 9 and Under
       id: 1024D/4F2A6FD2 2003-10-27
@@ -252,24 +261,31 @@ gpg_keys:
     - name: Fedora 27
       id: 4096R/F5282EE4 2017-02-21
       fingerprint: 860E 19B0 AFA8 00A1 7518 81A6 F55E 7430 F528 2EE4
+      openpgpkey: 2d81eb3c5ebd20d163ff111a2dbcdc7e3336825d7d2331a3ef543aa8._openpgpkey.fedoraproject.org
     - name: Fedora 28
       id: 4096R/9DB62FB1 2017-08-14
       fingerprint: 128C F232 A937 1991 C8A6 5695 E08E 7E62 9DB6 2FB1
+      openpgpkey: a327f2e5b9b6030b56c7a3e1b2e247d92b794b70d8a86c1c06a6f872._openpgpkey.fedoraproject.org
     - name: Fedora 29
       id: 4096R/429476B4 2018-02-17
       fingerprint: 5A03 B4DD 8254 ECA0 2FDA 1637 A20A A56B 4294 76B4
+      openpgpkey: 557d8ff0f0f4c6c9fc7140670cc85400dcee5aeb1ac2412e90f41e45._openpgpkey.fedoraproject.org
     - name: Fedora 30
       id: 4096R/CFC659B9 2018-08-11
       fingerprint: F1D8 EC98 F241 AAF2 0DF6 9420 EF3C 111F CFC6 59B9
+      openpgpkey: 87828749968770353bfa28bd8236ff001e82a4f165ad985e1a01d8d4._openpgpkey.fedoraproject.org
     - name: Fedora 31
       id: 4096R/3C3359C4 2019-02-18
       fingerprint: 7D22 D586 7F2A 4236 474B F7B8 50CB 390B 3C33 59C4
+      openpgpkey: 338de82b342f11ba08c2ab910514c71edbdc2f4ee15fa6aa5f3f050c._openpgpkey.fedoraproject.org
     - name: Fedora 32
       id: 4096R/12C944D0 2019-08-12
       fingerprint: 97A1 AE57 C3A2 372C CA3A 4ABA 6C13 026D 12C9 44D0
+      openpgpkey: 256f2e39c430c662bcf78691542f6171caee5d7684c90cec6e221f32._openpgpkey.fedoraproject.org
     - name: EPEL 6
       id: 4096R/0608B895 2010-04-23
       fingerprint: 8C3B E96A F230 9184 DA5C 0DAE 3B49 DF2A 0608 B895
+      openpgpkey: 1a355c3f6ac5389917041321fdddee2c0ffc4a38f78adec159a015ec._openpgpkey.fedoraproject.org
     - name: EPEL 5
       id: "1024D/217521F6 2007-03-02 [expires: 2017-02-27]"
       fingerprint: B940 BE07 7D71 0A28 7D7F 2DD1 119C C036 2175 21F6
