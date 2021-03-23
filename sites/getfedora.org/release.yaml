@@ -44,13 +44,13 @@ ga:
 
 beta:
   # Should we show the beta stuff at all?
-  show: false
-  announcement_release_number: 33
+  show: true
+  announcement_release_number: 34
 
   editions:
     workstation:
       pretty_name: Fedora Workstation Beta
-      release_number: 33
+      release_number: 34
       rc_version: 1.3
       checksum_prefix: Fedora-Workstation
       checksum_arches:
@@ -65,7 +65,7 @@ beta:
 
     server:
       pretty_name: Fedora Server Beta
-      release_number: 33
+      release_number: 34
       rc_version: 1.3
       checksum_prefix: Fedora-Server
       checksum_arches:
@@ -81,7 +81,7 @@ beta:
 
     iot:
       pretty_name: Fedora IoT
-      release_number: 33
+      release_number: 34
       # These can change, so we have to generate them dynamically at build time.
       # We do this in util.iot_compose, and use [] here to not show them on the
       # security page.
@@ -94,6 +94,8 @@ fmw:
     version: 4.1.5
   releases_json:
     # milestone can be 'final' or 'beta'. Leaving it out means 'final'.
+    - version: 34
+      milestone: beta
     - version: 33
     - version: 32
     - version: 31
@@ -101,6 +103,9 @@ fmw:
 # These all get listed on the security page
 gpg_keys:
   current:
+    - name: Fedora 34
+      id: 4096R/45719A39 2020-08-06
+      fingerprint: 8C5B A699 0BDB 26E1 9F2A 1A80 1161 AE69 4571 9A39
     - name: Fedora 33
       id: 4096R/9570FF31 2020-01-28
       fingerprint: 963A 2BEB 0200 9608 FE67 EA42 49FD 7749 9570 FF31
