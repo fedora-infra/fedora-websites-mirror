@@ -8,6 +8,7 @@ $footer-gray: #999;
 
 $fedora-blue: #3c6eb4;
 $fedora-dark-blue: #294172;
+$fedora-new-blue: #52a2da;
 $fedora-magenta: #db3279;
 $fedora-orange: #e59728;
 $fedora-green: #79db32;
@@ -16,6 +17,7 @@ $fedora-purple: #a07cbc;
 $fedora-colors: (
     "blue": $fedora-blue,
     "dark-blue": $fedora-dark-blue,
+    "new-blue": $fedora-new-blue,
     "magenta": $fedora-magenta,
     "orange": darken($fedora-orange, 10%),
     "green": darken($fedora-green, 10%),
