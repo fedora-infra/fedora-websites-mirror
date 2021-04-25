@@ -56,30 +56,59 @@
 
         </div>
         <div class="col-6">
-          {% for edition, data in releaseinfo.ga.editions.items() if data.get('checksum_arches', []) %}
+          {% for edition, data in releaseinfo.ga.editions.items() if data.get('checksum_arches', {}) %}
           <h6>{{releaseinfo.ga.editions[edition].pretty_name}}</h6>
           <ul>
-            {% for arch, link in releaseinfo.ga.editions[edition].checksum_arches.items()|sort %}
-            <li>
-              <a href="{{checksum(link, '%s-%d-%s-%s-CHECKSUM' % (releaseinfo.ga.editions[edition].checksum_prefix, releaseinfo.ga.editions[edition].release_number, releaseinfo.ga.editions[edition].rc_version, arch))}}">Fedora {{releaseinfo.ga.editions[edition].release_number}} {{arch}} CHECKSUM</a>
-            </li>
+            {% for arch, artifacts in releaseinfo.ga.editions[edition].checksum_arches.items()|sort %}
+              {% for artifact, link_override in artifacts.items()|sort %}
+                {% if link_override is not sameas False %}
+                  <li>
+                    <a href="{{checksum(
+                                   link_override,
+                                   '%d/%s/%s-%d-%s-%s-CHECKSUM' % (
+                                       releaseinfo.ga.editions[edition].release_number,
+                                       artifact,
+                                       releaseinfo.ga.editions[edition].checksum_prefix,
+                                       releaseinfo.ga.editions[edition].release_number,
+                                       releaseinfo.ga.editions[edition].rc_version,
+                                       arch))}}">
+                      Fedora {{releaseinfo.ga.editions[edition].release_number}} {{arch}} ({{artifact}}) CHECKSUM
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
             {% endfor %}
           </ul>
           {% endfor %}
           {% if releaseinfo.beta.show %}
-          <hr />
-          {% for edition, data in releaseinfo.beta.editions.items() if data.get('checksum_arches', []) %}
-          <h6>{{releaseinfo.beta.editions[edition].pretty_name}}</h6>
-          <ul>
-            {% for arch, link in releaseinfo.beta.editions[edition].checksum_arches.items()|sort %}
-            <li>
-              <a href="{{checksum(link, '%s-%d_Beta-%s-%s-CHECKSUM' % (releaseinfo.beta.editions[edition].checksum_prefix, releaseinfo.beta.editions[edition].release_number, releaseinfo.beta.editions[edition].rc_version, arch))}}">Fedora {{releaseinfo.beta.editions[edition].release_number}} {{arch}} CHECKSUM</a>
-              <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
-            </li>
+            <hr />
+            {% for edition, data in releaseinfo.beta.editions.items() if data.get('checksum_arches', {}) %}
+            <h6>{{releaseinfo.beta.editions[edition].pretty_name}}</h6>
+            <ul>
+              {% for arch, artifacts in releaseinfo.beta.editions[edition].checksum_arches.items()|sort %}
+                {% for artifact, link_override in artifacts.items()|sort %}
+                  {% if link_override is not sameas False %}
+                    <li>
+                      <a href="{{checksum(
+                                     link_override,
+                                     '%d/%s/%s-%d_Beta-%s-%s-CHECKSUM' % (
+                                         releaseinfo.beta.editions[edition].release_number,
+                                         artifact,
+                                         releaseinfo.beta.editions[edition].checksum_prefix,
+                                         releaseinfo.beta.editions[edition].release_number,
+                                         releaseinfo.beta.editions[edition].rc_version,
+                                         arch))}}">
+                        Fedora {{releaseinfo.beta.editions[edition].release_number}} {{arch}} ({{artifact}}) CHECKSUM
+                        <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+                      </a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+            </ul>
             {% endfor %}
-          </ul>
-          {% endfor %}
           {% endif %}
+
           <hr />
 
           {# This is epically hacky, it will be fixed up in a future revision of this page. #}
@@ -96,11 +125,11 @@
               <li>
                 For {{arch}}:
                 <ul>
-                  {% for type, link in value.items() %}
+                  {% for artifact, link in value.items() %}
                     <li>
                       <a href="{{checksum('default', link, False)}}">
-                        Fedora {{ releaseinfo.ga.announcement_release_number }} IoT
-                        {{arch}} {{type}} CHECKSUM
+                        Fedora {{ releaseinfo.ga.editions.iot.release_number }} IoT
+                        {{arch}} ({{artifact}}) CHECKSUM
                       </a>
                     </li>
                   {% endfor %}
@@ -110,15 +139,15 @@
 
             {# IoT Beta #}
             {% if releaseinfo.beta.show and 'beta' in iot %}
-              {% for arch, value in iot['beta']['checksums'].items() %}
+              {% for arch, value in iot['ga']['checksums'].items() %}
                 <li>
                   For {{arch}}:
                   <ul>
-                    {% for type, link in value.items() %}
+                    {% for artifact, link in value.items() %}
                       <li>
                         <a href="{{checksum('default', link, False)}}">
-                          Fedora {{ releaseinfo.beta.announcement_release_number }} IoT
-                          {{arch}} {{type}} CHECKSUM
+                          Fedora {{ releaseinfo.ga.editions.iot.release_number }} IoT
+                          {{arch}} ({{artifact}}) CHECKSUM
                           <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
                         </a>
                       </li>

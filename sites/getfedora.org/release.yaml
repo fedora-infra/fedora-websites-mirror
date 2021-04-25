@@ -9,8 +9,12 @@ ga:
       rc_version: 1.2
       checksum_prefix: Fedora-Workstation
       checksum_arches:
-        x86_64: default
-        aarch64: default
+        x86_64:
+          iso: default
+          images: false
+        aarch64:
+          iso: default
+          images: default
       # set to default for default, false if the media doesn't exist, or
       # a link to override the default.
       download_override:
@@ -25,8 +29,12 @@ ga:
       rc_version: 1.2
       checksum_prefix: Fedora-Server
       checksum_arches:
-        x86_64: default
-        aarch64: default
+        x86_64:
+          iso: default
+          images: false
+        aarch64:
+          iso: default
+          images: default
       # Same as above goes here.
       download_override:
         standard_x86_64: default
@@ -55,8 +63,12 @@ beta:
       rc_version: 1.3
       checksum_prefix: Fedora-Workstation
       checksum_arches:
-        x86_64: default
-        aarch64: default
+        x86_64:
+          iso: default
+          images: false
+        aarch64:
+          iso: default
+          images: default
       # set to default for default, false if the media doesn't exist, or
       # a link to override the default.
       download_override:
@@ -71,8 +83,12 @@ beta:
       rc_version: 1.3
       checksum_prefix: Fedora-Server
       checksum_arches:
-        x86_64: default
-        aarch64: default
+        x86_64:
+          iso: default
+          images: false
+        aarch64:
+          iso: default
+          images: default
       # Same as above goes here.
       download_override:
         standard_x86_64: default
@@ -85,9 +101,9 @@ beta:
       pretty_name: Fedora IoT
       release_number: 34
       # These can change, so we have to generate them dynamically at build time.
-      # We do this in util.iot_compose, and use [] here to not show them on the
+      # We do this in util.iot_compose, and use {} here to not show them on the
       # security page.
-      checksum_arches: []
+      checksum_arches: {}
 
 fmw:
   osx:

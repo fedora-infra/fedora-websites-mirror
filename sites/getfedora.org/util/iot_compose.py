@@ -1,10 +1,6 @@
 import requests
 
-def _iot_checksum_link(media_format, arch, date, version, beta=False):
-    path = u'iso'
-    if media_format == u'raw.xz':
-        path = u'images'
-
+def _iot_checksum_link(artifact, arch, date, version, beta=False):
     beta_path = 'test/' if beta else ''
 
     url = u'https://download.fedoraproject.org/pub/alt/iot/{0}{1}/IoT/{2}/{3}/' \
@@ -12,7 +8,7 @@ def _iot_checksum_link(media_format, arch, date, version, beta=False):
             beta_path,
             version,
             arch,
-            path,
+            artifact,
             version,
             arch,
             date)
@@ -38,11 +34,15 @@ def iot_compose_links(version, beta=False):
         for img in lst:
             if img['arch'] == 'src':
                 continue
+
+            artifact = 'images' if img['format'] == 'raw.xz' else 'iso'
+
             if img['type'] not in links['type'].keys():
                 links['type'][img['type']] = {}
+
             links['type'][img['type']][img['arch']] = BASEURL + img['path']
-            links['checksums'][arch][img['format']] = _iot_checksum_link(
-                img['format'],
+            links['checksums'][arch][artifact] = _iot_checksum_link(
+                artifact,
                 img['arch'],
                 date,
                 version,
