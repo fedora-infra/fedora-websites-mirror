@@ -1,3 +1,6 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
 # Fedora-KDE-armhfp-33-1.2-sda.raw.xz: 1684427092 bytes
 SHA256 (Fedora-KDE-armhfp-33-1.2-sda.raw.xz) = 530680eff52aa1450a78b0d3001c646b3459bb98ed84e7590fb58d257d5ba51b
 # Fedora-LXDE-armhfp-33-1.2-sda.raw.xz: 1098728640 bytes
@@ -14,3 +17,19 @@ SHA256 (Fedora-Minimal-armhfp-33-1.2-sda.raw.xz) = 9cf8377d7d79ec9f033abde1f6166
 SHA256 (Fedora-SoaS-armhfp-33-1.2-sda.raw.xz) = a249053f97d4753139862bfeffa9f65ff54ac9907856d84f930d3a00d11ba36e
 # Fedora-Xfce-armhfp-33-1.2-sda.raw.xz: 1270866348 bytes
 SHA256 (Fedora-Xfce-armhfp-33-1.2-sda.raw.xz) = 9f15e59ee0a7d53e68eb74d0a9686a7f4ddfbbcbebe9a8211f41981d15b266a0
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEljor6wIAlgj+Z+pCSf13SZVw/zEFAl+S8hEACgkQSf13SZVw
+/zGuKhAAvSF5UenaW7ZiLkLujUmkmPH2a44RA9utMffJaYyxP8mI+VoU2yXxToWh
+R0h/bdRlKa8nuKhWQyGqJZIUuclVspaM1H0HOC27o/ccvmwbpsT3v2spxDT2H2vW
+a9mvyE5aYjPN870wyETVV4BMAFaDEKapevQz6A3UW9NjazzY9WtOaKAL3RwJl/Ii
+3nsPNaa3aezTpzPhARZDuqybsVNe3X/bjb0U6MDzC1vEsbuGOLlZfdpOakIuE/gw
+exGuccZR2H8pB+btM4yJaSpL2UOoLUqtSKK9mSaCQYsC13csxNJcylgoivwC9mUZ
+JbERsVQI34oX+nXjRdvbMOS1d1lkqku6eT8pDmBgyKIdc2GShyNdq+RSFn0v3d7C
+pgiaYv8riIEGzWa/OFgGs+5cBWoEvjisi5G0FMduzuCuAzDWojlsUhACcbTHZPO8
+yF/fulF7s6RRMds2nJ0q67M5YzDMcA2nYuph28ag3tU6kKn4fYap/odO9RPf3Ymg
+iJa/nOaJ7LDZcTs/VqBSdsWujtWOYTiH8rJSwtkEw/I9NGzLbexjgJlF93AswPtp
+uEguwn8Iku0MBPDJEaMw78QLLCakvclbDvHlg3thuAMt6knwXxCCsAtFAI2zk1FV
+I3bqmIbsXouFk8cpvba0NcvywCvTOQIF33CyrMovS8dHqxAuA30=
+=apc0
+-----END PGP SIGNATURE-----

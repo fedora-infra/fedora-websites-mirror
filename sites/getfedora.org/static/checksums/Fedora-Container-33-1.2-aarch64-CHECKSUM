@@ -1,4 +1,23 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
 # Fedora-Container-Base-33-1.2.aarch64.tar.xz: 35965712 bytes
 SHA256 (Fedora-Container-Base-33-1.2.aarch64.tar.xz) = 21ae2f9cee4d1905eee82fe60b17c1d1f52590c63059c66f2891d7a231c88fdd
 # Fedora-Container-Minimal-Base-33-1.2.aarch64.tar.xz: 26112424 bytes
 SHA256 (Fedora-Container-Minimal-Base-33-1.2.aarch64.tar.xz) = bd9adf8f26303c34e665aa8b976b05cc8394eeefcc57e24e727f9bc0c9021ac0
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEljor6wIAlgj+Z+pCSf13SZVw/zEFAl+S8igACgkQSf13SZVw
+/zGWhA//fgH8Ih7lQlqmJaBLMUhz6HKRxErwfUb+4CPS6fvyVjmUbHlcsHx8Z2KM
+E9bDqRVKOpgAZ2RlSsmPlwpvWg/7IGs1GHJG4nq0BbpmetmcVA023slvXuBQKDeW
+3cgesFl61WKhNDdSLVc0Swmh15tevddGJzcIcWhg5aD8pTVbN9EnQSJ3738b/+eh
+q84bUmuHHjbftKM4iu6+f8C2ABlMyVed8xxz2m2REfH5jkki7MpDO5aPBz/SR9GX
+HflJN2G88nc7yArmUTm6FMoyAGas/hqS9MuJaZIKLrh+///cPFdrz+npmpzyWBxS
+YmguptqMPD8C5yaCkVBaSKZjwUNtGlKoK+nFdJ/V4htnS5O3RiBO6tDR6qJnYmdR
+1e7r5rcFCt3RQ+L8b586wwRqGZ/IoNqN+l+SeSK5q4eBWJGv/YtUjwZA4i/xGxyk
+D25RGZvZNAbRpuAoZsGzI05ODl825siqqISppMCBp/R4Ey2KLDwwxh/QaCxWHB+w
+CmAL8S/7VMNP12FjztvsT8XxPYv7tg2vD1emHPD34I2tn/mGfYx/s/jZKkIdhwzZ
+kFnGAaFhS7N+uYfp+nIWmthp0w64EZM8fSLfCUlq6C+z6o9EQB4K1YATGg9y3xPY
+a5PdQx1N+0TpCCdBvHbqeZzdSpv727oFLPUdemKcXgHEZX8XIvE=
+=mHPE
+-----END PGP SIGNATURE-----
