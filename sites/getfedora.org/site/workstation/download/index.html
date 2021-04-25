@@ -110,6 +110,37 @@
 	    </div>
             <ul class="mt-auto list-group">
 
+              {% if releaseinfo.ga.editions.workstation.download_override.live_aarch64 %}
+              <li class="list-group-item d-flex align-items-center p-2">
+                <div class="flex-grow-1">
+                  {% trans trimmed n=releaseinfo.ga.editions.workstation.release_number %}
+                  Fedora {{n}}: aarch64 DVD ISO
+                  {% endtrans %}
+                </div>
+                <div class="btn-group">
+                  <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.workstation.download_override.raw_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%s/Workstation/aarch64/iso/Fedora-Workstation-Live-aarch64-%s-%s.iso' % (releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.release_number, releaseinfo.ga.editions.workstation.rc_version))}}">
+                    {% trans trimmed %}Download{% endtrans %}
+                  </a>
+                </div>
+              </li>
+              {% endif %}
+
+              {% if releaseinfo.beta.show and releaseinfo.beta.editions.workstation.download_override.live_aarch64 %}
+              <li class="list-group-item d-flex align-items-center p-2">
+                <div class="flex-grow-1">
+                  {% trans trimmed n=releaseinfo.beta.editions.workstation.release_number %}
+                  Fedora {{n}}: aarch64 DVD ISO
+                  {% endtrans %}
+                  <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+                </div>
+                <div class="btn-group">
+                  <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.workstation.download_override.raw_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%s_Beta/Workstation/aarch64/iso/Fedora-Workstation-Live-aarch64-%s_Beta-%s.iso' % (releaseinfo.beta.editions.workstation.release_number, releaseinfo.beta.editions.workstation.release_number, releaseinfo.beta.editions.workstation.rc_version))}}">
+                    {% trans trimmed %}Download{% endtrans %}
+                  </a>
+                </div>
+              </li>
+              {% endif %}
+
               {% if releaseinfo.ga.editions.workstation.download_override.raw_aarch64 %}
               <li class="list-group-item d-flex align-items-center p-2">
                 <div class="flex-grow-1">

@@ -17,6 +17,7 @@ ga:
         live_x86_64: default
         netinst_x86_64: false
         raw_aarch64: default
+        live_aarch64: default
 
     server:
       pretty_name: Fedora Server
@@ -62,6 +63,7 @@ beta:
         live_x86_64: default
         netinst_x86_64: default
         raw_aarch64: default
+        live_aarch64: default
 
     server:
       pretty_name: Fedora Server Beta
