@@ -36,7 +36,7 @@
           {% for key, value in iot['ga']['type']['raw-xz'].items() %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans trimmed n=releaseinfo.ga.editions.iot.release_number %}
+                {% trans trimmed n=iot['ga']['version'] %}
                 Fedora {{n}}: Raw Image for <b>{{key}}</b>
                 {% endtrans %}
               </div>
@@ -52,7 +52,7 @@
             {% for key, value in iot['beta']['type']['raw-xz'].items() %}
               <li class="list-group-item d-flex align-items-center">
                 <div class="flex-grow-1">
-                  {% trans trimmed n=releaseinfo.beta.editions.iot.release_number %}
+                  {% trans trimmed n=iot['beta']['version'] %}
                     Fedora {{n}}: Raw Image for <b>{{key}}</b>
                   {% endtrans %}
                   <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
@@ -73,7 +73,7 @@
           {% for key, value in iot['ga']['type']['dvd-ostree'].items() %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
-                {% trans trimmed n=releaseinfo.ga.editions.iot.release_number %}
+                {% trans trimmed n=iot['ga']['version'] %}
                 Fedora {{n}}: Installer ISO for <b>{{key}}</b>
                 {% endtrans %}
               </div>
@@ -89,7 +89,7 @@
             {% for key, value in iot['beta']['type']['dvd-ostree'].items() %}
               <li class="list-group-item d-flex align-items-center">
                 <div class="flex-grow-1">
-                  {% trans trimmed n=releaseinfo.beta.editions.iot.release_number %}
+                  {% trans trimmed n=iot['beta']['version'] %}
                     Fedora {{n}}: Installer ISO for <b>{{key}}</b>
                   {% endtrans %}
                   <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
@@ -107,7 +107,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="bg-transparent py-5">
     <div class="container">
       <div class="row">

@@ -46,6 +46,9 @@ ga:
     iot:
       pretty_name: Fedora IoT
       release_number: 34
+      # IOT isn't always synced by release time, so if we can't load the JSON
+      # file, fall back to this version.
+      fallback_release_number: 33
       # These can change, so we have to generate them dynamically at build time.
       # We do this in util.iot_compose, and use [] here to not show them on the
       # security page.

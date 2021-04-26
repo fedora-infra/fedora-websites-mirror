@@ -13,7 +13,7 @@ import yaml
 from util.gpg_checker import check_gpg_keys, generate_gpg_bundle
 from util.link_checker import check_download_link, check_checksum_link
 from util.releases_json_checker import check_releases_json
-from util.iot_compose import iot_compose_links
+from util.iot_compose import iot_compose_links, iot_context
 
 #FEDORA_LANGUAGES = { 'en' : 'English' , 'de': 'Deutsch'}
 
@@ -246,16 +246,7 @@ export_route('iot', '/iot/')
 
 # Handle this route specially because of how it does links, but still use
 # export_route so i18n magic works.
-iot_ctx = {}
-iot_ctx['ga'] = iot_compose_links(r['ga']['editions']['iot']['release_number'])
-if r['beta']['show']:
-    # Best-effort attempt to show beta links. If beta.show and the metadata file
-    # was able to be decoded, we add it. Otherwise we don't.
-    iot_beta = iot_compose_links(
-        r['beta']['editions']['iot']['release_number'],
-        beta=True)
-    if iot_beta:
-        iot_ctx['beta'] = iot_beta
+iot_ctx = iot_context(r)
 export_route('iot_download', '/iot/download/', context={'iot': iot_ctx})
 export_route('security', '/security/', context={'iot': iot_ctx})
 export_route('sponsors', '/sponsors/')

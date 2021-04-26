@@ -128,7 +128,7 @@
                   {% for artifact, link in value.items() %}
                     <li>
                       <a href="{{checksum('default', link, False)}}">
-                        Fedora {{ releaseinfo.ga.editions.iot.release_number }} IoT
+                        Fedora {{ iot['ga']['version'] }} IoT
                         {{arch}} ({{artifact}}) CHECKSUM
                       </a>
                     </li>
@@ -139,14 +139,14 @@
 
             {# IoT Beta #}
             {% if releaseinfo.beta.show and 'beta' in iot %}
-              {% for arch, value in iot['ga']['checksums'].items() %}
+              {% for arch, value in iot['beta']['checksums'].items() %}
                 <li>
                   For {{arch}}:
                   <ul>
                     {% for artifact, link in value.items() %}
                       <li>
                         <a href="{{checksum('default', link, False)}}">
-                          Fedora {{ releaseinfo.ga.editions.iot.release_number }} IoT
+                          Fedora {{ iot['beta']['version'] }} IoT
                           {{arch}} ({{artifact}}) CHECKSUM
                           <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
                         </a>
