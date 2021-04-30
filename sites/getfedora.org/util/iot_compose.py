@@ -12,16 +12,17 @@ def _baseurl(version, beta, master=False):
     fmt = 'https://{sub}.fedoraproject.org/pub/alt/iot/{beta_path}{version}/'
     return fmt.format(sub=subdomain, beta_path=beta_path, version=version)
 
-def _iot_checksum_link(artifact, arch, date, version, beta=False):
+def _iot_checksum_link(artifact, arch, date, version, respin, beta=False):
     baseurl = _baseurl(version, beta)
     url = baseurl + \
         'IoT/{arch}/{artifact}/Fedora-IoT-IoT-{version}-{arch}-' + \
-        '{date}.0-CHECKSUM'
+        '{date}.{respin}-CHECKSUM'
     return url.format(
         version=version,
         arch=arch,
         artifact=artifact,
         date=date,
+        respin=respin,
     )
 
 def _get_metadata(version, fallback, beta=False):
@@ -88,7 +89,8 @@ def iot_compose_links(version, fallback=None, beta=False):
                 img['arch'],
                 date,
                 md_version,
-                beta=md_beta)
+                beta=md_beta,
+                respin=json['payload']['compose']['respin'])
     return links
 
 def iot_context(r):
