@@ -16,11 +16,19 @@ Translations are handled by the Fedora [localization team](https://fedoraproject
 
 Podman is the recommended way of building fedora-websites.
 
-From the root of the repository, run the following commands to start a local server:
+From the root of the repository, run the following commands to build the necessary components:
 
 ```
 podman build -t fedora-websites .
 podman run -it --rm -v "$(pwd):/opt/:z" fedora-websites ./scripts/pull-translations.sh
-podman run -it --rm -v "$(pwd):/opt/:z" fedora-websites python ./scripts/pull-magazine.py
-podman run -it --rm -v "$(pwd):/opt/:z" fedora-websites python main.py
+podman run -it --rm -v "$(pwd):/opt/:z" fedora-websites python3 ./scripts/pull-magazine.py
+podman run -it --rm -v "$(pwd):/opt/:z" fedora-websites python3 main.py
 ```
+
+Now we are ready to run the development server:
+
+```
+podman run -it --rm -v "$(pwd):/opt/:z" -p 5000:5000 fedora-websites flask run --reload --host 0.0.0.0
+```
+
+You may now go to <http://localhost:5000/> in your browser of choice.
