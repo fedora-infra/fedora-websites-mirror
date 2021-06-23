@@ -1,4 +1,4 @@
-FROM fedora:34
+FROM registry.fedoraproject.org/fedora:34
 
 WORKDIR /opt/sites/getfedora.org/
 
