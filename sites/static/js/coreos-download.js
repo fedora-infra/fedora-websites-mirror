@@ -901,7 +901,7 @@ var coreos_download_app = new Vue({
                     $(p).html("Import Fedora's GPG keys");
                     code = document.createElement('code');
                     pre = document.createElement('pre');
-                    $(code).html("curl https://getfedora.org/static/fedora.gpg | gpg --import")
+                    $(code).html("curl -O https://getfedora.org/static/fedora.gpg")
                       .appendTo(pre);
                     $(p).appendTo(li);
                     $(pre).appendTo(li);
@@ -913,7 +913,7 @@ var coreos_download_app = new Vue({
                     $(p).html("Verify the signature is valid");
                     code = document.createElement('code');
                     pre = document.createElement('pre');
-                    $(code).html("gpg --verify " + getFilename(displayDownloads.signature) + " " + getFilename(displayDownloads.location))
+                    $(code).html("gpgv --keyring ./fedora.gpg " + getFilename(displayDownloads.signature) + " " + getFilename(displayDownloads.location))
                       .appendTo(pre);
                     $(p).appendTo(li);
                     $(pre).appendTo(li);

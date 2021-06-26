@@ -54,8 +54,8 @@ def generate_gpg_bundle():
             print('Could not open key file {0}: {1}'.format(path, e))
             raise
 
-    armor = gpg.export_keys(current_fingerprints, armor=True)
-    return armor
+    keyring = gpg.export_keys(current_fingerprints, armor=False)
+    return keyring
 
 def check_gpg_keys():
     '''

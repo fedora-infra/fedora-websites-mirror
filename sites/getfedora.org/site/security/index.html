@@ -35,14 +35,14 @@
           <p>
             {% trans trimmed %}
             First, import Fedora's GPG key(s):
-            <pre><code>$ curl https://getfedora.org/static/fedora.gpg | gpg --import</code></pre>
+            <pre><code>$ curl -O https://getfedora.org/static/fedora.gpg</code></pre>
             Note that you can verify the details of these keys below.
             {% endtrans %}
           </p>
           <p>
             {% trans trimmed %}
             Now, verify that the CHECKSUM file is valid:
-            <pre><code>$ gpg --verify-files *-CHECKSUM</code></pre>
+            <pre><code>$ gpgv --keyring ./fedora.gpg *-CHECKSUM</code></pre>
             The CHECKSUM file should have a good signature from one of the keys described below.
             {% endtrans %}
           </p>
