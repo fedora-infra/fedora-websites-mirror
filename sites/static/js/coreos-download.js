@@ -205,12 +205,20 @@ var coreos_download_app = new Vue({
         const val = pair[1];
         if (val === e.target.innerText) {
           const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
-          history.replaceState(null, null, `${downloadPageUrl}?tab=${key}&stream=${coreos_download_app.stream}`);
+          history.replaceState(null, null, `${downloadPageUrl}?tab=${key}&stream=${coreos_download_app.stream}&arch=${coreos_download_app.architecture}`);
           const showId = IdPool[key];
           idList.map(id => document.getElementById(id).hidden = (id !== showId));
           this.shownId = showId;
         }
       });
+    },
+    // Handle the dropdown for architectures
+    toggleArch: function (e) {
+      coreos_download_app.architecture = e.target.text
+      const currentShownKey = Object.keys(IdPool).find(key => IdPool[key] === coreos_download_app.shownId);
+      const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
+      history.replaceState(null, null, `${downloadPageUrl}?tab=${currentShownKey}&stream=${coreos_download_app.stream}&arch=${coreos_download_app.architecture}`);
+      this.loadStreamDisplay();
     },
     // Render a navbar section
     getNavbar: function (h) {
@@ -245,7 +253,7 @@ var coreos_download_app = new Vue({
         const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
         const currentShownKey = Object.keys(IdPool).find(key => IdPool[key] === coreos_download_app.shownId);
         coreos_download_app.stream = e.target.id;
-        history.replaceState(null, null, `${downloadPageUrl}?tab=${currentShownKey}&stream=${coreos_download_app.stream}`);
+        history.replaceState(null, null, `${downloadPageUrl}?tab=${currentShownKey}&stream=${coreos_download_app.stream}&arch=${coreos_download_app.architecture}`);
       }
 
       const overviewPageUrl = window.location.href.match(/^.*\/coreos/)[0];
@@ -366,7 +374,50 @@ var coreos_download_app = new Vue({
         "next": "text-fedora-orange"
       };
 
-      displayedStreamTitle = h('div', { class: "font-weight-light text-left pt-5", attrs: { id: "stream-title" } }, [
+      //Getting the list of all the architectures
+      const architectures = getMember(this.streamData, "architectures");
+      let architectureList = Object.keys(architectures);
+      
+      archDropdown = h('div', {attrs: {style: "text-align: right;" }}, [
+        `Architecture: `,
+          h('a', {
+            class: "dropdown-toggle",
+            attrs: {
+              "href": "#",
+              "role": "button",
+              "data-toggle": "dropdown",
+              "aria-haspopup": true,
+              "aria-expanded": false
+            },
+            on: {
+              click: function (e) {
+                e.preventDefault();
+              }
+            }
+          }, this.architecture),
+          h('div', { class: "dropdown-menu" }, [
+            h('div', { class: "container" }, [
+                h('div', { class: "col-12 px-0" }, [
+                  Object.entries(architectureList).map(pair => {
+                    let arch = pair[1];
+                    return h('a', {
+                      class: "dropdown-item",
+                      attrs: {
+                        href: "#",
+                      },
+                      on: {
+                        click: this.toggleArch
+                      }
+                    },
+                      arch);
+                  })
+                ])
+            ])
+          ]),
+      ]);
+      
+      displayedStreamTitle = h('div', { class: "font-weight-light text-left pt-5", attrs: { id: "stream-title"} }, [
+        h('div', {attrs: {style: "width: 70%; float: left;" } }, [
         `Currently displayed stream:`,
         // https://stackoverflow.com/a/1026087 for making the first letter uppercase
         h('span', { class: `${textColorMap[this.stream]} mx-2` }, this.stream.charAt(0).toUpperCase() + this.stream.slice(1)),
@@ -377,10 +428,10 @@ var coreos_download_app = new Vue({
             href: `${overviewPageUrl}?stream=${coreos_download_app.stream}`
           }
         }, `View Releases`),
-        `)`
+        `)`])      
       ]);
 
-      wrapperDiv = h('div', {}, [title, streamsIntroDiv, displayedStreamTitle]);
+      wrapperDiv = h('div', {}, [title, streamsIntroDiv, displayedStreamTitle, archDropdown]);
       return wrapperDiv;
     },
     isAws: function (platform) {
@@ -599,6 +650,18 @@ var coreos_download_app = new Vue({
     } else {
       searchParams.set('stream', 'stable');
     }
+    // switch to specified arch if `arch` parameter is set
+    if (searchParams.has('arch')) {
+      const architectures = getMember(this.streamData, "architectures");
+      let architectureList = Object.keys(architectures);
+      // Checking if the value of arch is in the list of arches from streamData
+      if (architectureList.includes(searchParams.get('arch')))
+        this.architecture = searchParams.get('arch');
+      else
+        this.architecture = "x86_64";
+    } else {
+      searchParams.set('arch', 'x86_64');
+    }  
     // Update the url with the parameters
     history.replaceState(null, null, `${downloadPageUrl}?${searchParams.toString()}`);
 
