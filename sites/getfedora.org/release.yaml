@@ -122,18 +122,21 @@ fmw:
 # These all get listed on the security page
 gpg_keys:
   current:
+    - name: Fedora 37
+      id: 4096R/5323552A 2021-08-10
+      fingerprint: ACB5 EE4E 831C 74BB 7C16 8D27 F55A D3FB 5323 552A
+    - name: Fedora 36
+      id: 4096R/38AB71F4 2021-02-10
+      fingerprint: 53DE D2CB 922D 8B8D 9E63 FD18 999F 7CBF 38AB 71F4
+    - name: Fedora 35
+      id: 4096R/9867C58F 2021-02-04
+      fingerprint: 787E A6AE 1147 EEE5 6C40 B30C DB46 3971 9867 C58F
     - name: Fedora 34
       id: 4096R/45719A39 2020-08-06
       fingerprint: 8C5B A699 0BDB 26E1 9F2A 1A80 1161 AE69 4571 9A39
     - name: Fedora 33
       id: 4096R/9570FF31 2020-01-28
       fingerprint: 963A 2BEB 0200 9608 FE67 EA42 49FD 7749 9570 FF31
-    - name: Fedora 32
-      id: 4096R/12C944D0 2019-08-12
-      fingerprint: 97A1 AE57 C3A2 372C CA3A 4ABA 6C13 026D 12C9 44D0
-    - name: Fedora 31
-      id: 4096R/3C3359C4 2019-02-18
-      fingerprint: 7D22 D586 7F2A 4236 474B F7B8 50CB 390B 3C33 59C4
     - name: Fedora IOT
       id: 4096R/DBBDCF7C 2018-11-13
       fingerprint: C2A3 FA9D C67F 68B9 8BB5 43F4 7BB9 0722 DBBD CF7C
@@ -261,6 +264,12 @@ gpg_keys:
     - name: Fedora 30
       id: 4096R/CFC659B9 2018-08-11
       fingerprint: F1D8 EC98 F241 AAF2 0DF6 9420 EF3C 111F CFC6 59B9
+    - name: Fedora 31
+      id: 4096R/3C3359C4 2019-02-18
+      fingerprint: 7D22 D586 7F2A 4236 474B F7B8 50CB 390B 3C33 59C4
+    - name: Fedora 32
+      id: 4096R/12C944D0 2019-08-12
+      fingerprint: 97A1 AE57 C3A2 372C CA3A 4ABA 6C13 026D 12C9 44D0
     - name: EPEL 5
       id: "1024D/217521F6 2007-03-02 [expires: 2017-02-27]"
       fingerprint: B940 BE07 7D71 0A28 7D7F 2DD1 119C C036 2175 21F6
