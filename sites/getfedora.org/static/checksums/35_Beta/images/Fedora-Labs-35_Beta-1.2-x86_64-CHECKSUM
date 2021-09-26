@@ -1,0 +1,27 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+# Fedora-Python-Classroom-Vagrant-35_Beta-1.2.x86_64.vagrant-libvirt.box: 1046740694 bytes
+SHA256 (Fedora-Python-Classroom-Vagrant-35_Beta-1.2.x86_64.vagrant-libvirt.box) = c1d11d1a2a9006393580f30fa2e2862a15140fe5c98ef243dd5b0ff3c6ed5b6f
+# Fedora-Python-Classroom-Vagrant-35_Beta-1.2.x86_64.vagrant-virtualbox.box: 1063915520 bytes
+SHA256 (Fedora-Python-Classroom-Vagrant-35_Beta-1.2.x86_64.vagrant-virtualbox.box) = a1a8582a2fcda385f97c495a8919697318bb1c0c47fb2ef4e8f177301c2033e2
+# Fedora-Scientific-Vagrant-35_Beta-1.2.x86_64.vagrant-libvirt.box: 3863210608 bytes
+SHA256 (Fedora-Scientific-Vagrant-35_Beta-1.2.x86_64.vagrant-libvirt.box) = cdc6c274bda42e390995be7d66b68c26764b505b856287a0ec1758fdbaf782c4
+# Fedora-Scientific-Vagrant-35_Beta-1.2.x86_64.vagrant-virtualbox.box: 3912652800 bytes
+SHA256 (Fedora-Scientific-Vagrant-35_Beta-1.2.x86_64.vagrant-virtualbox.box) = 06aa651e291783d81d19de7a6ac6f8ad4e4b4e02d423dc4d38968f2c2616cffd
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeH6mrhFH7uVsQLMM20Y5cZhnxY8FAmFN7iYACgkQ20Y5cZhn
+xY+UwQ//Wtq2qWOnQ3qSsowhWgTk6q3dXOPIvt3YsKJScsiKyqah8IAFuPFRdYBf
+3deZllyMqsplm6UqRKdkDvJXL+Tgj5k9dVXDdxY2Wh1vBKiKBRNyDRJPSGGK1Jlw
+t8PVtuQEBqtmpu0QlXSIkpepclPUv6nPGFo3hFqkYjJqqoG0nuRDVLAeKHf8uYpN
+/lkq8/PtKbJK4kN522Q1y0JvH2ZCojwAlugZaG0ZUmL0kr6pQ7QN/n2v4cFqoJB0
+UMADzeWCqt5Hu0OJLCWHYtaDjbiALzOThh0YYYTEYvvRetqWYV08r6HE6MaHRvaP
++SIoB4A/fpd55W/8sX0d+WiSvPB/eY34KqCf9oKG3j1oRXn1yzIVg2i913qX+lOs
+N2gB3uU6YMYbPYjFgcyxk9YerOgYzpSW2Ash5LAZJyoPwMfLuLEwkuqyhwW5kCiE
+adlmJr6lwmxAlSJqLd7H+dvf6zpFOrvORiSteYXdCQhBV8n0Ye4WoEZfEJZxoV6Q
+SL0LwqXVYk1vw50i+ZqKmrDfAyJ8XX7R7eBP2jQ4Cz96H+nsfsEU6Vl/GGISMzV2
+yuOOkLoARebpElpWzGIvUUgjp+xF5CyelkITUVNypOhytweN79P0seJaYwrWIMpa
+Ks0kSaL+Fx9rfrqqPP1WJvMNGdw4MO0SfUwkCyW87kkQ/azpjjI=
+=4Mpf
+-----END PGP SIGNATURE-----
