@@ -13,22 +13,40 @@ def generate_gpg_bundle():
     gpg_home = tempfile.mkdtemp()
     gpg = gnupg.GPG(gnupghome=gpg_home)
     current = yaml_data.get('gpg_keys', {}).get('current', [])
-    current_ids = []
+    current_fingerprints = []
 
     for key in current:
+        # the id stuff is kept around as a sanity check, but we use fingerprints
+        # now, see #196.
         key_id = key.get('id')
         if not key_id or '/' not in key_id:
             raise Exception('invalid id field for GPG key in release.yaml')
+
         key_id = key_id.split('/', 1)[1].split(' ')[0]
         if len(key_id) != 8:
             raise Exception('invalid id field for GPG key in release.yaml')
-        current_ids.append(key_id)
+
+        key_fingerprint = key.get('fingerprint').replace(' ', '')
+        if not key_fingerprint:
+            raise Exception('Missing fingerprint for GPG key in release.yaml')
+
+        current_fingerprints.append(key_fingerprint)
+
+        # If the key exists on disk with the full fingerprint use it, else fall
+        # back to short id.
         path = os.path.join(
             os.path.dirname(__file__),
             '..',
             'static',
             'keys',
-            key_id + '.txt')
+            key_fingerprint + '.txt')
+        if not os.path.exists(path):
+            path = os.path.join(
+                os.path.dirname(__file__),
+                '..',
+                'static',
+                'keys',
+                key_id + '.txt')
         try:
             with open(path, 'r') as f:
                 gpg.import_keys(f.read())
@@ -36,7 +54,7 @@ def generate_gpg_bundle():
             print('Could not open key file {0}: {1}'.format(path, e))
             raise
 
-    armor = gpg.export_keys(current_ids, armor=True)
+    armor = gpg.export_keys(current_fingerprints, armor=True)
     return armor
 
 def check_gpg_keys():
