@@ -214,6 +214,7 @@ var coreos_download_app = new Vue({
     },
     // Handle the dropdown for architectures
     toggleArch: function (e) {
+      e.preventDefault();
       coreos_download_app.architecture = e.target.text
       const currentShownKey = Object.keys(IdPool).find(key => IdPool[key] === coreos_download_app.shownId);
       const downloadPageUrl = window.location.href.match(/^.*\/coreos\/download/)[0];
