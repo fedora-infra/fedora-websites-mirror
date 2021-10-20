@@ -100,7 +100,7 @@ function gatherMetadataBtwReleases(currentReleaseIdx, targetReleaseIdx, config) 
   metaPromiseList.push(metaPromise);
   return Promise.all(metaPromiseList)
     .then(metaList => {
-      if (metaList[0][1]['parent-pkgdiff'] == null) {
+      if (metaList[0][0][1]['parent-pkgdiff'] == null) {
         for (let i = currentReleaseIdx + 1; i < targetReleaseIdx; i++) {
           let metaPromise = fetchBuildMeta(base, builds[i], legacy);
           metaPromiseList.push(metaPromise);
@@ -267,19 +267,32 @@ function fetchBuild(base, legacy, builds, fromIdx, toIdx) {
   let config = { builds, base, legacy };
   return gatherMetadataBtwReleases(fromIdx, toIdx, config).then(metaList => {
     let build = builds[fromIdx];
-    let [basearch, meta] = metaList[0];
-    // check if `parent-pkgdiff` field is present, if present there's no need to manually
-    // calculate pkgdiff here, use the field directly
-    // xref: https://github.com/coreos/fedora-coreos-pipeline/pull/247#event-3413080221
-    meta.pkgdiff = meta['parent-pkgdiff'] == null ? getPkgDiffFromMetaList(metaList) : meta['parent-pkgdiff'];
-    sortPkgDiff(meta);
-    build.meta = meta;
-    // and fetch extra commit metadata in async
-    return fetchBuildCommitMeta(base, build, basearch, legacy).then(commitmeta => {
-      commitmeta["importantPkgs"] = findImportantPkgs(commitmeta);
-      commitmeta["showImportantPkgsOnly"] = true;
-      build.commitmeta = commitmeta;
-      builds[fromIdx] = build;
+    metaList.forEach(metaListData => {
+      var meta = {}
+      var finalCommitMeta = {}
+      metaListData.forEach(metaForEachArch => {
+        let basearch= metaForEachArch[0];
+        // Adding meta for each architecture
+        meta[basearch] = metaForEachArch[1]
+        // check if `parent-pkgdiff` field is present, if present there's no need to manually
+        // calculate pkgdiff here, use the field directly
+        // xref: https://github.com/coreos/fedora-coreos-pipeline/pull/247#event-3413080221
+        metaListForPkgDiff = []
+        metaListForPkgDiff.push(metaForEachArch)
+        meta[basearch].pkgdiff = meta[basearch]['parent-pkgdiff'] == null ? getPkgDiffFromMetaList(metaListForPkgDiff) : meta[basearch]['parent-pkgdiff'];
+        sortPkgDiff(meta[basearch]);
+        build.selectedArch = "x86_64"
+        build.meta = meta;
+        // and fetch extra commit metadata in async
+        return fetchBuildCommitMeta(base, build, basearch, legacy).then(commitmeta => {
+          // Adding commitmeta for each architecture
+          finalCommitMeta[basearch] = commitmeta
+          finalCommitMeta[basearch]["importantPkgs"] = findImportantPkgs(commitmeta);
+          finalCommitMeta[basearch]["showImportantPkgsOnly"] = true;
+          build.commitmeta = finalCommitMeta;
+          builds[fromIdx] = build;
+        });
+      });
     });
   });
 }
@@ -290,14 +303,10 @@ function fetchBuildMeta(base, build, legacy) {
     return fetch(`${base}/${build.id}/meta.json`)
       .then(response => Promise.all([build.arches[0], response.ok ? response.json() : {}]));
   }
-  // XXX: just fetch the meta for the first arch right now
-  return fetch(`${base}/${build.id}/${build.arches[0]}/meta.json`)
-    .then(response => Promise.all([build.arches[0], response.ok ? response.json() : {}]));
-
-  // return Promise.all(build.arches.map(arch => {
-  //     fetch(`${base}/${build.id}/${arch}/meta.json`)
-  //         .then(response => Promise.all([arch, response.ok ? response.json() : {}]));
-  // }));
+  return Promise.all(build.arches.map(arch => {
+      return fetch(`${base}/${build.id}/${arch}/meta.json`)
+          .then(resp => Promise.all([arch, resp.ok ? resp.json() : {}]));
+  }));
 }
 
 // The actual fetch function for `commitmeta.json`
@@ -392,8 +401,10 @@ var coreos_release_notes = new Vue({
 
       rows = [];
       self.releases.forEach((build, idx) => {
-        // checked if build metadata has been fetched
-        if (build.arches.length == 0 || build.meta == null || build.commitmeta == null) {
+        let selectedArch = build.selectedArch
+        // checked if build metadata has been fetched 
+        // Also checked whether we have all the build data(commitMeta and meta) for all the arches
+        if (build.arches.length == 0 || build.meta == null || build.commitmeta == null || Object.keys(build.meta).length != Object.keys(build.commitmeta).length) {
           return;
         }
 
@@ -403,47 +414,71 @@ var coreos_release_notes = new Vue({
         build.arches.forEach((arch, _) => {
           headingListArches.push(h('h6', {}, arch));
         });
-        let leftPane = h('div', { class: "col-lg-2" }, [headingBuildId, headingListArches]);
 
-        // Right pane consists of detailed package information
-        let date = h('p', {}, `Release Date: ${timestampToPrettyString(build.meta['coreos-assembler.build-timestamp'])}`);
-        // List of important packages and versions
-        let importantPkgsElements = [];
-        build.commitmeta.importantPkgs.forEach((pkg, _) => {
-          importantPkgsElements.push(pkg[0]);
-          importantPkgsElements.push(h('span', { class: "mr-2 badge badge-pill badge-light" }, pkg[2]));
-        });
-
-        // Summary of pkglist and pkgdiffs with expand buttons
-        let pkgSummaryElements = []
-          .concat(`${build.commitmeta['rpmostree.rpmdb.pkglist'].length} packages (`)
-          .concat(
+        archDropdown = h('div', {attrs: {style: "text-align: left;" }}, [
+          `Arch: `,
             h('a', {
+              class: "dropdown-toggle",
               attrs: {
-                href: "#"
+                "id": build.id+"Dropdown",
+                "href": "#",
+                "role": "button",
+                "data-toggle": "dropdown",
+                "aria-haspopup": true,
+                "aria-expanded": false,
               },
               on: {
                 click: function (e) {
                   e.preventDefault();
-                  let totalPkgListElement = e.target.parentElement.nextSibling;
-                  if (totalPkgListElement.hidden == true) {
-                    totalPkgListElement.hidden = false;
-                    e.target.innerText = 'collapse';
-                  } else {
-                    totalPkgListElement.hidden = true;
-                    e.target.innerText = 'expand';
-                  }
                 }
               }
-            }, 'expand')
-          )
-          .concat('); ')
-        // Next, append the pkgdiffs summary
-        // `added` summary and expand button
-        if (build.meta.pkgdiff != {} && build.meta.pkgdiff.added.length > 0) {
-          pkgSummaryElements = pkgSummaryElements.concat(
-            `${build.meta.pkgdiff.added.length} added (`
-          )
+            }, selectedArch),
+            h('div', { class: "dropdown-menu" }, [
+              h('div', { class: "container" }, [
+                  h('div', { class: "col-12 px-0" }, [
+                    Object.entries(build.arches).map(pair => {
+                      let arch = pair[1];
+                      return h('a', {
+                        class: "dropdown-item",
+                        attrs: {
+                          href: "#",
+                        },
+                        on: {
+                          click: function (e) {
+                            e.preventDefault();
+                            Object.entries(build.arches).map(pair => {
+                              if(pair[1] == e.target.text)
+                                document.getElementById(build.id+pair[1]).style.display = 'inline'
+                              else
+                                document.getElementById(build.id+pair[1]).style.display = 'none'
+                            });
+                            document.getElementById(build.id+"Dropdown").text = e.target.text;
+                          }
+                        }
+                      },
+                        arch);
+                    })
+                  ])
+              ])
+            ]),
+        ]);
+        let leftPane = h('div', { class: "col-lg-2" }, [headingBuildId, archDropdown]);
+
+        //Adding the information for all arches to rightPane but only showing the card for the selected arch in dropdown
+        let rightPane = [];
+        build.arches.forEach(eachArch => {
+          // Right pane consists of detailed package information
+          let date = h('p', {}, `Release Date: ${timestampToPrettyString(build.meta[eachArch]['coreos-assembler.build-timestamp'])}`);
+          // List of important packages and versions
+          let importantPkgsElements = [];
+          build.commitmeta[eachArch].importantPkgs.forEach((pkg, _) => {
+            importantPkgsElements.push(pkg[0]);
+            importantPkgsElements.push(h('span', { class: "mr-2 badge badge-pill badge-light" }, pkg[2]));
+          });
+
+          // Summary of pkglist and pkgdiffs with expand buttons
+          let pkgSummaryElements = []
+            .concat(`${build.commitmeta[eachArch]['rpmostree.rpmdb.pkglist'].length} packages (`)
             .concat(
               h('a', {
                 attrs: {
@@ -452,9 +487,7 @@ var coreos_release_notes = new Vue({
                 on: {
                   click: function (e) {
                     e.preventDefault();
-                    let totalPkgListElement = e.target.parentElement
-                      .nextSibling
-                      .nextSibling;
+                    let totalPkgListElement = e.target.parentElement.nextSibling;
                     if (totalPkgListElement.hidden == true) {
                       totalPkgListElement.hidden = false;
                       e.target.innerText = 'collapse';
@@ -466,163 +499,198 @@ var coreos_release_notes = new Vue({
                 }
               }, 'expand')
             )
-            .concat('); ');
-        }
-
-        // `removed` summary and expand button
-        if (build.meta.pkgdiff != {} && build.meta.pkgdiff.removed.length > 0) {
-          pkgSummaryElements = pkgSummaryElements.concat(
-            `${build.meta.pkgdiff.removed.length} removed (`
-          )
-            .concat(
-              h('a', {
-                attrs: {
-                  href: "#"
-                },
-                on: {
-                  click: function (e) {
-                    e.preventDefault();
-                    let totalPkgListElement = e.target.parentElement
-                      .nextSibling
-                      .nextSibling
-                      .nextSibling;
-                    if (totalPkgListElement.hidden == true) {
-                      totalPkgListElement.hidden = false;
-                      e.target.innerText = 'collapse';
-                    } else {
-                      totalPkgListElement.hidden = true;
-                      e.target.innerText = 'expand';
+            .concat('); ')
+          // Next, append the pkgdiffs summary
+          // `added` summary and expand button
+          if (build.meta[eachArch].pkgdiff != {} && build.meta[eachArch].pkgdiff.added.length > 0) {
+            pkgSummaryElements = pkgSummaryElements.concat(
+              `${build.meta[eachArch].pkgdiff.added.length} added (`
+            )
+              .concat(
+                h('a', {
+                  attrs: {
+                    href: "#"
+                  },
+                  on: {
+                    click: function (e) {
+                      e.preventDefault();
+                      let totalPkgListElement = e.target.parentElement
+                        .nextSibling
+                        .nextSibling;
+                      if (totalPkgListElement.hidden == true) {
+                        totalPkgListElement.hidden = false;
+                        e.target.innerText = 'collapse';
+                      } else {
+                        totalPkgListElement.hidden = true;
+                        e.target.innerText = 'expand';
+                      }
                     }
                   }
-                }
-              }, 'expand')
-            )
-            .concat('); ');
-        }
+                }, 'expand')
+              )
+              .concat('); ');
+          }
 
-        // `upgraded` summary and expand button
-        if (build.meta.pkgdiff != {} && build.meta.pkgdiff.upgraded.length > 0) {
-          pkgSummaryElements = pkgSummaryElements.concat(
-            `${build.meta.pkgdiff.upgraded.length} upgraded (`
-          )
-            .concat(
-              h('a', {
-                attrs: {
-                  href: "#"
-                },
-                on: {
-                  click: function (e) {
-                    e.preventDefault();
-                    let totalPkgListElement = e.target.parentElement
-                      .nextSibling
-                      .nextSibling
-                      .nextSibling
-                      .nextSibling;
-                    if (totalPkgListElement.hidden == true) {
-                      totalPkgListElement.hidden = false;
-                      e.target.innerText = 'collapse';
-                    } else {
-                      totalPkgListElement.hidden = true;
-                      e.target.innerText = 'expand';
+          // `removed` summary and expand button
+          if (build.meta[eachArch].pkgdiff != {} && build.meta[eachArch].pkgdiff.removed.length > 0) {
+            pkgSummaryElements = pkgSummaryElements.concat(
+              `${build.meta[eachArch].pkgdiff.removed.length} removed (`
+            )
+              .concat(
+                h('a', {
+                  attrs: {
+                    href: "#"
+                  },
+                  on: {
+                    click: function (e) {
+                      e.preventDefault();
+                      let totalPkgListElement = e.target.parentElement
+                        .nextSibling
+                        .nextSibling
+                        .nextSibling;
+                      if (totalPkgListElement.hidden == true) {
+                        totalPkgListElement.hidden = false;
+                        e.target.innerText = 'collapse';
+                      } else {
+                        totalPkgListElement.hidden = true;
+                        e.target.innerText = 'expand';
+                      }
                     }
                   }
-                }
-              }, 'expand')
-            )
-            .concat('); ');
-        }
+                }, 'expand')
+              )
+              .concat('); ');
+          }
 
-        // `downgraded` summary and expand button
-        if (build.meta.pkgdiff != {} && build.meta.pkgdiff.downgraded.length > 0) {
-          pkgSummaryElements = pkgSummaryElements.concat(
-            `${build.meta.pkgdiff.downgraded.length} downgraded (`
-          )
-            .concat(
-              h('a', {
-                attrs: {
-                  href: "#"
-                },
-                on: {
-                  click: function (e) {
-                    e.preventDefault();
-                    let totalPkgListElement = e.target.parentElement
-                      .nextSibling
-                      .nextSibling
-                      .nextSibling
-                      .nextSibling
-                      .nextSibling;
-                    if (totalPkgListElement.hidden == true) {
-                      totalPkgListElement.hidden = false;
-                      e.target.innerText = 'collapse';
-                    } else {
-                      totalPkgListElement.hidden = true;
-                      e.target.innerText = 'expand';
+          // `upgraded` summary and expand button
+          if (build.meta[eachArch].pkgdiff != {} && build.meta[eachArch].pkgdiff.upgraded.length > 0) {
+            pkgSummaryElements = pkgSummaryElements.concat(
+              `${build.meta[eachArch].pkgdiff.upgraded.length} upgraded (`
+            )
+              .concat(
+                h('a', {
+                  attrs: {
+                    href: "#"
+                  },
+                  on: {
+                    click: function (e) {
+                      e.preventDefault();
+                      let totalPkgListElement = e.target.parentElement
+                        .nextSibling
+                        .nextSibling
+                        .nextSibling
+                        .nextSibling;
+                      if (totalPkgListElement.hidden == true) {
+                        totalPkgListElement.hidden = false;
+                        e.target.innerText = 'collapse';
+                      } else {
+                        totalPkgListElement.hidden = true;
+                        e.target.innerText = 'expand';
+                      }
                     }
                   }
-                }
-              }, 'expand')
+                }, 'expand')
+              )
+              .concat('); ');
+          }
+
+          // `downgraded` summary and expand button
+          if (build.meta[eachArch].pkgdiff != {} && build.meta[eachArch].pkgdiff.downgraded.length > 0) {
+            pkgSummaryElements = pkgSummaryElements.concat(
+              `${build.meta[eachArch].pkgdiff.downgraded.length} downgraded (`
             )
-            .concat('); ');
-        }
+              .concat(
+                h('a', {
+                  attrs: {
+                    href: "#"
+                  },
+                  on: {
+                    click: function (e) {
+                      e.preventDefault();
+                      let totalPkgListElement = e.target.parentElement
+                        .nextSibling
+                        .nextSibling
+                        .nextSibling
+                        .nextSibling
+                        .nextSibling;
+                      if (totalPkgListElement.hidden == true) {
+                        totalPkgListElement.hidden = false;
+                        e.target.innerText = 'collapse';
+                      } else {
+                        totalPkgListElement.hidden = true;
+                        e.target.innerText = 'expand';
+                      }
+                    }
+                  }
+                }, 'expand')
+              )
+              .concat('); ');
+          }
 
-        let pkgSummaryDiv = h('div', { class: "mt-3" }, pkgSummaryElements);
+          let pkgSummaryDiv = h('div', { class: "mt-3" }, pkgSummaryElements);
 
-        // Package list
-        let totalPkgsElementsList = [];
-        let totalPkgsHeading = [];
-        if (build.commitmeta['rpmostree.rpmdb.pkglist'].length > 0) {
-          build.commitmeta['rpmostree.rpmdb.pkglist'].forEach((pkg, _) => {
-            totalPkgsElementsList.push(h('li', {}, self.getPkgNevraFull(pkg)));
-          });
-          totalPkgsHeading = h('p', { class: "mt-3" }, "Package List:")
-        }
-        let totalPkgsElements = h('div', { attrs: { hidden: true } }, [totalPkgsHeading, h('ul', {}, totalPkgsElementsList)]);
+          // Package list
+          let totalPkgsElementsList = [];
+          let totalPkgsHeading = [];
+          if (build.commitmeta[eachArch]['rpmostree.rpmdb.pkglist'].length > 0) {
+            build.commitmeta[eachArch]['rpmostree.rpmdb.pkglist'].forEach((pkg, _) => {
+              totalPkgsElementsList.push(h('li', {}, self.getPkgNevraFull(pkg)));
+            });
+            totalPkgsHeading = h('p', { class: "mt-3" }, "Package List:")
+          }
+          let totalPkgsElements = h('div', { attrs: { hidden: true } }, [totalPkgsHeading, h('ul', {}, totalPkgsElementsList)]);
 
-        // Added package list
-        let addedPkgsElementsList = [];
-        let addedPkgsHeading = [];
-        if (build.meta.pkgdiff != {} && build.meta.pkgdiff.added.length > 0) {
-          build.meta.pkgdiff.added.forEach((pkg, _) => {
-            addedPkgsElementsList.push(h('li', {}, self.getPkgNevra(pkg[2]["NewPackage"])));
-          });
-          addedPkgsHeading = h('p', { class: "mt-3" }, "Added:")
-        }
-        let addedPkgsElements = h('div', { attrs: { hidden: true } }, [addedPkgsHeading, h('ul', {}, addedPkgsElementsList)]);
+          // Added package list
+          let addedPkgsElementsList = [];
+          let addedPkgsHeading = [];
+          if (build.meta[eachArch].pkgdiff != {} && build.meta[eachArch].pkgdiff.added.length > 0) {
+            build.meta[eachArch].pkgdiff.added.forEach((pkg, _) => {
+              addedPkgsElementsList.push(h('li', {}, self.getPkgNevra(pkg[2]["NewPackage"])));
+            });
+            addedPkgsHeading = h('p', { class: "mt-3" }, "Added:")
+          }
+          let addedPkgsElements = h('div', { attrs: { hidden: true } }, [addedPkgsHeading, h('ul', {}, addedPkgsElementsList)]);
 
-        // Removed package list
-        let removedPkgsElementsList = [];
-        let removedPkgsHeading = [];
-        if (build.meta.pkgdiff != {} && build.meta.pkgdiff.removed.length > 0) {
-          build.meta.pkgdiff.removed.forEach((pkg, _) => {
-            removedPkgsElementsList.push(h('li', {}, self.getPkgNevra(pkg[2]["PreviousPackage"])));
-          });
-          removedPkgsHeading = h('p', { class: "mt-3" }, "Removed:");
-        }
-        let removedPkgsElements = h('div', { attrs: { hidden: true } }, [removedPkgsHeading, h('ul', {}, removedPkgsElementsList)]);
+          // Removed package list
+          let removedPkgsElementsList = [];
+          let removedPkgsHeading = [];
+          if (build.meta[eachArch].pkgdiff != {} && build.meta[eachArch].pkgdiff.removed.length > 0) {
+            build.meta[eachArch].pkgdiff.removed.forEach((pkg, _) => {
+              removedPkgsElementsList.push(h('li', {}, self.getPkgNevra(pkg[2]["PreviousPackage"])));
+            });
+            removedPkgsHeading = h('p', { class: "mt-3" }, "Removed:");
+          }
+          let removedPkgsElements = h('div', { attrs: { hidden: true } }, [removedPkgsHeading, h('ul', {}, removedPkgsElementsList)]);
 
-        // Upgraded package list
-        let upgradedPkgsElementsList = [];
-        let upgradedPkgsHeading = [];
-        if (build.meta.pkgdiff != {} && build.meta.pkgdiff.upgraded.length > 0) {
-          build.meta.pkgdiff.upgraded.forEach((pkg, _) => {
-            upgradedPkgsElementsList.push(h('li', {}, `${pkg[2]["PreviousPackage"][0]} ${self.getPkgEvra(pkg[2]["PreviousPackage"])} → ${self.getPkgEvra(pkg[2]["NewPackage"])}`));
-          });
-          upgradedPkgsHeading = h('p', { class: "mt-3" }, "Upgraded:");
-        }
-        let upgradedPkgsElements = h('div', { attrs: { hidden: true } }, [upgradedPkgsHeading, h('ul', {}, upgradedPkgsElementsList)]);
+          // Upgraded package list
+          let upgradedPkgsElementsList = [];
+          let upgradedPkgsHeading = [];
+          if (build.meta[eachArch].pkgdiff != {} && build.meta[eachArch].pkgdiff.upgraded.length > 0) {
+            build.meta[eachArch].pkgdiff.upgraded.forEach((pkg, _) => {
+              upgradedPkgsElementsList.push(h('li', {}, `${pkg[2]["PreviousPackage"][0]} ${self.getPkgEvra(pkg[2]["PreviousPackage"])} → ${self.getPkgEvra(pkg[2]["NewPackage"])}`));
+            });
+            upgradedPkgsHeading = h('p', { class: "mt-3" }, "Upgraded:");
+          }
+          let upgradedPkgsElements = h('div', { attrs: { hidden: true } }, [upgradedPkgsHeading, h('ul', {}, upgradedPkgsElementsList)]);
 
-        // Downgraded package list
-        let downgradedPkgsElementsList = [];
-        let downgradedPkgsHeading = [];
-        if (build.meta.pkgdiff != {} && build.meta.pkgdiff.downgraded.length > 0) {
-          build.meta.pkgdiff.downgraded.forEach((pkg, _) => {
-            downgradedPkgsElementsList.push(h('li', {}, `${pkg[2]["PreviousPackage"][0]} ${self.getPkgEvra(pkg[2]["PreviousPackage"])} → ${self.getPkgEvra(pkg[2]["NewPackage"])}`));
-          });
-          downgradedPkgsHeading = h('p', { class: "mt-3" }, "Downgraded:");
-        }
-        let downgradedPkgsElements = h('div', { attrs: { hidden: true } }, [downgradedPkgsHeading, h('ul', {}, downgradedPkgsElementsList)]);
-
-        let rightPane = h('div', { class: "col-lg-10 border-bottom mb-5 pb-4" }, [date, importantPkgsElements, pkgSummaryDiv, totalPkgsElements, addedPkgsElements, removedPkgsElements, upgradedPkgsElements, downgradedPkgsElements]);
+          // Downgraded package list
+          let downgradedPkgsElementsList = [];
+          let downgradedPkgsHeading = [];
+          if (build.meta[eachArch].pkgdiff != {} && build.meta[eachArch].pkgdiff.downgraded.length > 0) {
+            build.meta[eachArch].pkgdiff.downgraded.forEach((pkg, _) => {
+              downgradedPkgsElementsList.push(h('li', {}, `${pkg[2]["PreviousPackage"][0]} ${self.getPkgEvra(pkg[2]["PreviousPackage"])} → ${self.getPkgEvra(pkg[2]["NewPackage"])}`));
+            });
+            downgradedPkgsHeading = h('p', { class: "mt-3" }, "Downgraded:");
+          }
+          let downgradedPkgsElements = h('div', { attrs: { hidden: true } }, [downgradedPkgsHeading, h('ul', {}, downgradedPkgsElementsList)]);
+          let rightPaneData = h('div', { attrs: {id: build.id.concat(eachArch), style: "display: inline;" }, class: "col-lg-10 border-bottom mb-5 pb-4" }, 
+            [date, importantPkgsElements, pkgSummaryDiv, totalPkgsElements, addedPkgsElements, removedPkgsElements, upgradedPkgsElements, downgradedPkgsElements]);
+          
+            // Hiding the information cards of the unselected architectures
+          if(eachArch!=selectedArch)
+            rightPaneData.data.attrs.style = "display: none;"
+          rightPane.push(rightPaneData)
+        });
         let row = h('div', { class: "row" }, [leftPane, rightPane]);
         rows.push(row);
       })
