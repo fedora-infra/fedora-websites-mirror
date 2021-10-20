@@ -20,5 +20,5 @@ jobs:
         run: |
           docker build -t fedora-websites .
           docker run --rm -v "$(pwd):/opt/:z" fedora-websites ./scripts/pull-translations.sh
-          docker run --rm -v "$(pwd):/opt/:z" fedora-websites python ./scripts/pull-magazine.py
-          docker run --rm -v "$(pwd):/opt/:z" fedora-websites python main.py
+          docker run --rm -v "$(pwd):/opt/:z" fedora-websites python3 ./scripts/pull-magazine.py
+          docker run --rm -v "$(pwd):/opt/:z" fedora-websites python3 main.py
