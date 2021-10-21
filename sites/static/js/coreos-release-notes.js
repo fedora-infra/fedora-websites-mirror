@@ -448,9 +448,9 @@ var coreos_release_notes = new Vue({
                             e.preventDefault();
                             Object.entries(build.arches).map(pair => {
                               if(pair[1] == e.target.text)
-                                document.getElementById(build.id+pair[1]).style.display = 'inline'
+                                document.getElementById(build.id+pair[1]).hidden = false
                               else
-                                document.getElementById(build.id+pair[1]).style.display = 'none'
+                                document.getElementById(build.id+pair[1]).hidden = true
                             });
                             document.getElementById(build.id+"Dropdown").text = e.target.text;
                           }
@@ -683,12 +683,12 @@ var coreos_release_notes = new Vue({
             downgradedPkgsHeading = h('p', { class: "mt-3" }, "Downgraded:");
           }
           let downgradedPkgsElements = h('div', { attrs: { hidden: true } }, [downgradedPkgsHeading, h('ul', {}, downgradedPkgsElementsList)]);
-          let rightPaneData = h('div', { attrs: {id: build.id.concat(eachArch), style: "display: inline;" }, class: "col-lg-10 border-bottom mb-5 pb-4" }, 
+          let rightPaneData = h('div', { attrs: {id: build.id+eachArch}, class: "col-lg-10 border-bottom mb-5 pb-4" }, 
             [date, importantPkgsElements, pkgSummaryDiv, totalPkgsElements, addedPkgsElements, removedPkgsElements, upgradedPkgsElements, downgradedPkgsElements]);
           
             // Hiding the information cards of the unselected architectures
           if(eachArch!=selectedArch)
-            rightPaneData.data.attrs.style = "display: none;"
+            rightPaneData.data.attrs.hidden = true
           rightPane.push(rightPaneData)
         });
         let row = h('div', { class: "row" }, [leftPane, rightPane]);
