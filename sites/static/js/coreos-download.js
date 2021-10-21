@@ -652,7 +652,7 @@ var coreos_download_app = new Vue({
       searchParams.set('stream', 'stable');
     }
     // switch to specified arch if `arch` parameter is set
-    if (searchParams.has('arch')) {
+    if (searchParams.has('arch') && this.streamData) {
       const architectures = getMember(this.streamData, "architectures");
       let architectureList = Object.keys(architectures);
       // Checking if the value of arch is in the list of arches from streamData
