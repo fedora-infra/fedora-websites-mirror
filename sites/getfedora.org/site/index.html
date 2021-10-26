@@ -82,6 +82,64 @@
 <div class="bg-gray-200 py-5">
   <div class="container">
     <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="font-weight-light">{% trans trimmed %}Emerging Fedora Editions{% endtrans %}</h2>
+        <p class="lead">{% trans trimmed %}Preview the future of Fedora.{% endtrans %}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 mt-5">
+        {{link_card(logo="/static/images/fedora-coreos-logo.png",
+                    description=_('Fedora CoreOS is an automatically updating, minimal, container-focused operating system.'),
+                    learnmorelink=url_for("coreos", lang_code=lang_code)
+        )}}
+      </div>
+
+      <div class="col-lg-4 mt-5">
+        {{link_card(logo="/static/images/fedora-silverblue-logo.png",
+                    description=_('Fedora Silverblue is an immutable desktop operating system aimed at good support for container-focused workflows.'),
+                    learnmorelink="https://silverblue.fedoraproject.org/"
+        )}}
+      </div>
+    </div> <!--row-->
+  </div> <!--contatiner-->
+</div> <!-- gradient-->
+
+<div class="bg-light py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="font-weight-light">{% trans trimmed %}Want more Fedora options?{% endtrans %}</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 mt-5">
+        {{link_card(logo="/static/images/fedora-spins-logo.png",
+        description=_('If you prefer an alternative desktop environment such as KDE Plasma Desktop or Xfce, you can download a Fedora Spin for your preferred desktop environment and use that to install Fedora, pre-configured for the desktop environment of your choice.'),
+        learnmorelink="https://spins.fedoraproject.org/"
+        )}}
+      </div>
+
+      <div class="col-lg-4 mt-5">
+        {{link_card(logo="/static/images/fedora-labs-logo.png",
+        description=_('Fedora Labs is a selection of curated bundles of purpose-driven software and content as curated and maintained by members of the Fedora Community. These may be installed as standalone full versions of Fedora or as add-ons to existing Fedora installations.'),
+        learnmorelink="https://labs.fedoraproject.org/"
+        )}}
+      </div>
+
+      <div class="col-lg-4 mt-5">
+        {{link_card(logo="/static/images/fedora-alt-logo.png",
+        description=_('The Fedora Alternative Downloads are either special-purpose - for testing, for specific architectures - or are more standard versions of Fedora in alternative formats such as network installer format or formatted for BitTorrent download.'),
+        learnmorelink="https://alt.fedoraproject.org/"
+        )}}
+      </div>
+    </div> <!--row-->
+  </div> <!--contatiner-->
+</div> <!-- gradient-->
+
+<div class="bg-gray-200 py-5">
+  <div class="container">
+    <div class="row">
       <div class="col-12">
         <h2 class="font-weight-light text-center">{% trans trimmed %}Support Resources{% endtrans %}</h2>
       </div>
@@ -109,33 +167,7 @@
   </div>
 </div>
 
-<div class="bg-light py-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h2 class="font-weight-light">{% trans trimmed %}Emerging Fedora Editions{% endtrans %}</h2>
-        <p class="lead">{% trans trimmed %}Preview the future of Fedora.{% endtrans %}</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4 mt-5">
-        {{link_card(logo="/static/images/fedora-coreos-logo.png",
-                    description=_('Fedora CoreOS is an automatically updating, minimal, container-focused operating system.'),
-                    learnmorelink=url_for("coreos", lang_code=lang_code)
-        )}}
-      </div>
-
-      <div class="col-lg-4 mt-5">
-        {{link_card(logo="/static/images/fedora-silverblue-logo.png",
-                    description=_('Fedora Silverblue is an immutable desktop operating system aimed at good support for container-focused workflows.'),
-                    learnmorelink="https://silverblue.fedoraproject.org/"
-        )}}
-      </div>
-    </div> <!--row-->
-  </div> <!--contatiner-->
-</div> <!-- gradient-->
-
-<div class="bg-gray-200 border">
+<div class="bg-light border">
   <div class="container">
     <div class="row mb-4">
       <div class="col-4">
@@ -162,38 +194,6 @@
     </div>
   </div>
 </div>
-
-<div class="bg-light py-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h2 class="font-weight-light">{% trans trimmed %}Want more Fedora options?{% endtrans %}</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4 mt-5">
-        {{link_card(logo="/static/images/fedora-spins-logo.png",
-                    description=_('If you prefer an alternative desktop environment such as KDE Plasma Desktop or Xfce, you can download a Fedora Spin for your preferred desktop environment and use that to install Fedora, pre-configured for the desktop environment of your choice.'),
-                    learnmorelink="https://spins.fedoraproject.org/"
-        )}}
-      </div>
-
-      <div class="col-lg-4 mt-5">
-        {{link_card(logo="/static/images/fedora-labs-logo.png",
-                    description=_('Fedora Labs is a selection of curated bundles of purpose-driven software and content as curated and maintained by members of the Fedora Community. These may be installed as standalone full versions of Fedora or as add-ons to existing Fedora installations.'),
-                    learnmorelink="https://labs.fedoraproject.org/"
-        )}}
-      </div>
-
-      <div class="col-lg-4 mt-5">
-        {{link_card(logo="/static/images/fedora-alt-logo.png",
-                    description=_('The Fedora Alternative Downloads are either special-purpose - for testing, for specific architectures - or are more standard versions of Fedora in alternative formats such as network installer format or formatted for BitTorrent download.'),
-                    learnmorelink="https://alt.fedoraproject.org/"
-        )}}
-      </div>
-    </div> <!--row-->
-  </div> <!--contatiner-->
-</div> <!-- gradient-->
 
 <div class="bg-gray-200 py-5">
   <div class="container">
