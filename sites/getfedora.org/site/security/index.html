@@ -123,7 +123,7 @@
             {# IoT GA #}
             {% for arch, value in iot['ga']['checksums'].items() %}
               <li>
-                For {{arch}}:
+                {% trans trimmed %}For {{arch}}:{% endtrans %}
                 <ul>
                   {% for artifact, link in value.items() %}
                     <li>
@@ -141,7 +141,7 @@
             {% if releaseinfo.beta.show and 'beta' in iot %}
               {% for arch, value in iot['beta']['checksums'].items() %}
                 <li>
-                  For {{arch}}:
+                  {% trans trimmed %}For {{arch}}:{% endtrans %}
                   <ul>
                     {% for artifact, link in value.items() %}
                       <li>
