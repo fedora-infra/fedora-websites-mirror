@@ -6,7 +6,7 @@
 //const baseUrl = 'https://s3.amazonaws.com/fcos-builds/streams'
 const baseUrl = 'https://builds.coreos.fedoraproject.org/streams'
 // list of cloud image artifacts
-const cloudImages = ['aws', 'azure', 'azurestack', 'aliyun', 'digitalocean', 'exoscale', 'gcp', 'ibmcloud', 'openstack', 'packet', 'vultr']
+const cloudImages = ['aws', 'azure', 'azurestack', 'aliyun', 'digitalocean', 'exoscale', 'gcp', 'ibmcloud', 'nutanix', 'openstack', 'packet', 'vultr']
 // list of virtualized image artifacts
 const virtualizedImages = ['qemu', 'virtualbox', 'vmware']
 // dict of pretty names for platforms, indexed by platform.extension
@@ -25,6 +25,7 @@ const prettyPlatforms = {
     "iso": "ISO",
     "pxe": "PXE"
   },
+  "nutanix": "Nutanix",
   "openstack": "OpenStack",
   "packet": "Packet",
   "qemu": "QEMU",
