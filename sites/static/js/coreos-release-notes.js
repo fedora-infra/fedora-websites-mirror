@@ -267,33 +267,36 @@ function fetchBuild(base, legacy, builds, fromIdx, toIdx) {
   let config = { builds, base, legacy };
   return gatherMetadataBtwReleases(fromIdx, toIdx, config).then(metaList => {
     let build = builds[fromIdx];
-    metaList.forEach(metaListData => {
-      var meta = {}
-      var finalCommitMeta = {}
-      metaListData.forEach(metaForEachArch => {
-        let basearch= metaForEachArch[0];
-        // Adding meta for each architecture
-        meta[basearch] = metaForEachArch[1]
-        // check if `parent-pkgdiff` field is present, if present there's no need to manually
-        // calculate pkgdiff here, use the field directly
-        // xref: https://github.com/coreos/fedora-coreos-pipeline/pull/247#event-3413080221
-        metaListForPkgDiff = []
-        metaListForPkgDiff.push(metaForEachArch)
-        meta[basearch].pkgdiff = meta[basearch]['parent-pkgdiff'] == null ? getPkgDiffFromMetaList(metaListForPkgDiff) : meta[basearch]['parent-pkgdiff'];
-        sortPkgDiff(meta[basearch]);
-        build.selectedArch = "x86_64"
-        build.meta = meta;
-        // and fetch extra commit metadata in async
-        return fetchBuildCommitMeta(base, build, basearch, legacy).then(commitmeta => {
-          // Adding commitmeta for each architecture
-          finalCommitMeta[basearch] = commitmeta
-          finalCommitMeta[basearch]["importantPkgs"] = findImportantPkgs(commitmeta);
-          finalCommitMeta[basearch]["showImportantPkgsOnly"] = true;
-          build.commitmeta = finalCommitMeta;
-          builds[fromIdx] = build;
-        });
-      });
-    });
+    var meta = {}
+    var finalCommitMeta = {}
+    let promises = []
+    // Fetch meta and commitmeta for each architecture for the build
+    for (const metaForEachArch of metaList[0]){
+      let basearch= metaForEachArch[0];
+      // Adding meta for each architecture
+      meta[basearch] = metaForEachArch[1]
+      // check if `parent-pkgdiff` field is present, if present there's no need to manually
+      // calculate pkgdiff here, use the field directly
+      // xref: https://github.com/coreos/fedora-coreos-pipeline/pull/247#event-3413080221
+      metaListForPkgDiff = []
+      metaListForPkgDiff.push(metaForEachArch)
+      meta[basearch].pkgdiff = meta[basearch]['parent-pkgdiff'] == null ? getPkgDiffFromMetaList(metaListForPkgDiff) : meta[basearch]['parent-pkgdiff'];
+      sortPkgDiff(meta[basearch]);
+      // Setting the default selectedArch for dropdown to x86_64
+      build.selectedArch = "x86_64"
+      build.meta = meta;
+      // and fetch extra commit metadata in async
+      promises.push(fetchBuildCommitMeta(base, build, basearch, legacy).then(commitmeta => {
+        // Adding commitmeta for each architecture
+        finalCommitMeta[basearch] = commitmeta
+        finalCommitMeta[basearch]["importantPkgs"] = findImportantPkgs(commitmeta);
+        finalCommitMeta[basearch]["showImportantPkgsOnly"] = true;
+        build.commitmeta = finalCommitMeta;
+        builds[fromIdx] = build;
+      }));
+    }
+    // Return a single promise when all the promises get resolved
+    return Promise.all(promises)  
   });
 }
 
