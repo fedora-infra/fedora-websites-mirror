@@ -283,7 +283,7 @@ var coreos_download_app = new Vue({
       stableReleaseJSONContainer = h("div", { class: "col-8" }, [stableHeading, stableReleaseVersion, stableJSON])
       stableHeadingContainer = h("div", { class: "row" }, [stableIconContainer, stableReleaseJSONContainer])
 
-      stableIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Stable stream should be used by production clusters. Versions of Fedora CoreOS are battle-tested within the Testing and Next streams before being promoted.");
+      stableIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Stable stream is the most reliable version of Fedora CoreOS. Releases are battle-tested within the Testing stream before being promoted.");
       stableReleaseLink = h('button',
         {
           class: "d-block mx-auto mb-4 py-1 px-3 btn btn-sm btn-fedora-blue",
@@ -310,7 +310,7 @@ var coreos_download_app = new Vue({
       testingReleaseJSONContainer = h("div", { class: "col-8" }, [testingHeading, testingReleaseVersion, testingJSON])
       testingHeadingContainer = h("div", { class: "row" }, [testingIconContainer, testingReleaseJSONContainer])
 
-      testingIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Testing stream consists of promoted Next releases. Mix a few Testing machines into your production clusters to catch any bugs specific to your hardware or configuration.");
+      testingIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Testing stream contains the next Stable release. Mix a few Testing machines into your cluster to catch any bugs specific to your hardware or configuration.");
       testingReleaseLink = h('button',
         {
           class: "d-block mx-auto mb-4 py-1 px-3 btn btn-sm btn-fedora-green",
@@ -337,8 +337,7 @@ var coreos_download_app = new Vue({
       nextReleaseJSONContainer = h("div", { class: "col-8" }, [nextHeading, nextReleaseVersion, nextJSON])
       nextHeadingContainer = h("div", { class: "row" }, [nextIconContainer, nextReleaseJSONContainer])
 
-
-      nextIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Next stream closely tracks current development work and is released frequently. The newest versions of the Linux kernel, Systemd, and other components will be available for testing.");
+      nextIntroText = h("p", { class: "pl-3 pr-2", style: { height: "9em" } }, "The Next stream represents the future. It provides early access to new features and to the next major version of Fedora. Run a few Next machines in your cluster, or in staging, to help find problems.");
       nextReleaseLink = h('button',
         {
           class: "d-block mx-auto mb-4 py-1 px-3 btn btn-sm btn-fedora-orange",
