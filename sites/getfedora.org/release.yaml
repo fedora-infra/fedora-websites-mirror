@@ -136,15 +136,15 @@ gpg_keys:
     - name: Fedora IOT
       id: 4096R/DBBDCF7C 2018-11-13
       fingerprint: C2A3 FA9D C67F 68B9 8BB5 43F4 7BB9 0722 DBBD CF7C
+    - name: EPEL 9
+      id: 4096R/3228467C 2021-09-07
+      fingerprint: FF8A D134 4597 106E CE81 3B91 8A38 72BF 3228 467C
     - name: EPEL 8
       id: 4096R/2F86D6A1 2019-06-05
       fingerprint: 94E2 79EB 8D8F 25B2 1810 ADF1 21EA 45AB 2F86 D6A1
     - name: EPEL 7
       id: 4096R/352C64E5 2013-12-16
       fingerprint: 91E9 7D7C 4A5E 96F1 7F3E 888F 6A2F AEA2 352C 64E5
-    - name: EPEL 6
-      id: 4096R/0608B895 2010-04-23
-      fingerprint: 8C3B E96A F230 9184 DA5C 0DAE 3B49 DF2A 0608 B895
   obsolete:
     - name: Fedora 9 and Under
       id: 1024D/4F2A6FD2 2003-10-27
@@ -266,6 +266,9 @@ gpg_keys:
     - name: Fedora 32
       id: 4096R/12C944D0 2019-08-12
       fingerprint: 97A1 AE57 C3A2 372C CA3A 4ABA 6C13 026D 12C9 44D0
+    - name: EPEL 6
+      id: 4096R/0608B895 2010-04-23
+      fingerprint: 8C3B E96A F230 9184 DA5C 0DAE 3B49 DF2A 0608 B895
     - name: EPEL 5
       id: "1024D/217521F6 2007-03-02 [expires: 2017-02-27]"
       fingerprint: B940 BE07 7D71 0A28 7D7F 2DD1 119C C036 2175 21F6
