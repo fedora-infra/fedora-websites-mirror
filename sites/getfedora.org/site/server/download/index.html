@@ -192,40 +192,69 @@
           </ul>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 mt-4 text-center text-lg-right">
-          <a href="{{url_for('security', lang_code=lang_code)}}">
-            {% trans trimmed %}
-            Verify your download.
-            {% endtrans %}
-          </a>
-        </div>
-      </div>
 
     </div>
   </div>
+
   <div class="bg-gray-200 py-5">
-      <div class="container">
-        <div class="row align-items-center justify-content-center">
-          <div class="col-7 col-lg-4 col-md-5 col-sm-6 px-5">
-            <img class="w-100 pb-4 pb-lg-0" src="/static/images/g-cloud-server.png" />
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="font-weight-light text-center">{% trans trimmed %}Support Resources{% endtrans %}</h2>
+        </div>
+      </div><br><br>
+      <div class="row top-margin">
+        <div class="col-md-4 py-4 col-xs-12">
+          <div class="col-12">
+            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-book"></i>{% trans trimmed %}&nbsp; Documentation{% endtrans %}</h3><br>
+            <h5 class="font-weight-light">{% trans trimmed %}Specific documentation is available at the <a href="https://docs.fedoraproject.org/en-US/fedora-server/">Fedora Server documentation page</a>.{% endtrans %}</h5><br>
           </div>
-          <div class="col-12 col-lg-8 col-md-7">
-            <h3 class="font-weight-light pb-4 text-center text-md-left">{% trans trimmed %}Fedora Server tailored for the cloud{% endtrans %}</h3>
-            <p class="font-weight-light">
-              {% trans trimmed %}
-              Fedora Server is also available via a range of images that are designed for use in the cloud. Multiple formats are available for Openstack, Vagrant, the Amazon Public Cloud, and more.
-              {% endtrans %}
-            </p>
-            <p class="font-weight-light">
-              {% trans trimmed link="https://cloud.fedoraproject.org/" %}
-              Check out the <a href="{{link}}">Fedora Cloud</a> page for all the details and downloads.
-              {% endtrans %}
-            </p>
+        </div>
+        <div class="col-md-4 py-4 col-xs-12">
+          <div class="col-12">
+            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-envelope"></i>{% trans trimmed %}&nbsp; Support{% endtrans %}</h3><br>
+            <h5 class="font-weight-light">{% trans trimmed %}Support is available at{% endtrans %} <a href="https://ask.fedoraproject.org/">ask.fedoraproject.org</a>.</h5>
+          </div>
+        </div>
+        <div class="col-md-4 py-4 col-xs-12">
+          <div class="col-12">
+            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-comments"></i>&nbsp; Chat</h3><br>
+            <h5 class="font-weight-light">{% trans trimmed %}Users and developers are available in the <strong>#server</strong> channel on <a href="https://matrix.to/#/#server:fedoraproject.org?web-instance%5Belement.io%5D=chat.fedoraproject.org">Fedora Chat</a> and in the <strong>#server</strong> tag on <a href="https://discussion.fedoraproject.org/tag/server">Fedora Discussion</a>.{% endtrans %}</h5>
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="bg-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+            <h3 class="font-weight-light pb-4">{% trans trimmed %}We take security seriously.{% endtrans %}</h3>
+            <p class="font-weight-light">
+                {% trans trimmed %}
+                Once you have downloaded an image, be sure to verify it for both security and integrity.
+                {% endtrans %}
+            </p>
+            <a href="{{url_for('security', lang_code=lang_code)}}">
+              {% trans trimmed %}
+              Verify your download.
+              {% endtrans %}
+            </a>
+        </div>
+        <div class="col-lg-6 pt-4 pt-lg-0">
+          <h3 class="font-weight-light pb-4">{% trans trimmed %}But wait! There's more.{% endtrans %}</h3>
+          <p class="font-weight-light">
+            {% trans trimmed %}
+            Need something a bit different? Check out our other Fedora
+            Server downloads <a href="https://alt.fedoraproject.org/">here</a>, featuring secondary architectures and
+            network-based installation images.
+            {% endtrans %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
     {{export_regulations()}}
 {% endblock %}

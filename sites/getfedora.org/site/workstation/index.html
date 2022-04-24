@@ -111,4 +111,35 @@
       </div>
     </div> <!--contatiner-->
   </div> <!-- gradient-->
+
+  <div class="bg-gray-200 py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="font-weight-light text-center">{% trans trimmed %}Support Resources{% endtrans %}</h2>
+        </div>
+      </div><br><br>
+      <div class="row top-margin">
+        <div class="col-md-4 py-4 col-xs-12">
+          <div class="col-12">
+            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-book"></i>{% trans trimmed %}&nbsp; Documentation{% endtrans %}</h3><br>
+            <h5 class="font-weight-light">{% trans trimmed %}User documentation is available at <a href="https://docs.fedoraproject.org/en-US/fedora/latest">Fedora documentation</a>.{% endtrans %}</h5><br>
+          </div>
+        </div>
+        <div class="col-md-4 py-4 col-xs-12">
+          <div class="col-12">
+            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-envelope"></i>{% trans trimmed %}&nbsp; Support{% endtrans %}</h3><br>
+            <h5 class="font-weight-light">{% trans trimmed %}Support is available at{% endtrans %} <a href="https://ask.fedoraproject.org/">ask.fedoraproject.org</a>.</h5>
+          </div>
+        </div>
+        <div class="col-md-4 py-4 col-xs-12">
+          <div class="col-12">
+            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-comments"></i>&nbsp; Chat</h3><br>
+            <h5 class="font-weight-light">{% trans trimmed %}Users and developers are available in the <strong>#workstation</strong> channel on <a href="https://matrix.to/#/#workstation:fedoraproject.org?web-instance%5Belement.io%5D=chat.fedoraproject.org">Fedora Chat</a> and on <a href="https://discussion.fedoraproject.org/tag/workstation">Fedora Discussion</a>.{% endtrans %}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
