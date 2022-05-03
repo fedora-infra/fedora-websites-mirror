@@ -271,8 +271,8 @@ function fetchBuild(base, legacy, builds, fromIdx, toIdx) {
     var finalCommitMeta = {}
     let promises = []
     // Fetch meta and commitmeta for each architecture for the build
-    for (const metaForEachArch of metaList[0]){
-      let basearch= metaForEachArch[0];
+    for (const metaForEachArch of metaList[0]) {
+      let basearch = metaForEachArch[0];
       // Adding meta for each architecture
       meta[basearch] = metaForEachArch[1]
       // check if `parent-pkgdiff` field is present, if present there's no need to manually
@@ -296,7 +296,7 @@ function fetchBuild(base, legacy, builds, fromIdx, toIdx) {
       }));
     }
     // Return a single promise when all the promises get resolved
-    return Promise.all(promises)  
+    return Promise.all(promises)
   });
 }
 
@@ -307,8 +307,8 @@ function fetchBuildMeta(base, build, legacy) {
       .then(response => Promise.all([build.arches[0], response.ok ? response.json() : {}]));
   }
   return Promise.all(build.arches.map(arch => {
-      return fetch(`${base}/${build.id}/${arch}/meta.json`)
-          .then(resp => Promise.all([arch, resp.ok ? resp.json() : {}]));
+    return fetch(`${base}/${build.id}/${arch}/meta.json`)
+      .then(resp => Promise.all([arch, resp.ok ? resp.json() : {}]));
   }));
 }
 
@@ -418,52 +418,52 @@ var coreos_release_notes = new Vue({
           headingListArches.push(h('h6', {}, arch));
         });
 
-        archDropdown = h('div', {attrs: {style: "text-align: left;" }}, [
+        archDropdown = h('div', { attrs: { style: "text-align: left;" } }, [
           `Arch: `,
-            h('a', {
-              class: "dropdown-toggle",
-              attrs: {
-                "id": build.id+"Dropdown",
-                "href": "#",
-                "role": "button",
-                "data-toggle": "dropdown",
-                "aria-haspopup": true,
-                "aria-expanded": false,
-              },
-              on: {
-                click: function (e) {
-                  e.preventDefault();
-                }
+          h('a', {
+            class: "dropdown-toggle",
+            attrs: {
+              "id": build.id + "Dropdown",
+              "href": "#",
+              "role": "button",
+              "data-toggle": "dropdown",
+              "aria-haspopup": true,
+              "aria-expanded": false,
+            },
+            on: {
+              click: function (e) {
+                e.preventDefault();
               }
-            }, selectedArch),
-            h('div', { class: "dropdown-menu" }, [
-              h('div', { class: "container" }, [
-                  h('div', { class: "col-12 px-0" }, [
-                    Object.entries(build.arches).map(pair => {
-                      let arch = pair[1];
-                      return h('a', {
-                        class: "dropdown-item",
-                        attrs: {
-                          href: "#",
-                        },
-                        on: {
-                          click: function (e) {
-                            e.preventDefault();
-                            Object.entries(build.arches).map(pair => {
-                              if(pair[1] == e.target.text)
-                                document.getElementById(build.id+pair[1]).hidden = false
-                              else
-                                document.getElementById(build.id+pair[1]).hidden = true
-                            });
-                            document.getElementById(build.id+"Dropdown").text = e.target.text;
-                          }
-                        }
-                      },
-                        arch);
-                    })
-                  ])
+            }
+          }, selectedArch),
+          h('div', { class: "dropdown-menu" }, [
+            h('div', { class: "container" }, [
+              h('div', { class: "col-12 px-0" }, [
+                Object.entries(build.arches).map(pair => {
+                  let arch = pair[1];
+                  return h('a', {
+                    class: "dropdown-item",
+                    attrs: {
+                      href: "#",
+                    },
+                    on: {
+                      click: function (e) {
+                        e.preventDefault();
+                        Object.entries(build.arches).map(pair => {
+                          if (pair[1] == e.target.text)
+                            document.getElementById(build.id + pair[1]).hidden = false
+                          else
+                            document.getElementById(build.id + pair[1]).hidden = true
+                        });
+                        document.getElementById(build.id + "Dropdown").text = e.target.text;
+                      }
+                    }
+                  },
+                    arch);
+                })
               ])
-            ]),
+            ])
+          ]),
         ]);
         let leftPane = h('div', { class: "col-lg-2" }, [headingBuildId, archDropdown]);
 
@@ -686,11 +686,11 @@ var coreos_release_notes = new Vue({
             downgradedPkgsHeading = h('p', { class: "mt-3" }, "Downgraded:");
           }
           let downgradedPkgsElements = h('div', { attrs: { hidden: true } }, [downgradedPkgsHeading, h('ul', {}, downgradedPkgsElementsList)]);
-          let rightPaneData = h('div', { attrs: {id: build.id+eachArch}, class: "col-lg-10 border-bottom mb-5 pb-4" }, 
+          let rightPaneData = h('div', { attrs: { id: build.id + eachArch }, class: "col-lg-10 border-bottom mb-5 pb-4" },
             [date, importantPkgsElements, pkgSummaryDiv, totalPkgsElements, addedPkgsElements, removedPkgsElements, upgradedPkgsElements, downgradedPkgsElements]);
-          
-            // Hiding the information cards of the unselected architectures
-          if(eachArch!=selectedArch)
+
+          // Hiding the information cards of the unselected architectures
+          if (eachArch != selectedArch)
             rightPaneData.data.attrs.hidden = true
           rightPane.push(rightPaneData)
         });
