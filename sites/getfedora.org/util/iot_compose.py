@@ -15,7 +15,7 @@ def _baseurl(version, beta, master=False):
 def _iot_checksum_link(artifact, arch, date, version, respin, beta=False):
     baseurl = _baseurl(version, beta)
     url = baseurl + \
-        'IoT/{arch}/{artifact}/Fedora-IoT-IoT-{version}-{arch}-' + \
+        'IoT/{arch}/{artifact}/Fedora-IoT-{version}-{arch}-' + \
         '{date}.{respin}-CHECKSUM'
     return url.format(
         version=version,
