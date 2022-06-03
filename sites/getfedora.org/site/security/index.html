@@ -197,9 +197,9 @@
             <div class="col-6">
               <h3>{{key.name}}</h3>
               id: <pre><code>{{key.id}}</code></pre>
-              Fingerprint: <pre><code>{{key.fingerprint}}</code></pre
-              {% if key.opengpgkey %}>
-              DNS OpenGPGKey: <pre><code>{{key.opengpgkey}}</code></pre>
+              Fingerprint: <pre><code>{{key.fingerprint}}</code></pre>
+              {% if key.openpgpkey %}
+              DNS OpenPGPKey: <pre><code>{{key.openpgpkey}}</code></pre>
               {% endif %}
             </div>
             {% endif %}
