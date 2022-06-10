@@ -13,7 +13,7 @@
 
 const baseProdUrl = 'https://builds.coreos.fedoraproject.org/prod/streams'
 const baseDevelUrl = 'https://builds.coreos.fedoraproject.org/devel/streams'
-
+const baseReleaseNoteUrl = 'https://builds.coreos.fedoraproject.org/release-notes'
 const initialBuildsShown = 5;
 
 // pkgdiff enum to str
@@ -29,6 +29,10 @@ function timestampToPrettyString(date) {
   return `${month} ${day}, ${year}`;
 }
 
+function fetchReleaseNotes(releaseStream) {
+  return fetch(`${baseReleaseNoteUrl}/${releaseStream}.json`)
+    .then(response => response.ok ? response.json() : {});
+}
 function getBaseUrl(stream, developer) {
   return stream != "developer"
     ? `${baseProdUrl}/${stream}`
@@ -271,8 +275,8 @@ function fetchBuild(base, legacy, builds, fromIdx, toIdx) {
     var finalCommitMeta = {}
     let promises = []
     // Fetch meta and commitmeta for each architecture for the build
-    for (const metaForEachArch of metaList[0]){
-      let basearch= metaForEachArch[0];
+    for (const metaForEachArch of metaList[0]) {
+      let basearch = metaForEachArch[0];
       // Adding meta for each architecture
       meta[basearch] = metaForEachArch[1]
       // check if `parent-pkgdiff` field is present, if present there's no need to manually
@@ -296,7 +300,7 @@ function fetchBuild(base, legacy, builds, fromIdx, toIdx) {
       }));
     }
     // Return a single promise when all the promises get resolved
-    return Promise.all(promises)  
+    return Promise.all(promises)
   });
 }
 
@@ -307,8 +311,8 @@ function fetchBuildMeta(base, build, legacy) {
       .then(response => Promise.all([build.arches[0], response.ok ? response.json() : {}]));
   }
   return Promise.all(build.arches.map(arch => {
-      return fetch(`${base}/${build.id}/${arch}/meta.json`)
-          .then(resp => Promise.all([arch, resp.ok ? resp.json() : {}]));
+    return fetch(`${base}/${build.id}/${arch}/meta.json`)
+      .then(resp => Promise.all([arch, resp.ok ? resp.json() : {}]));
   }));
 }
 
@@ -321,6 +325,7 @@ function fetchBuildCommitMeta(base, build, basearch, legacy) {
   return fetch(`${base}/${build.id}/${basearch}/commitmeta.json`)
     .then(response => response.ok ? response.json() : {});
 }
+
 
 var coreos_release_notes = new Vue({
   el: '#coreos-release-notes',
@@ -342,6 +347,8 @@ var coreos_release_notes = new Vue({
     // of the first arch, but in the future these would be e.g.
     // meta[arch] and commitmeta[arch]
     releases: [],
+    //holds the release note issues for the chosen stream
+    issues: [],
     // list of unshown {id, arches, meta, commitmeta} build objects
     unshown_builds: [],
     // toggles "Loading..."
@@ -401,7 +408,6 @@ var coreos_release_notes = new Vue({
       if (self.loading) {
         return;
       }
-
       rows = [];
       self.releases.forEach((build, idx) => {
         let selectedArch = build.selectedArch
@@ -418,60 +424,82 @@ var coreos_release_notes = new Vue({
           headingListArches.push(h('h6', {}, arch));
         });
 
-        archDropdown = h('div', {attrs: {style: "text-align: left;" }}, [
+        archDropdown = h('div', { attrs: { style: "text-align: left;" } }, [
           `Arch: `,
-            h('a', {
-              class: "dropdown-toggle",
-              attrs: {
-                "id": build.id+"Dropdown",
-                "href": "#",
-                "role": "button",
-                "data-toggle": "dropdown",
-                "aria-haspopup": true,
-                "aria-expanded": false,
-              },
-              on: {
-                click: function (e) {
-                  e.preventDefault();
-                }
+          h('a', {
+            class: "dropdown-toggle",
+            attrs: {
+              "id": build.id + "Dropdown",
+              "href": "#",
+              "role": "button",
+              "data-toggle": "dropdown",
+              "aria-haspopup": true,
+              "aria-expanded": false,
+            },
+            on: {
+              click: function (e) {
+                e.preventDefault();
               }
-            }, selectedArch),
-            h('div', { class: "dropdown-menu" }, [
-              h('div', { class: "container" }, [
-                  h('div', { class: "col-12 px-0" }, [
-                    Object.entries(build.arches).map(pair => {
-                      let arch = pair[1];
-                      return h('a', {
-                        class: "dropdown-item",
-                        attrs: {
-                          href: "#",
-                        },
-                        on: {
-                          click: function (e) {
-                            e.preventDefault();
-                            Object.entries(build.arches).map(pair => {
-                              if(pair[1] == e.target.text)
-                                document.getElementById(build.id+pair[1]).hidden = false
-                              else
-                                document.getElementById(build.id+pair[1]).hidden = true
-                            });
-                            document.getElementById(build.id+"Dropdown").text = e.target.text;
-                          }
-                        }
-                      },
-                        arch);
-                    })
-                  ])
+            }
+          }, selectedArch),
+          h('div', { class: "dropdown-menu" }, [
+            h('div', { class: "container" }, [
+              h('div', { class: "col-12 px-0" }, [
+                Object.entries(build.arches).map(pair => {
+                  let arch = pair[1];
+                  return h('a', {
+                    class: "dropdown-item",
+                    attrs: {
+                      href: "#",
+                    },
+                    on: {
+                      click: function (e) {
+                        e.preventDefault();
+                        Object.entries(build.arches).map(pair => {
+                          if (pair[1] == e.target.text)
+                            document.getElementById(build.id + pair[1]).hidden = false
+                          else
+                            document.getElementById(build.id + pair[1]).hidden = true
+                        });
+                        document.getElementById(build.id + "Dropdown").text = e.target.text;
+                      }
+                    }
+                  },
+                    arch);
+                })
               ])
-            ]),
+            ])
+          ]),
         ]);
         let leftPane = h('div', { class: "col-lg-2" }, [headingBuildId, archDropdown]);
-
-        //Adding the information for all arches to rightPane but only showing the card for the selected arch in dropdown
+        // Adding the information for all arches to rightPane but only showing the card for the selected arch in dropdown
         let rightPane = [];
         build.arches.forEach(eachArch => {
           // Right pane consists of detailed package information
           let date = h('p', {}, `Release Date: ${timestampToPrettyString(build.meta[eachArch]['coreos-assembler.build-timestamp'])}`);
+          // title of release issues if the release notes don't exist
+          let releaseNoteTitle = h('h6');
+          // holds elements of release notes to be rendered
+          let releaseNotesElements = [];
+          // get the keys from the JSON
+          releasesJson = this.issues.releases;
+          // if the release notes exist in the json
+          if (releasesJson.hasOwnProperty(build.id)) {
+            if (releasesJson[build.id].issues.length === 0) {
+              // if the release notes exist but there are no issues provided
+              releaseNoteTitle = h('h6', {}, `No specific issues fixed in this release.`);
+            } else {
+              // if the release notes exist and there are issues provided
+              releaseNoteTitle = h('h6', {}, `Issues fixed:`);
+              specificIssue = releasesJson[build.id].issues;
+              let releaseNotesLinkAndText = h('ul', specificIssue?.map(({ url, text }) => {
+                return h('li', [h('a', { attrs: { href: url }, }, text)]);
+              }));
+              releaseNotesElements.push(releaseNotesLinkAndText);
+            }
+          } else {
+            releaseNoteTitle = h('h6', {}, `Releases notes for this release are still pending review.`);
+          }
           // List of important packages and versions
           let importantPkgsElements = [];
           build.commitmeta[eachArch].importantPkgs.forEach((pkg, _) => {
@@ -686,11 +714,11 @@ var coreos_release_notes = new Vue({
             downgradedPkgsHeading = h('p', { class: "mt-3" }, "Downgraded:");
           }
           let downgradedPkgsElements = h('div', { attrs: { hidden: true } }, [downgradedPkgsHeading, h('ul', {}, downgradedPkgsElementsList)]);
-          let rightPaneData = h('div', { attrs: {id: build.id+eachArch}, class: "col-lg-10 border-bottom mb-5 pb-4" }, 
-            [date, importantPkgsElements, pkgSummaryDiv, totalPkgsElements, addedPkgsElements, removedPkgsElements, upgradedPkgsElements, downgradedPkgsElements]);
-          
-            // Hiding the information cards of the unselected architectures
-          if(eachArch!=selectedArch)
+          let rightPaneData = h('div', { attrs: { id: build.id + eachArch }, class: "col-lg-10 border-bottom mb-5 pb-4" },
+            [date, releaseNoteTitle, releaseNotesElements, importantPkgsElements, pkgSummaryDiv, totalPkgsElements, addedPkgsElements, removedPkgsElements, upgradedPkgsElements, downgradedPkgsElements]);
+
+          // Hiding the information cards of the unselected architectures
+          if (eachArch != selectedArch)
             rightPaneData.data.attrs.hidden = true
           rightPane.push(rightPaneData)
         });
@@ -703,6 +731,10 @@ var coreos_release_notes = new Vue({
       this.loading = true
       this.releasesUrl = getBaseUrl(this.stream, this.developer);
       this.buildsUrl = getBaseUrl(this.stream, this.developer) + "/builds";
+      this.issues = [];
+      fetchReleaseNotes(this.stream).then((issuesJson) => {
+        this.issues = issuesJson;
+      });
       fetchReleases(this.releasesUrl).then(releaseVersions => {
         fetchBuilds(this.buildsUrl).then(result => {
           [legacy, builds] = result;
@@ -710,6 +742,7 @@ var coreos_release_notes = new Vue({
           this.legacy = legacy;
           this.releases = [];
           this.unshown_builds = [];
+
           // counter for the number of release metadata fetched since fetch is asnyc operation
           let counter = 0;
 
