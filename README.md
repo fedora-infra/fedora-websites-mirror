@@ -1,6 +1,6 @@
 # Websites
 
-This repository hosts static generator home of https://getfedora.org, and hopefully eventually the
+This repository hosts sources for generating static site of https://getfedora.org, and hopefully eventually the
 other Fedora Project websites.
 
 ### Contributing
