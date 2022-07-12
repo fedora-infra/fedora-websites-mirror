@@ -1,12 +1,15 @@
 # Websites
 
-This repository is the home of getfedora.org, and hopefully eventually the
+This repository hosts static generator home of https://getfedora.org, and hopefully eventually the
 other Fedora Project websites.
 
 ### Contributing
 
 Documentation for getting started with using it can be found here:
-https://docs.fedoraproject.org/en-US/websites/
+
+ * https://docs.fedoraproject.org/en-US/websites/ - general info
+ * https://docs.fedoraproject.org/en-US/websites/engg/setup-modern/ - development setup
+ * https://docs.fedoraproject.org/en-US/websites/engg/new-fedora-release/ - how it works
 
 Translations are handled by the Fedora [localization team](https://fedoraproject.org/wiki/L10N) on [Fedora Weblate](https://translate.fedoraproject.org/projects/fedora-websites/).
 
