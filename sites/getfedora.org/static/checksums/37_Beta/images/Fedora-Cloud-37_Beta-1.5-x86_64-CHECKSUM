@@ -1,0 +1,29 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+# Fedora-Cloud-Base-37_Beta-1.5.x86_64.qcow2: 490340352 bytes
+SHA256 (Fedora-Cloud-Base-37_Beta-1.5.x86_64.qcow2) = fff0b1a42b824333ce8b6a2c2c5c4dd9077bd8c6ef899de265dcc8a7aff85e05
+# Fedora-Cloud-Base-37_Beta-1.5.x86_64.raw.xz: 386840984 bytes
+SHA256 (Fedora-Cloud-Base-37_Beta-1.5.x86_64.raw.xz) = d84d945e0a14a8b6621df74675cd90c7e729aaa840aca368a32f5597a2bcc69a
+# Fedora-Cloud-Base-GCP-37_Beta-1.5.x86_64.tar.gz: 494384197 bytes
+SHA256 (Fedora-Cloud-Base-GCP-37_Beta-1.5.x86_64.tar.gz) = a441498c0a760649391067e6a4bfa8dd7419dc1f28d03e5aa7a60639521fa2bc
+# Fedora-Cloud-Base-Vagrant-37_Beta-1.5.x86_64.vagrant-libvirt.box: 475759393 bytes
+SHA256 (Fedora-Cloud-Base-Vagrant-37_Beta-1.5.x86_64.vagrant-libvirt.box) = cdb42daef7ec68e1a97cb753a9a1bc818a876176f0cfd084fd24295e08aa100e
+# Fedora-Cloud-Base-Vagrant-37_Beta-1.5.x86_64.vagrant-virtualbox.box: 485939200 bytes
+SHA256 (Fedora-Cloud-Base-Vagrant-37_Beta-1.5.x86_64.vagrant-virtualbox.box) = c9348f3e461e3fcddff697ceec17cff4068575119a2b468f06f2b7e5e0dfb99d
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEErLXuToMcdLt8Fo0n9VrT+1MjVSoFAmMbZTUACgkQ9VrT+1Mj
+VSo7dQ//TXWX46NYwtqsIisOtYApxZwDrredVO8Q7t66EHY9/FzNZIfnl6Xs+aZl
++R3/+4iPUeCev26GjpcHj0E7rBUZqZOLIsyHMiDu4E0vkIPaawilhY/CbQziWBjT
+jHnmjdsi3NZwqN6LDitEgFXFcL542i5e/vPu1NqGJCtxBVZx7Fgp6ooMrfVAA7lZ
+gZWVm19BrihlA065D4fDSaYZSVsiKf4i/jzFlCimpI3XGy85y+I7rpwGaPUuTpaF
+rBYZ3jAA1HtveSOOIhAcD+bk0f4ckL34GN9DlRWvZfbFr12E9fte2YTzbIpGfxVX
+dhP13xJ1BXc+O4BKLLPWSoBKXCwUQEo9JSMnzq8qdt+cj+138pTmpPBMrli2KOSS
+p6WFx3lOxVBFLeS+i5Xv7fjoTtBAvloWndumRTEaaYZJ83GoOe3a6DIHnb4itlZ+
+AsRgKRxv8Tp3Ntb1FVpq9Ji1spvAxvYhYAB2iGXCRHpUKXlSizYQ9wO6Y1E7zkET
+I4XY9iNFCT7k1mhMgKwMjSoZx2IEgxwgpLZkDX9ebJXEPUdm+F9szRp4rMqce/rY
+Io8gGD69hWWbmyqzvAgsVFvANdc2O3FCYXPMWp6gK+9ShBlfTm3b7kTOmvsRKUJ+
+mp+QYmN+nZa9FVT9H/84YjsJtNtstcG3hCuJi4cpCKMopeaQYds=
+=U/ei
+-----END PGP SIGNATURE-----
