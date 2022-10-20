@@ -75,6 +75,15 @@
                     learnmorelink=url_for("iot", lang_code=lang_code)
         )}}
       </div>
+      <div class="col-lg-6 mt-5">
+        {{editions_card(color="blue",
+                    logo="/static/images/fedora-coreos-logo.png",
+                    official=True,
+                    description=_('Fedora CoreOS is an automatically updating, minimal, container-focused operating system.'),
+                    download_link=url_for("coreos_download", lang_code=lang_code),
+                    learnmorelink=url_for("coreos", lang_code=lang_code)
+        )}}
+      </div>
     </div> <!--row-->
   </div> <!--contatiner-->
 </div> <!-- gradient-->
@@ -88,12 +97,6 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-4 mt-5">
-        {{link_card(logo="/static/images/fedora-coreos-logo.png",
-                    description=_('Fedora CoreOS is an automatically updating, minimal, container-focused operating system.'),
-                    learnmorelink=url_for("coreos", lang_code=lang_code)
-        )}}
-      </div>
 
       <div class="col-lg-4 mt-5">
         {{link_card(logo="/static/images/fedora-silverblue-logo.png",
