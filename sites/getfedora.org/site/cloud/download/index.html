@@ -1,0 +1,11 @@
+{% extends "master_getfedora.html" %}
+{% block meta %}
+<meta http-equiv="Refresh" content="0; url='https://alt.fedoraproject.org/en/cloud/'" />
+{% endblock %}
+{% from "submenu.html" import submenu with context %}
+{% from "export_regulations.html" import export_regulations %}
+{% block title %}{% trans trimmed %}Download Fedora Cloud{% endtrans %}{% endblock %}
+
+{% block content %}
+{{submenu(edition="cloud", active="download")}}
+{% endblock %}

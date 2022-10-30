@@ -75,6 +75,17 @@
                     learnmorelink=url_for("iot", lang_code=lang_code)
         )}}
       </div>
+
+      <div class="col-lg-6 mt-5">
+        {{editions_card(color="purple",
+                    logo="/static/images/fedora-cloud-logo.png",
+                    official=True,
+                    description=_('Fedora Cloud edition is a powerful and minimal base operating system image with tailored images available for both public and many private cloud uses.'),
+                    download_link="https://alt.fedoraproject.org/en/cloud/",
+                    learnmorelink=url_for("cloud", lang_code=lang_code)
+        )}}
+      </div>
+
       <div class="col-lg-6 mt-5">
         {{editions_card(color="blue",
                     logo="/static/images/fedora-coreos-logo.png",

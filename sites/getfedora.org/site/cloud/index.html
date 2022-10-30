@@ -1,0 +1,107 @@
+{% extends "master_getfedora.html" %}
+{% from "submenu.html" import submenu with context %}
+
+{% block title %}{% trans trimmed %}Fedora Cloud{% endtrans %}{% endblock %}
+
+{% block content %}
+{{submenu(edition="cloud", active="overview")}}
+  <div class="main-head bg-tranparent py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="font-weight-light">Fedora Cloud.</h1>
+          <h5 class="font-weight-light">{% trans trimmed %}The Fedora Cloud Edition is the foundation for accelerating testing and advanced solutions requiring a complete
+operating system image, including Vagrant.{% endtrans %}</h5>
+        </div>
+        <div class="col-md-4">
+          <a class="btn btn-lg btn-outline-fedora-purple my-3 col-12" href="https://alt.fedoraproject.org/en/cloud/">{% trans trimmed %}Download Now{% endtrans %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-light border py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-lg-6 col-md-7 col-sm-9 px-5">
+          <img class="w-100 pb-4 pb-lg-0" src="/static/images/cloud-agility-flexibility.png" />
+        </div>
+        <div class="col-12 col-lg-6">
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Agility and Flexibility{% endtrans %}</h3>
+          <h5 class="font-weight-light">
+            {% trans trimmed %}
+            The Fedora Cloud edition provides maximum flexibility and use in many different cloud environments. Deploy pre-built, Fedora images directly from your public cloud tools while maintaining all of the benefits of running a cutting edge, highly performant operating system that matches your on-premises requirements.
+            {% endtrans %}
+          </h5>
+        </div>
+      </div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
+
+  <div class="bg-gray-200 py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-lg-6">
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Ready to Deploy images{% endtrans %}</h3>
+          <h5 class="font-weight-light">
+            {% trans trimmed %}
+            The ability to spin up new Fedora compute instances in a matter of seconds reshapes the agility and speed of software development. Fedora Cloud edition users can easily test new ideas and design application architecture without the need to own their own on-site hardware -- hardware that might be limited or suffer from slow procurement processes.
+            {% endtrans %}
+          </h5>
+        </div>
+        <div class="col-12 col-lg-6 col-md-7 col-sm-9 px-5">
+          <img class="w-100 pb-4 pb-lg-0" src="/static/images/cloud-ready-to-deploy.png" />
+        </div>
+      </div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
+
+  <div class="bg-light border py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-lg-6 col-md-7 col-sm-9 px-5">
+          <img class="w-100 pb-4 pb-lg-0" src="/static/images/cloud-to-edge.png" />
+        </div>
+        <div class="col-12 col-lg-6">
+          <h3 class="font-weight-light pb-4 text-center text-lg-left">{% trans trimmed %}Available right to the edge{% endtrans %}</h3>
+          <h5 class="font-weight-light">
+            {% trans trimmed %}
+            Fedora Cloud edition is easily deployed for all you computing requirements across a wide range of hardware including many options that extend the cloud across hybrid and edge locations in the virtual environment of your choice. Build, deploy, and run hybrid and edge computing on Fedora Cloud edition across virtually any datacenter for a consistent hybrid experience.
+            {% endtrans %}
+          </h5>
+        </div>
+      </div>
+    </div> <!--contatiner-->
+  </div> <!-- gradient-->
+
+  <div class="py-5 main-head bg-gray-200 border">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="font-weight-light text-center">{% trans trimmed %}Support Resources{% endtrans %}</h2>
+        </div>
+      </div><br><br>
+      <div class="row top-margin">
+        <div class="col-md-4 py-4 col-xs-12">
+          <div class="col-12">
+            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-book"></i>{% trans trimmed %}&nbsp; Documentation{% endtrans %}</h3><br>
+            <h5 class="font-weight-light">{% trans trimmed url="https://fedoraproject.org/wiki/Cloud" %}Information about Fedora Cloud is available on the <a href="{{ url }}">Fedora Wiki.</a>{% endtrans %}</h5><br>
+          </div>
+        </div>
+        <div class="col-md-4 py-4 col-xs-12">
+          <div class="col-12">
+            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-envelope"></i>{% trans trimmed %}&nbsp; Email{% endtrans %}</h3><br>
+            <h5 class="font-weight-light">{% trans trimmed url="https://admin.fedoraproject.org/mailman/listinfo/cloud" %}Users and developers are also available on the mailing list at <a href="{{ url }}">cloud@lists.fedoraproject.org.</a>{% endtrans %}</h5>
+          </div>
+        </div>
+        <div class="col-md-4 py-4 col-xs-12">
+          <div class="col-12">
+            <h3 class="font-weight-light"><i class="fa fa-fw fa-lg header-icon fa-comments"></i>&nbsp; Chat</h3><br>
+            <h5 class="font-weight-light">{% trans trimmed url="https://web.libera.chat/?channels=#fedora-cloud" %}Users and developers are available in the <a href="{{ url }}">#fedora-cloud</a> IRC channel on <strong>irc.libera.chat</strong> for real-time chat.{% endtrans %}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

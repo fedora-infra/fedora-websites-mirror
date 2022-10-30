@@ -11,9 +11,12 @@
 {% elif edition == "iot" %}
   {% set logoimage = '<img src="/static/images/logo-inline-iot.png" alt="Fedora IoT Logo"/>' %}
   {% set activeclass = "active border-bottom border-fedora-purple border-width-3"%}
-  {% elif edition == "silverblue" %}
-{% set logoimage = '<img src="/static/images/logo-inline-silverblue.png" alt="Fedora Silverblue Logo"/>' %}
+{% elif edition == "silverblue" %}
+  {% set logoimage = '<img src="/static/images/logo-inline-silverblue.png" alt="Fedora Silverblue Logo"/>' %}
   {% set activeclass = "active border-bottom border-fedora-darkblue border-width-3"%}
+{% elif edition == "cloud" %}
+  {% set logoimage = '<img src="/static/images/logo-inline-cloud.png" alt="Fedora Cloud Logo"/>' %}
+  {% set activeclass = "active border-bottom border-fedora-purple border-width-3"%}
 {% endif %}
 <div class="bg-light border-bottom">
         <div class="container">
