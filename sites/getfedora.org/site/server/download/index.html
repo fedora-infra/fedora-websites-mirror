@@ -74,6 +74,19 @@
             </li>
             {% endif %}
 
+            {% if releaseinfo.ga.editions.server.download_override.qcow2_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.editions.server.release_number %}
+                Fedora {{n}}: QEMU image for x86_64
+                {% endtrans %}
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.server.download_override.qcow2_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Server/x86_64/images/Fedora-Server-KVM-%d-%s.x86_64.qcow2' % (releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+
             {% if releaseinfo.beta.show and releaseinfo.beta.editions.server.download_override.standard_x86_64 %}
             <li class="list-group-item d-flex align-items-center">
               <div class="flex-grow-1">
@@ -103,6 +116,21 @@
               </div>
             </li>
             {% endif %}
+
+            {% if releaseinfo.beta.show and releaseinfo.beta.editions.server.download_override.qcow2_x86_64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.editions.server.release_number %}
+                Fedora {{n}}: QEMU image for x86_64
+                {% endtrans %}
+                <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.server.download_override.qcow2_x86_64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Server/x86_64/images/Fedora-Server-KVM-%d_Beta-%s.x86_64.qcow2' % (releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+
           </ul>
         </div>
         <div class="col-12 col-lg-6 mt-lg-0 mt-4">
@@ -143,6 +171,19 @@
               </div>
               <div>
                 <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.server.download_override.raw_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Server/aarch64/images/Fedora-Server-%d-%s.aarch64.raw.xz' % (releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+
+            {% if releaseinfo.ga.editions.server.download_override.qcow2_aarch64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.ga.editions.server.release_number %}
+                Fedora {{n}}: QEMU image for aarch64
+                {% endtrans %}
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.ga.editions.server.download_override.qcow2_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/%d/Server/aarch64/images/Fedora-Server-KVM-%d-%s.aarch64.qcow2' % (releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.release_number, releaseinfo.ga.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
             </li>
             {% endif %}
@@ -188,6 +229,22 @@
               </div>
             </li>
             {% endif %}
+
+            {% if releaseinfo.beta.show and releaseinfo.beta.editions.server.download_override.qcow2_aarch64 %}
+            <li class="list-group-item d-flex align-items-center">
+              <div class="flex-grow-1">
+                {% trans trimmed n=releaseinfo.beta.editions.server.release_number %}
+                Fedora {{n}}: QEMU image for aarch64
+                {% endtrans %}
+                <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
+              </div>
+              </div>
+              <div>
+                <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.server.download_override.qcow2_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Server/aarch64/images/Fedora-Server-KVM-%d_Beta-%s.aarch64.qcow2' % (releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+
 
           </ul>
         </div>

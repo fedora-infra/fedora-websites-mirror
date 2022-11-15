@@ -31,7 +31,7 @@ ga:
       checksum_arches:
         x86_64:
           iso: default
-          images: false
+          images: default
         aarch64:
           iso: default
           images: default
@@ -42,6 +42,8 @@ ga:
         netinst_x86_64: default
         netinst_aarch64: default
         raw_aarch64: default
+        qcow2_x86_64: default
+        qcow2_aarch64: default
 
     iot:
       pretty_name: Fedora IoT
@@ -88,7 +90,7 @@ beta:
       checksum_arches:
         x86_64:
           iso: default
-          images: false
+          images: default
         aarch64:
           iso: default
           images: default
@@ -99,6 +101,8 @@ beta:
         netinst_x86_64: default
         netinst_aarch64: default
         raw_aarch64: default
+        qcow2_x86_64: default
+        qcow2_aarch64: default
 
     iot:
       pretty_name: Fedora IoT
