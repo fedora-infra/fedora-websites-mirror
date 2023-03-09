@@ -58,14 +58,14 @@ ga:
 
 beta:
   # Should we show the beta stuff at all?
-  show: false
-  announcement_release_number: 37
+  show: true
+  announcement_release_number: 38
 
   editions:
     workstation:
       pretty_name: Fedora Workstation Beta
-      release_number: 37
-      rc_version: 1.5
+      release_number: 38
+      rc_version: 1.3
       checksum_prefix: Fedora-Workstation
       checksum_arches:
         x86_64:
@@ -84,8 +84,8 @@ beta:
 
     server:
       pretty_name: Fedora Server Beta
-      release_number: 37
-      rc_version: 1.5
+      release_number: 38
+      rc_version: 1.3
       checksum_prefix: Fedora-Server
       checksum_arches:
         x86_64:
@@ -106,7 +106,7 @@ beta:
 
     iot:
       pretty_name: Fedora IoT
-      release_number: 37
+      release_number: 38
       # These can change, so we have to generate them dynamically at build time.
       # We do this in util.iot_compose, and use {} here to not show them on the
       # security page.
@@ -115,6 +115,8 @@ beta:
 fmw:
   releases_json:
     # milestone can be 'final' or 'beta'. Leaving it out means 'final'.
+    - version: 38
+      milestone: beta
     - version: 37
     - version: 36
     - version: 35
