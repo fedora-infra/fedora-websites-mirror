@@ -119,9 +119,6 @@ fmw:
       milestone: beta
     - version: 37
     - version: 36
-    - version: 35
-    - version: 34
-    - version: 33
 
 # These all get listed on the security page
 gpg_keys:
