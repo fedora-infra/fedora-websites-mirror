@@ -238,7 +238,6 @@
                 {% endtrans %}
                 <span class="badge badge-primary">{% trans trimmed %}Beta!{% endtrans %}</span>
               </div>
-              </div>
               <div>
                 <a class="btn btn-outline-fedora-blue" href="{{dl(releaseinfo.beta.editions.server.download_override.qcow2_aarch64, 'https://download.fedoraproject.org/pub/fedora/linux/releases/test/%d_Beta/Server/aarch64/images/Fedora-Server-KVM-%d_Beta-%s.aarch64.qcow2' % (releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.release_number, releaseinfo.beta.editions.server.rc_version))}}">{% trans trimmed %}Download{% endtrans %}</a>
               </div>
