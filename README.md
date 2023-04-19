@@ -1,7 +1,8 @@
 # Websites
 
-This repository hosts sources for generating static site of https://getfedora.org, and hopefully eventually the
-other Fedora Project websites.
+This repository have been archived and replaced with the new [fedoraproject.org repo](https://gitlab.com/fedora/websites-apps/fedora-websites/fedora-websites-3.0) on Gitlab.
+
+This repository hosts sources for generating static site of https://getfedora.org.
 
 ### Contributing
 
